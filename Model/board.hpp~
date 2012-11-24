@@ -1,0 +1,11 @@
+#ifndef BOARD_HPP
+#define BOARD_HPP
+
+#include "cell.hpp"
+
+class Board{
+
+
+};
+
+#endif

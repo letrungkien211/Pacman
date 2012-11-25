@@ -31,6 +31,7 @@ void Game::Init(){
     pacmanPos.col = 2;
     numFood = 20;
     turn = MAXTURN;
+    res = UNKOWN;
 }
 
 Result Game::Res() const{
@@ -44,10 +45,12 @@ Game Game::ApplyAction(Action action){
     }
     
     if(turn == MAXTURN){
+	pacmanAction.push_back(action);
 	pacmanPos.Move(action);
 	turn = MINTURN;
     }
     else if(turn == MINTURN){
+	ghostAction.push_back(action);
 	ghostPos.Move(action);
 	turn = MAXTURN;
     }
@@ -83,6 +86,9 @@ bool Game::IsLegalAction(Action action) const{
 		return true;
 	}
     }
+    else{
+	cout << "IsLegalAction() : Unrecognized Turn" <<endl;
+    }
 
     return false;
 }
@@ -97,7 +103,16 @@ vector<Action> Game::GetLegalAction() const{
 }
 
 double Game::Evaluate() const{
-    return Position::Manhattan(pacmanPos, ghostPos);
+    if(res == LOSE)
+	return -INFINITY;
+    if(res == WIN)
+	return INFINITY;
+    double value =20*Position::Manhattan(pacmanPos, ghostPos) ;
+    if(turn == MAXTURN)
+	value -= 10*numFood;
+    if(turn == MAXTURN && !pacmanAction.empty() && pacmanAction.back()==STOP)
+	value -= pacmanAction.size();
+    return  value;
 }
 
 
@@ -166,7 +181,7 @@ ostream & operator<<(ostream &os, const Game& game){
 	os << endl;
     }
     cout << "Number of food left: " << game.NumFood() <<endl;
-    cout << "Turn: " << (game.Turn() ==0 ? "Pacman" : "Ghost" ) <<endl;
+    cout << "Turn: " << (game.Turn() ==MAXTURN ? "Pacman" : "Ghost" ) <<endl;
     return os;
 }
 

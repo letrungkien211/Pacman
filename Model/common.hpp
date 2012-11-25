@@ -2,8 +2,10 @@
 #define COMMON_HPP
 
 #include <iostream>
-
+#include <limits>
 using namespace std;
+
+#define INFINITY numeric_limits<double>::max()
 
 enum Action{
     STOP = 'S', 

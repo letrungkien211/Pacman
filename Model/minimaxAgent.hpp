@@ -10,7 +10,7 @@ using namespace std;
 class MinimaxAgent{
 public:
     double Evaluate(const Game &game, int depth = 0);
-    double GetAction(const Game &game, int depth);
+    Action GetAction(const Game &game, int depth);
 };
 ostream & operator<<(ostream &os, const Game& game);
 

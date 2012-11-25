@@ -14,12 +14,15 @@ using namespace std;
 class Game{
 private:
     vector<Cell> m;
+    vector<Action> pacmanAction;
+    vector<Action> ghostAction;
     int rows, cols;
     int turn;
     Position pacmanPos;
     Position ghostPos;
     int numFood;
     Result res;
+    
 public:
     Game(int rows, int cols);
     void Init(); // Initilize

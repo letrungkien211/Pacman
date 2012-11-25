@@ -22,6 +22,7 @@ private:
     Position ghostPos;
     int numFood;
     Result res;
+    int numStop;
     
 public:
     Game(int rows, int cols);

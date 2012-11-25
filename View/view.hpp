@@ -1,24 +1,29 @@
 #ifndef VIEW_HPP
 #define VIEW_HPP
 
+#include "../Model/game.hpp"
 
-typedef struct WindowSize{
+class WindowSize{
+public:
     int width;
     int height;
 
-    Size(int width, int height){
+    WindowSize(int width, int height){
 	this->width = width;
 	this->height = height;
     }
-} SIZE;
+
+    WindowSize(){
+	width = height = 0;
+    }
+};
 
 class View{
 private:
-    Model* model;
-    SIZE size;
+    WindowSize winsize;
 public:
-    View(const SIZE &size);
-    void Draw();
+    View(const WindowSize &size);
+    void Draw(const Game& game);
 };
 
 #endif

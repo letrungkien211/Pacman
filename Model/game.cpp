@@ -1,17 +1,37 @@
 #include "game.hpp"
 
-int initFood[] ={1,1,1,1,1,
-		 1,0,1,0,1,
-		 1,1,0,1,1,
-		 1,0,1,0,1,
-		 1,1,1,1,1};
-int initWall[] ={0,0,0,0,0,
-		 0,1,0,1,0,
-		 0,0,0,0,0,
-		 0,1,0,1,0,
-		 0,0,0,0,0};
+// int initFood[] ={1,1,1,1,1,
+// 		 1,0,1,0,1,
+// 		 1,1,0,1,1,
+// 		 1,0,1,0,1,
+// 		 1,1,1,1,1};
+// int initWall[] ={0,0,0,0,0,
+// 		 0,1,0,1,0,
+// 		 0,0,0,0,0,
+// 		 0,1,0,1,0,
+// 		 0,0,0,0,0};
 
-const Action ActionList[] ={STOP, UP, DOWN, LEFT, RIGHT};
+int initFood[] ={1,1,1,1,1,1,1,1,
+		 1,0,0,0,0,0,0,1,
+		 1,1,1,1,1,1,1,1,
+		 1,0,0,0,0,0,0,1,
+		 1,0,0,0,0,0,0,1,
+		 1,0,0,0,0,0,0,1,
+		 1,1,1,1,1,1,1,1,
+		 1,0,0,0,0,0,0,1,
+		 1,1,1,1,1,1,1,1};
+		 
+int initWall[] ={0,0,0,0,0,0,0,0,
+		 0,1,0,1,1,1,1,0,
+		 0,0,0,0,0,0,0,0,
+		 0,1,1,0,0,1,1,0,
+		 0,1,0,0,0,0,1,0,
+		 0,1,1,1,1,1,1,0,
+		 0,0,0,0,0,0,0,0,
+		 0,1,1,1,1,1,1,0,
+		 0,0,0,0,0,0,0,0};
+
+const Action ActionList[] ={UP, DOWN, LEFT, RIGHT, STOP};
 
 /*****************************************************************************/
 Game::Game(int rows, int cols){
@@ -21,17 +41,19 @@ Game::Game(int rows, int cols){
 }
 
 void Game::Init(){
+    numFood = 0;
     for(int i = 0, size = rows* cols ; i <size; i++){
 	(*this)(i).SetFood(initFood[i]);
 	(*this)(i).SetWall(initWall[i]);
+	numFood += initFood[i];
     }
-    ghostPos.row = 4;
-    ghostPos.col = 0;
-    pacmanPos.row = 2;
-    pacmanPos.col = 2;
-    numFood = 20;
+    ghostPos.row = 0;
+    ghostPos.col = 4;
+    pacmanPos.row = 8;
+    pacmanPos.col = 5;
     turn = MAXTURN;
     res = UNKOWN;
+    numStop = 0;
 }
 
 Result Game::Res() const{
@@ -47,6 +69,8 @@ Game Game::ApplyAction(Action action){
     if(turn == MAXTURN){
 	pacmanAction.push_back(action);
 	pacmanPos.Move(action);
+	if(action == STOP)
+	    numStop++;
 	turn = MINTURN;
     }
     else if(turn == MINTURN){
@@ -103,15 +127,15 @@ vector<Action> Game::GetLegalAction() const{
 }
 
 double Game::Evaluate() const{
+    double value = 0;
     if(res == LOSE)
-	return -INFINITY;
+	value-=INFINITY/2;
     if(res == WIN)
-	return INFINITY;
-    double value =20*Position::Manhattan(pacmanPos, ghostPos) ;
-    if(turn == MAXTURN)
-	value -= 10*numFood;
-    if(turn == MAXTURN && !pacmanAction.empty() && pacmanAction.back()==STOP)
-	value -= pacmanAction.size();
+	value+= INFINITY/2;
+    value +=5*Position::Manhattan(pacmanPos, ghostPos) ;
+    value -= 10*numFood;
+    value -= 10*pacmanAction.size();
+    value -= 10*numStop;
     return  value;
 }
 

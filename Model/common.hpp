@@ -5,7 +5,7 @@
 #include <limits>
 using namespace std;
 
-#define INFINITY numeric_limits<double>::max()
+#define INFINITY 1000000
 
 enum Action{
     STOP = 'S', 
@@ -21,7 +21,6 @@ enum Result{
 
 ostream &operator<<(ostream &os, Action action);
 ostream &operator<<(ostream &os, Result result);
-
 
 class Position{
 public:

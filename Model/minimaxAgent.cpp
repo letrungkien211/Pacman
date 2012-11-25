@@ -70,7 +70,6 @@ Action MinimaxAgent::GetAction(const Game&game, int depth){
     else{
 	cout <<"MinimaxAgent::Evaluate: Unrecognized turn" <<endl;
     }
-
     cout << actions[index] <<endl;
     return actions[index];
 }

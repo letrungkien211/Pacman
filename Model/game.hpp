@@ -13,26 +13,25 @@ using namespace std;
  
 class Game{
 private:
+    static int rows;
+    static int cols;
     vector<Cell> m;
-    vector<Action> pacmanAction;
-    vector<Action> ghostAction;
-    int rows, cols;
     int turn;
     Position pacmanPos;
-    Position ghostPos;
+    vector<Position> ghostPos;
+    vector<Action> ghostPreviousAction;
     int numFood;
     Result res;
-    int numStop;
-    
 public:
     Game(int rows, int cols);
     void Init(); // Initilize
     Game ApplyAction(Action action); // Apply an action
     Result Res() const; // Check if the game is ended
     bool IsLegalAction(Action action) const;
-    vector<Action> GetLegalAction() const;
-    double Evaluate() const;
-    /*Element Access*/
+    void GetLegalAction(Action &pacman, vector<vector<Action> >& ghost) const;
+    void GetLegalPacmanAction(
+
+   /*Element Access*/
     Cell operator()(int i, int j) const;
     Cell &operator()(int i, int j);
     Cell operator()(int i) const;

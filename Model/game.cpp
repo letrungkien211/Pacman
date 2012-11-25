@@ -54,6 +54,7 @@ void Game::Init(){
     turn = MAXTURN;
     res = UNKOWN;
     numStop = 0;
+    ghostPos.resize(2);
 }
 
 Result Game::Res() const{

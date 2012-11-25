@@ -38,7 +38,7 @@ int main(int argc, char **argv){
     do{
 	cout << cnt++ << " -----------------------------------" <<endl;
 	cout << game <<endl;
-	Action action = minimax.GetAction(game,3);
+	Action action = minimax.GetAction(game,2);
 	cout << "Best action: " << action<<endl;
 	game.ApplyAction(action);
 	getchar();

@@ -5,14 +5,14 @@ using namespace std;
 
 class Cell{
 private:
-    bool hasFood;
+    bool isFood;
     bool isWall;
 public:
     Cell();
     bool IsWall() const;
     void SetWall(bool hasWall);
-    bool HasFood() const;
-    void SetFood(bool hasFood);
+    bool IsFood() const;
+    void SetFood(bool isFood);
 
 };
 

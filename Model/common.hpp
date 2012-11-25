@@ -1,10 +1,33 @@
 #ifndef COMMON_HPP
 #define COMMON_HPP
 
-struct Position{
-    int row;
-    int col;
+#include <iostream>
+
+using namespace std;
+
+enum Action{
+    STOP = 'S', 
+    UP = 'U',
+    DOWN = 'D',
+    LEFT = 'L',
+    RIGHT ='R'
 };
 
+enum Result{
+    LOSE, WIN, UNKOWN
+};
+
+ostream &operator<<(ostream &os, Action action);
+ostream &operator<<(ostream &os, Result result);
+
+
+class Position{
+public:
+    int row ;
+    int col ;
+    void Move(Action action);
+    bool IsLegal(Action action, int rows, int cols) const;
+    static double Manhattan(const Position& p, const Position & q);
+};
 
 #endif

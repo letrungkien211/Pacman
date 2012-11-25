@@ -1,20 +1,20 @@
 #include "cell.hpp"
 
 Cell::Cell(){
-    hasFood = false;
+    isFood = false;
     isWall = false;
 }
 
-bool Cell::IsWall(){
+bool Cell::IsWall() const{
     return isWall;
 }
 
-bool Cell::HasFood(){
-    return hasFood;
+bool Cell::IsFood() const{
+    return isFood;
 }
 
-void Cell::SetFood(bool hasFood){
-    this->hasFood = hasFood;
+void Cell::SetFood(bool isFood){
+    this->isFood = isFood;
 }
 
 void Cell::SetWall(bool isWall){

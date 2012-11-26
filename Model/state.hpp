@@ -12,14 +12,14 @@ private:
     // Food matrix
     vector<int> food;
     // Static wall matrix
-    static vector<bool> wall;
+    vector<bool> wall;
     // Turn 
     int turn;     
     // Number of food
     int numFood;    
-    // Static number of rows, cols
-    static int rows;
-    static int cols;
+    // Rows, cols
+    int rows;
+    int cols;
     // Score
     int score;
     // Number of actions taken
@@ -37,11 +37,9 @@ private:
 public:
     // Constructor
     State();
-    State(int food[]);
-    // Static initialization
-    static void Initialize(int rows, int cols, bool wall[]);
+    State(int rows, int cols, bool wall[], int food[]);
     // Initialization
-    void Initialize(int food[]); // Initilize
+    void Initialize(int rows, int cols, bool wall[], int food[]); // Initilize
     
     // Get next states
     State GetNextState(Action pacmanAction, const vector<Action> &ghostAction);
@@ -68,7 +66,7 @@ public:
     int Turn() const;
     int NumFood() const;
     int NumAction() const;
-    Result IsFinal() const; // Check if the State is ended
+    Result IsFinal() const; 
     bool GhostScared() const;
     int Rows() const;
     int Cols() const;

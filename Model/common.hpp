@@ -8,6 +8,8 @@ using namespace std;
 #define INFINITY 1000000
 #define MAXTURN 0
 #define MINTURN 1
+#define SCARETIMOUT 20
+
 
 enum Action{
     STOP = 'S', 

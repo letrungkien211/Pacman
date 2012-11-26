@@ -40,19 +40,33 @@ const Action ActionList[] ={UP, DOWN, LEFT, RIGHT, STOP};
 State::State(){
 }
 
-// Static Initialization
-void State::Initialize(int rows, int cols, bool wall[]){
-    State::rows = rows;
-    State::cols = cols;
-    State::wall.resize(rows*cols);
-    for(int i = 0, size = rows* cols; i < size; i++)
-	State::wall[i] = wall[i];
-}
 
-// Initialization
-void State::Initialize(int food[]){
-    // Food
+State::State(int rows, int cols, bool wall[], int food[]){
+    Initialize(rows, cols, wall, food);
+}
+// Static Initialization
+void State::Initialize(int rows, int cols, bool wall[], int food[])
+{
+    // Member variablesn
+    this->rows = rows;
+    this->cols = cols;
+    this->wall.resize(rows*cols);
+    this->food.resize(rows*cols);
+    turn = MAXTURN;
     numFood = 0;
+    score = 0;
+    numAction = 0;
+    previousGhostAction.resize(2);
+    previousGhostAction[0] = STOP;
+    previousGhostAction[1] = STOP;
+    ghostScared.resize(2);
+    ghostScared[0] = 0;
+    ghostScared[1] = 0;
+    
+    // Init wall
+    for(int i = 0, size = rows* cols; i < size; i++)
+	this->wall[i] = wall[i];
+    // Food
     for(int i = 0, size = rows* cols ; i <size; i++){
 	this->food[i] = food[i];
 	numFood += food[i];
@@ -67,9 +81,6 @@ void State::Initialize(int food[]){
     // Pacman postion
     pacmanPos.row = 8;
     pacmanPos.col = 5;
-
-    // Turn
-    turn = MAXTURN;
 }
 
 // Get next state
@@ -172,6 +183,20 @@ bool State::IsLegalGhostAction(Action ghostAction, int ghostIndex) const{
     if(Wall(tmp))
 	return false;
     return true;
+}
+    // Make ghost scared
+void State::MakeGhostScared(bool scared){
+    if(scared){
+	for(int i = 0; i < NumGhost(); i++){
+	    ghostScared[i] = numAction;
+	}
+    }
+    else{
+	for(int i = 0; i< NumGhost(); i++){
+	    if(numAction-ghostScared[i]>SCARETIMOUT)
+		ghostScared[i] = 0;
+	}
+    }
 }
 
 

@@ -25,5 +25,6 @@ public:
     double PacmanToNearestFood(const State &state) const;
     double NumFood(const State &state) const;
     double GhostToGhostDistance(const State &state) const;
+    double IsFinal(const State &state) const;
 };
 #endif

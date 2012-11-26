@@ -146,9 +146,9 @@ ostream &operator<<(ostream &os, Action action){
 }
 ostream &operator<<(ostream &os, Result result){
     switch(result){
-    case LOSE: os << "LOSE";
-    case WIN: os << "WIN" ;
-    case UNKOWN: os <<"UNKOWN";
+    case LOSE: os << "LOSE"; break;
+    case WIN: os << "WIN" ; break
+    case UNKOWN: os <<"UNKOWN"; break;
     default:
 	cout <<"operator<<(result): Unrecognized result"<<endl;
 	break;

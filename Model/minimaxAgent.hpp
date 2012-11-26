@@ -1,17 +1,17 @@
 #ifndef MINIMAXAGENT_HPP
 #define MINIMAXAGENT_HPP
 
-#include "game.hpp"
+#include "utility.hpp"
 #include <iostream>
 #include <vector>
 
 using namespace std;
 
-class MinimaxAgent{
+class MinimaxAgent:public Utility{
 public:
-    double Evaluate(const Game &game, int depth = 0);
-    Action GetAction(const Game &game, int depth);
+    double Evaluate(const State &state, int depth);
+    Action ChoosePacmanAction(const State &state, int depth);
+    vector<Action> ChooseCombinedGhostAction(const State &state, int depth);
 };
-ostream & operator<<(ostream &os, const Game& game);
 
 #endif

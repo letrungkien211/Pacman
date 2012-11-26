@@ -1,75 +1,71 @@
 #include "minimaxAgent.hpp"
 #include <limits>
 #include <iostream>
+#include <cassert>
 
 using namespace std;
 
-double MinimaxAgent::Evaluate(const Game &game, int depth){
+double MinimaxAgent::Evaluate(const State &state, int depth){
     if(depth <= 0){
-	return game.Evaluate();
+	return Utility::Evaluate(state);
     }
-    if(game.Turn() == MAXTURN){
+    if(state.Turn() == MAXTURN){
 	double max = -INFINITY;
-	vector<Action> actions = game.GetLegalAction();
+	vector<Action> actions = state.GetLegalPacmanAction();
 	for(int i = 0, size = actions.size(); i < size; i++){
-	    Game tmp = game;
-	    double value = Evaluate(tmp.ApplyAction(actions[i]), depth-1);
-
+	    State tmp = state;
+	    double value = Evaluate(tmp.GetNextState(actions[i]), depth-1);
 	    if(value > max)
 		max = value;
 	}
 	return max;
     }
-    else if(game.Turn() == MINTURN){
+    else{
 	double min = INFINITY;
-	vector<Action> actions = game.GetLegalAction();
-	for(int i = 0, size = actions.size(); i < size; i++){
-	    Game tmp = game;
-	    double value = Evaluate(tmp.ApplyAction(actions[i]), depth-1);
+	vector<vector<Action> > combinedActions = state.GetLegalCombinedGhostAction();
+	for(int i = 0, size = combinedActions.size(); i < size; i++){
+	    State tmp = state;
+	    double value = Evaluate(tmp.GetNextState(combinedActions[i]), depth-1);
 	    if(value < min)
 		min = value;
 	}
 	return min;
     }
-    else{
-	cout <<"MinimaxAgent::Evaluate: Unrecognized turn" <<endl;
-	return INFINITY;
-    }
 }
 
-Action MinimaxAgent::GetAction(const Game&game, int depth){
-    vector<Action> actions = game.GetLegalAction();
+
+Action MinimaxAgent::ChoosePacmanAction(const State&state, int depth){
+    vector<Action> pacmanActions = state.GetLegalPacmanAction();
     int index = 0;
-    if(game.Turn() == MAXTURN){
-	double max = -INFINITY;
-	for(int i = 0, size = actions.size(); i < size; i++){
-	    Game tmp = game;
-	    double value = Evaluate(tmp.ApplyAction(actions[i]), depth);
-	    cout << actions[i] <<" " << value <<endl;
-	    if( value>max){
-		max = value;
-		index = i;
-	    }
+    assert(state.Turn() == MAXTURN);
+    
+    double max = -INFINITY;
+    for(int i = 0, size = pacmanActions.size(); i < size; i++){
+	State tmp = state;
+	double value = Evaluate(tmp.GetNextState(pacmanActions[i]), depth);
+	//cout << pacmanActions[i] <<" " << value <<endl;
+	if( value>max){
+	    max = value;
+	    index = i;
 	}
-
-	cout << "PAcman : " ;
     }
-    else if (game.Turn() == MINTURN){
-	double min = INFINITY;
-	for(int i = 0, size = actions.size(); i < size; i++){
-	    Game tmp = game;
-	    double value = Evaluate(tmp.ApplyAction(actions[i]), depth);
-	    if( value<min){
-		min = value;
-		index = i;
-	    }
-	    cout << actions[i] <<" " << value <<endl;
-	}
-	cout << "Ghost ";
-    }
-    else{
-	cout <<"MinimaxAgent::Evaluate: Unrecognized turn" <<endl;
-    }
-    cout << actions[index] <<endl;
-    return actions[index];
+    return pacmanActions[index];
 }
+
+
+vector<Action>  MinimaxAgent::ChooseCombinedGhostAction(const State&state, int depth){
+    vector<vector<Action> > combinedGhostActions = state.GetLegalCombinedGhostAction();
+    assert (state.Turn() == MINTURN);
+    double min = INFINITY;
+    int index = 0;
+    for(int i = 0, size = combinedGhostActions.size(); i < size; i++){
+	State tmp = state;
+	double value = Evaluate(tmp.GetNextState(combinedGhostActions[i]), depth);
+	if( value<min){
+	    min = value;
+	    index = i;
+	}
+    }
+    return combinedGhostActions[index];
+}
+

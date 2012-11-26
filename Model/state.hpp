@@ -37,16 +37,16 @@ private:
 public:
     // Constructor
     State();
-    State(int[] food);
+    State(int food[]);
     // Static initialization
-    static void Initialize(int rows, int cols, int[] mWall);
+    static void Initialize(int rows, int cols, bool wall[]);
     // Initialization
-    void Initialize(int[] food); // Initilize
+    void Initialize(int food[]); // Initilize
     
     // Get next states
-    State GetNextState(Action pacmanAction, vector<Action> ghostAction);
+    State GetNextState(Action pacmanAction, const vector<Action> &ghostAction);
     State GetNextState(Action pacmanAction);
-    State GetNextState(vector<Action> ghostAction);
+    State GetNextState(const vector<Action> &ghostAction);
 
     // Get legal actions
     vector<Action > GetLegalGhostAction(int ghostIndex) const;
@@ -64,6 +64,7 @@ public:
     int Food(Position pos) const;
     int &Food(Position pos);
     bool Wall(int i, int j) const;
+    bool Wall(Position pos) const;
     int Turn() const;
     int NumFood() const;
     int NumAction() const;
@@ -73,8 +74,9 @@ public:
     int Cols() const;
     int Score() const;
     int NumGhost() const;
-    Position PacmanPosition();
-    Position GhostPosition(int ghostIndex);
+    bool GhostScared(int ghostIndex) const;
+    Position PacmanPosition() const;
+    Position GhostPosition(int ghostIndex) const;
 };
 
 ostream & operator<<(ostream &os, const State& state);

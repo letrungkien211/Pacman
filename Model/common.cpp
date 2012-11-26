@@ -4,6 +4,21 @@
 
 using namespace std;
 
+bool IsOppositeAction(Action a, Action b){
+    return (a == LEFT && b == RIGHT) 
+	||(b == LEFT && a == RIGHT) 
+	|| (a== UP && b == DOWN)
+	|| (b== UP && a == DOWN);
+}
+
+bool InRange(int i, int j, int rows, int cols){
+    return InRange(i,0,rows-1) && InRange(j,0,cols-1);
+}
+
+bool InRange(int i, int min, int max){
+    return i>= min && i<=max;
+}
+
 void Position::Move(Action action){
     switch(action){
     case UP:   row--; break;

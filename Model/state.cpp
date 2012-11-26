@@ -1,5 +1,7 @@
 #include "state.hpp"
+#include <cassert>
 
+using namespace std;
 // int initFood[] ={1,1,1,1,1,
 // 		 1,0,1,0,1,
 // 		 1,1,0,1,1,
@@ -39,23 +41,22 @@ State::State(){
 }
 
 // Static Initialization
-void State::Initialize(int rows, int cols, bool[] wall){
+void State::Initialize(int rows, int cols, bool wall[]){
     State::rows = rows;
     State::cols = cols;
     State::wall.resize(rows*cols);
     for(int i = 0, size = rows* cols; i < size; i++)
-	State::wall = wall[i];
+	State::wall[i] = wall[i];
 }
 
 // Initialization
-void State::Init(int[] food){
+void State::Initialize(int food[]){
     // Food
     numFood = 0;
     for(int i = 0, size = rows* cols ; i <size; i++){
 	this->food[i] = food[i];
 	numFood += food[i];
     }
-    
     // Ghost position
     ghostPos.resize(2);
     ghostPos[0].row = 0;
@@ -71,26 +72,49 @@ void State::Init(int[] food){
     turn = MAXTURN;
 }
 
-// Get next states
+// Get next state
+State State::GetNextState(Action pacmanAction, const vector<Action> &ghostAction){
+    GetNextState(pacmanAction);
+    GetNextState(ghostAction);
+    return *this;
+}
+
+// Get next state by moving pacman
 State State::GetNextState(Action pacmanAction){
-    assert(!IsLegalPacmanAction(pacmanAction)); // Uncomment after finish projects
-    
-    pacmanPos.Move(action);
+    assert(IsLegalPacmanAction(pacmanAction)); // Uncomment after finish projects
+    assert(turn==MAXTURN);
+
+    pacmanPos.Move(pacmanAction);
 
     switch(Food(pacmanPos)){
     case 2:
 	MakeGhostScared(true);
     case 1:
+	Food(pacmanPos) = false;
 	numFood--;
     default:
 	MakeGhostScared(false);
 	break;
     }
 
+    turn = MINTURN;
     return *this;
 }
 
-Result IsFinal() const{
+// Get next state by moving ghosts
+State State::GetNextState(const vector<Action>& ghostAction){
+    assert(turn == MINTURN);
+    assert(ghostAction.size() == ghostPos.size());
+
+    for(int i = 0, size = ghostAction.size(); i<size; i++){
+	assert(IsLegalGhostAction(ghostAction[i], i));
+	ghostPos[i].Move(ghostAction[i]);
+    }
+    turn = MAXTURN;
+    return *this;
+}
+
+Result State::IsFinal() const{
     // Check collision with ghost
     for(int i =0, numGhost = ghostPos.size(); i < numGhost; i++){
 	if(!ghostScared[i] && !Position::Manhattan(ghostPos[i], pacmanPos) ){
@@ -103,8 +127,11 @@ Result IsFinal() const{
     return UNKOWN;
 }
 
+vector<Action > State::GetLegalPacmanAction() const{
+    
+}
 
-bool State::IsLegalPamanAction(Action pacmanAction) const{
+bool State::IsLegalPacmanAction(Action pacmanAction) const{
     if(pacmanPos.IsLegal(pacmanAction, rows, cols)){
 	Position tmp = pacmanPos;
 	tmp.Move(pacmanAction);
@@ -116,7 +143,7 @@ bool State::IsLegalPamanAction(Action pacmanAction) const{
 
 bool State::IsLegalGhostAction(Action ghostAction, int ghostIndex) const{
     if(IsOppositeAction(ghostAction, previousGhostAction[ghostIndex]) 
-       || ghostAction = STOP 
+       || ghostAction == STOP 
        || !ghostPos[ghostIndex].IsLegal(ghostAction, rows, cols)){
 	return false;
     }
@@ -127,6 +154,8 @@ bool State::IsLegalGhostAction(Action ghostAction, int ghostIndex) const{
 	return false;
     return true;
 }
+
+
 
 /*****************************************************************************/
 
@@ -157,7 +186,7 @@ int State::Turn() const{
     return turn;
 }
 int State::NumFood() const{
-    return food;
+    return numFood;
 }
 int State::NumAction() const{
     return numAction;
@@ -179,30 +208,24 @@ int State::NumGhost() const{
     return ghostPos.size();
 }
 
+Position State::PacmanPosition() const{
+    return pacmanPos;
+}
+
+Position State::GhostPosition(int ghostIndex) const{
+    return ghostPos[ghostIndex];
+}
+
 /*****************************************************************************/
 
 ostream & operator<<(ostream &os, const State& state){
     for(int i = 0, rows = state.Rows(); i <rows; i++){
 	for(int j = 0, cols = state.Cols(); j<cols; j++){
-	    if(state.Wall(i,j))
-		os << "X";
-	    else if (state.PacmanPosition().row == i && state.PacmanPosition().col == j){
-		if (state.GhostPosition().row == i && state.GhostPosition().col ==j)
-		    os << "D";
-		else
-		    os << "P";
-	    }
-	    else if (state.GhostPosition().row == i && state.GhostPosition().col ==j)
-		os << "G";
-	    else if(state(i,j).IsFood())
-		os << "o";
-	    else
-		os << "-";
+	    
 	}
-	os << endl;
     }
-    cout << "Number of food left: " << game.NumFood() <<endl;
-    cout << "Turn: " << (game.Turn() ==MAXTURN ? "Pacman" : "Ghost" ) <<endl;
+    cout << "Number of food left: " << state.NumFood() <<endl;
+    cout << "Turn: " << (state.Turn() ==MAXTURN ? "Pacman" : "Ghost" ) <<endl;
     return os;
 }
 

@@ -6,6 +6,8 @@
 using namespace std;
 
 #define INFINITY 1000000
+#define MAXTURN 0
+#define MINTURN 1
 
 enum Action{
     STOP = 'S', 
@@ -17,6 +19,7 @@ enum Action{
 
 bool IsOppositeAction(Action a, Action b);
 bool InRange(int i, int j, int rows, int cols);
+bool InRange(int i, int min, int max);
 
 enum Result{
     LOSE, WIN, UNKOWN

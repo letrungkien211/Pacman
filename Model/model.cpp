@@ -6,43 +6,44 @@
 using namespace std;
 
 
+int initFood[] ={1,1,1,1,1,1,1,1,
+		 1,0,0,0,0,0,0,1,
+		 1,1,1,1,1,1,1,1,
+		 1,0,0,0,0,0,0,1,
+		 1,0,0,0,0,0,0,1,
+		 1,0,0,0,0,0,0,1,
+		 1,1,1,1,1,1,1,1,
+		 1,0,0,0,0,0,0,1,
+		 1,1,1,1,1,1,1,1};
+		 
+bool initWall[] ={0,0,0,0,0,0,0,0,
+		 0,1,0,1,1,1,1,0,
+		 0,0,0,0,0,0,0,0,
+		 0,1,1,0,0,1,1,0,
+		 0,1,0,0,0,0,1,0,
+		 0,1,1,1,1,1,1,0,
+		 0,0,0,0,0,0,0,0,
+		 0,1,1,1,1,1,1,0,
+		 0,0,0,0,0,0,0,0};
 
-int main1(int argc, char **argv){
-    Game game(10,10);
-    game.Init();
-    cout << game <<endl;
-    game.ApplyAction(UP);
-    cout << game <<endl;
-    game.ApplyAction(UP);
-    cout << game <<endl;
-    game.ApplyAction(UP);
-    cout << game <<endl;
-    game.ApplyAction(UP);
-    cout << game <<endl;
-    game.ApplyAction(UP);
-    cout << game <<endl;
-    
-    vector<Action> actions = game.GetLegalAction();
-    for(unsigned int i = 0; i< actions.size(); i++)
-	cout << actions[i] << " ";
-    return 0;
-}
+
 
 
 int main(int argc, char **argv){
-    Game game(9,8);
-    MinimaxAgent minimax;
-    game.Init();
-
-    int cnt = 0;
-    do{
-	cout << cnt++ << " -----------------------------------" <<endl;
-	cout << game <<endl;
-	Action action = minimax.GetAction(game,2);
-	cout << "Best action: " << action<<endl;
-	game.ApplyAction(action);
-	getchar();
-    }while(game.Res()==UNKOWN);
-	cout << game <<endl;
-    return 0;
+  State::Initialize(9,8, initWall);
+  State state(initFood);
+  cout << state <<endl;
+  state.GetNextState(UP);
+  cout << state <<endl;
+  state.GetNextState(UP);
+  cout << state <<endl;
+  state.GetNextState(UP);
+  cout << state <<endl;
+  state.GetNextState(UP);
+  cout << state <<endl;
+  state.GetNextState(UP);
+  cout << state <<endl;
+  return 0;
 }
+
+

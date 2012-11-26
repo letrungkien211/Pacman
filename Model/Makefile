@@ -5,7 +5,7 @@ CFLAGS = -Wall -g -O2
 LIBS = -lm -lglut -lGLU -lGL
 
 TARGET = model
-OBJ = state.o cell.o common.o minimaxAgent.o utility.o
+OBJ = state.o common.o minimaxAgent.o utility.o
 
 all: $(TARGET)
 

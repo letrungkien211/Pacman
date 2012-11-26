@@ -11,17 +11,10 @@ class State{
 private:
     // Food matrix
     vector<int> food;
-    // Static wall matrix
-    static vector<bool> wall;
     // Turn 
     int turn;     
     // Number of food
     int numFood;    
-    // Static number of rows, cols
-    static int rows;
-    static int cols;
-    // Score
-    int score;
     // Number of actions taken
     int numAction;
     // Pacman position
@@ -39,7 +32,7 @@ public:
     State();
     State(int food[]);
     // Static initialization
-    static void Initialize(int rows, int cols, bool wall[]);
+
     // Initialization
     void Initialize(int food[]); // Initilize
     
@@ -50,7 +43,7 @@ public:
 
     // Get legal actions
     vector<Action > GetLegalGhostAction(int ghostIndex) const;
-    vector<vector<Action> > GetLegalCombinedGhostAction() const;
+    vector<vector<Action> > GetLegalCombinedGhostAction(int ghostIndex = 0) const;
     vector<Action > GetLegalPacmanAction() const;
     
     // Check if legal actions

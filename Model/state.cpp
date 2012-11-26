@@ -146,9 +146,15 @@ vector<Action > State::GetLegalGhostAction(int ghostIndex) const{
     return actions;
 } 
 
-vector<vector<Action> > State::GetLegalCombinedGhostAction() const{
-  
+vector<vector<Action> > State::GetLegalCombinedGhostAction(int ghostIndex) const{
+  vector<vector<Action> > separatedGhostAction(NumGhost());
+  for(int i = 0; i< NumGhost(); i++){
+    separatedGhostAction[i] = GetLegalGhostAction(i);
+  }
 
+  vector<vector<Action> > combinedGhostAction;
+  
+  return combinedGhostAction;
 }
 bool State::IsLegalPacmanAction(Action pacmanAction) const{
     if(pacmanPos.IsLegal(pacmanAction, rows, cols)){
@@ -215,7 +221,7 @@ bool State::GhostScared(int ghostIndex) const{
     return ghostScared[ghostIndex];
 }
 int State::Rows() const{
-    return rows;
+  return rows;
 }
 int State::Cols() const{
     return cols;
@@ -243,8 +249,32 @@ ostream & operator<<(ostream &os, const State& state){
 	for(int j = 0, cols = state.Cols(); j<cols; j++){
 	  if(state.Wall(i,j))
 	    os<<"X";
-	  else if(){
-
+	  else if(state.PacmanPosition().Equal(i,j)){
+	    for(int k = 0; k < state.NumGhost(); k++){
+	      if(state.PacmanPosition().Equal(state.GhostPosition(k)))
+		os <<"D";
+	    }
+	  }
+	  else {
+	    bool hasGhost = false;
+	    for(int k = 0; k < state.NumGhost(); k++){
+	      if(state.GhostPosition(k).Equal(i,j)){
+		hasGhost = true;
+		if(state.GhostScared(k))
+		  os <<"S";
+		else
+		  os<< "G";
+		break;
+	      }
+	    }
+	    if(!hasGhost){
+	      if(state.Food(i,j)==1)
+		cout << "-";
+	      else if(state.Food(i,j)==2)
+		cout << "o";
+	      else
+		cout << " ";
+	    }
 	  }
 	    
 	}

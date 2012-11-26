@@ -2,6 +2,8 @@
 #include <iostream>
 #include <cmath>
 
+#define abs(x) x > 0 ? x : -x
+
 using namespace std;
 
 bool IsOppositeAction(Action a, Action b){

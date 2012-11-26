@@ -32,7 +32,6 @@ double MinimaxAgent::Evaluate(const State &state, int depth, int player){
 
 Action MinimaxAgent::ChoosePacmanAction(const State&state, int depth, double *v){
     vector<Action> pacmanActions = state.GetLegalPacmanAction();
-
     //  assert(state.Turn() == MAXTURN);
     double max = -INFINITY;
     int index = 0;
@@ -51,8 +50,9 @@ Action MinimaxAgent::ChoosePacmanAction(const State&state, int depth, double *v)
 
 
 vector<Action>  MinimaxAgent::ChooseCombinedGhostAction(const State&state, int depth, double *v){
+    if(!state.NumGhost())
+	return vector<Action>(0);;
     vector<vector<Action> > combinedGhostActions = state.GetLegalCombinedGhostAction();
-    //   assert (state.Turn() == MINTURN);
     double min = INFINITY;
     int index = 0;
     for(int i = 0, size = combinedGhostActions.size(); i < size; i++){

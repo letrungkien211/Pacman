@@ -155,7 +155,7 @@ double Utility::PacmanToGhostDistance(const State &state) const{
     for(int i = 0; i <state.NumGhost(); i++){
 	int ghostIndex = state.GhostPosition(i).row*state.Cols() + state.GhostPosition(i).col;
 	double dis = minDistance[pacmanIndex][ghostIndex];
-	value+=dis;
+	value+= state.GhostScared(i) ? -dis: dis;
     }
     return value;
 }

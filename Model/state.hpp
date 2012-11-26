@@ -18,8 +18,6 @@ private:
     int cols;
     // Number of food
     int numFood;    
-    // Number of actions taken
-    int numAction;
     // Pacman position
     Position pacmanPos;
     // Ghosts' position
@@ -27,16 +25,16 @@ private:
     // Previous ghost actions
     vector<Action> previousGhostAction;
     // Gostscared
-    vector<int> ghostScared;
+    vector<bool> ghostScared;
     // Make ghost scared
     void MakeGhostScared(bool scared);
 public:
     // Constructor
     State();
-    State(int rows, int cols, bool wall[], int food[]);
+    State(int rows, int cols, bool *wall, int *food);
     // Initialization
-    void Initialize(int rows, int cols, bool wall[], int food[]); // Initilize
-
+    void Initialize(int rows, int cols, bool *wall, int *food); // Initilize
+    void Finalize();
     // Get next states
     State GetNextState(Action pacmanAction, const vector<Action> &ghostAction);
     State GetNextState(Action pacmanAction);
@@ -66,7 +64,6 @@ public:
     Result IsFinal() const; 
     int Rows() const;
     int Cols() const;
-    int Score() const;
     int NumGhost() const;
     int GhostScared(int ghostIndex) const;
     Position PacmanPosition() const;

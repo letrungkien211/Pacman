@@ -33,7 +33,7 @@ int main(int argc, char **argv){
     
     vector<double> coeff(4);
     coeff[0] = 10;
-    coeff[1] = 0;
+    coeff[1] = 3;
     coeff[2] = -1;
     coeff[3] = -1;
     coeff[4] = 1000;
@@ -47,13 +47,13 @@ int main(int argc, char **argv){
     	cout << state <<endl;
     	double v;
     	vector<Action> combinedAction = minimax.ChooseCombinedGhostAction(state, 9,&v);
-    	Action pacmanAction = minimax.ChoosePacmanAction(state, 9, &v);
-    	do{
-    	    string str;
-    	    cin >> str;
-    	    pacmanAction = Char2Action(str[0]);
-    	}
-    	while(!state.IsLegalPacmanAction(pacmanAction));
+    	Action pacmanAction;
+	do{
+	    string str;
+	    cin >> str;
+	    pacmanAction = Char2Action(str[0]);
+	}
+	while(!state.IsLegalPacmanAction(pacmanAction));
     	state.GetNextState(pacmanAction, combinedAction);
     	cout << "Ghost Move: " << combinedAction<< endl;
     	cout << "Min value: " << v <<endl;

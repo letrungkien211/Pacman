@@ -128,8 +128,22 @@ Result State::IsFinal() const{
 }
 
 vector<Action > State::GetLegalPacmanAction() const{
-    
+    vector<Action> actions;
+    for(int i = 0; i<5; i++){
+	if(IsLegalPacmanAction(ActionList[i])){
+	    actions.push_back(ActionList[i]);
+	}
+    }
+    return actions;
 }
+
+vector<Action > State::GetLegalGhostAction(int ghostIndex) const{
+    vector<Action> actions;
+    for(int i = 0; i<5; i++){
+	
+    }
+    return actions;
+} 
 
 bool State::IsLegalPacmanAction(Action pacmanAction) const{
     if(pacmanPos.IsLegal(pacmanAction, rows, cols)){

@@ -15,6 +15,5 @@ $(TARGET): % : $(OBJ) %.o
 	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
 .cpp.o:
 	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
-
 clean:
 	$(RM) *.o $(TARGET) *~ *#*

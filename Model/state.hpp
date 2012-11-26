@@ -12,16 +12,12 @@ private:
     // Food matrix
     vector<int> food;
     // Static wall matrix
-    vector<bool> wall;
-    // Turn 
-//    int turn;     
+    bool *wall;
     // Number of rows, cols
     int rows;
     int cols;
     // Number of food
     int numFood;    
-    // Score
-    int score;
     // Number of actions taken
     int numAction;
     // Pacman position
@@ -65,7 +61,6 @@ public:
     bool Wall(int i, int j) const;
     bool Wall(Position pos) const;
     bool Wall(int i) const;
-//    int Turn() const;
     int NumFood() const;
     int NumAction() const;
     Result IsFinal() const; 

@@ -140,11 +140,16 @@ vector<Action > State::GetLegalPacmanAction() const{
 vector<Action > State::GetLegalGhostAction(int ghostIndex) const{
     vector<Action> actions;
     for(int i = 0; i<5; i++){
-	
+      if(IsLegalGhostAction(ActionList[i], ghostIndex))
+	actions.push_back(ActionList[i]);
     }
     return actions;
 } 
 
+vector<vector<Action> > State::GetLegalCombinedGhostAction() const{
+  
+
+}
 bool State::IsLegalPacmanAction(Action pacmanAction) const{
     if(pacmanPos.IsLegal(pacmanAction, rows, cols)){
 	Position tmp = pacmanPos;
@@ -168,6 +173,7 @@ bool State::IsLegalGhostAction(Action ghostAction, int ghostIndex) const{
 	return false;
     return true;
 }
+
 
 
 
@@ -235,6 +241,11 @@ Position State::GhostPosition(int ghostIndex) const{
 ostream & operator<<(ostream &os, const State& state){
     for(int i = 0, rows = state.Rows(); i <rows; i++){
 	for(int j = 0, cols = state.Cols(); j<cols; j++){
+	  if(state.Wall(i,j))
+	    os<<"X";
+	  else if(){
+
+	  }
 	    
 	}
     }

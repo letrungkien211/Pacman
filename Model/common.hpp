@@ -34,7 +34,10 @@ public:
     int col ;
     void Move(Action action);
     bool IsLegal(Action action, int rows, int cols) const;
+  bool Equal(Position pos);
+  bool Equal(int i, int j);
     static double Manhattan(const Position& p, const Position & q);
+
 };
 
 #endif

@@ -62,9 +62,18 @@ bool Position::IsLegal(Action action, int rows, int cols) const{
     return legal;
 }
 
+bool Position::Equal(Position pos){
+  return row==pos.row && col==pos.col;
+}
+
+bool Position::Equal(int i, int j){
+  return row == i && col == j;
+}
 double Position::Manhattan(const Position& p, const Position & q){
     return abs(p.row-q.row) + abs(p.col-q.col);
 }
+
+
 
 ostream &operator<<(ostream &os, Action action){
     switch(action){

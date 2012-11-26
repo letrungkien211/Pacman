@@ -6,7 +6,7 @@
 #include "gsearch.hpp"
 using namespace std;
 
-int NUMFEATURES = 4;
+int NUMFEATURES = 5;
 
 const Action ActionList[] ={UP, RIGHT, LEFT, DOWN, STOP};
 Utility::Utility(){
@@ -136,11 +136,12 @@ int Utility::PreCalculateMinDistance(State *state, int start, int goal){
 
 
 double Utility::Evaluate(const State & state){
-    vector<double> features(4);
+    vector<double> features(NUMFEATURES);
     features[0] = PacmanToGhostDistance(state);
     features[1] = PacmanToNearestFood(state);
     features[2] = NumFood(state);
     features[3] = GhostToGhostDistance(state);
+    features[4] = IsFinal(state);
     double value = 0;
     for(int i = 0, size = features.size(); i<size; i++){
 	value +=features[i]*coeff[i];
@@ -174,9 +175,19 @@ double Utility::GhostToGhostDistance(const State &state) const{
     for(int i = 0; i< num-1; i++){
 	for(int j = i+1; j< num; j++){
 	    int distance= minDistance[state.GhostPosition(i).ToIndex(cols)][state.GhostPosition(j).ToIndex(cols)];
-	    if(distance >=2)
-		value+=distance;
+	    value+=distance;
 	} 
     }
     return value;
+}
+
+double Utility::IsFinal(const State &state) const{
+    switch(state.IsFinal()){
+    case WIN:
+	return 1;
+    case LOSE:
+	return -1;
+    default:
+	return 0;
+    }
 }

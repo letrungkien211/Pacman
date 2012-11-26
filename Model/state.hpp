@@ -63,15 +63,18 @@ public:
     int &Food(int i, int j);
     int Food(Position pos) const;
     int &Food(Position pos);
-    static bool Wall(int i, int j) const;
+    bool Wall(int i, int j) const;
     int Turn() const;
     int NumFood() const;
+    int NumAction() const;
     Result IsFinal() const; // Check if the State is ended
     bool GhostScared() const;
-    static int Rows() const;
-    static int Cols() const;
+    int Rows() const;
+    int Cols() const;
     int Score() const;
-
+    int NumGhost() const;
+    Position PacmanPosition();
+    Position GhostPosition(int ghostIndex);
 };
 
 ostream & operator<<(ostream &os, const State& state);

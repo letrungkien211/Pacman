@@ -129,45 +129,54 @@ bool State::IsLegalGhostAction(Action ghostAction, int ghostIndex) const{
 }
 
 /*****************************************************************************/
-/*Element access*/
-Cell State::operator()(int i, int j) const{
-    return m[i*cols+j];
+
+/*Element Access*/
+int State::Food(int i, int j) const{
+    assert(InRange(i,j,rows,cols));
+    return food[i*cols+j];
 }
 
-Cell& State::operator()(int i, int j){
-    return m[i*cols+j];
+int &State::Food(int i, int j){
+    assert(InRange(i,j,rows,cols));
+    return food[i*cols+j];
 }
-
-Cell State::operator()(int i) const{
-    return m[i];
+int State::Food(Position pos) const{
+    return Food(pos.row, pos.col);
 }
-
-Cell& State::operator()(int i){
-    return m[i];
+int &State::Food(Position pos){
+    return Food(pos.row, pos.col);
 }
-
+bool State::Wall(int i, int j) const{
+    assert(InRange(i,j,rows,cols));
+    return wall[i*cols+j];
+}
+bool State::Wall(Position pos) const{
+    return Wall(pos.row, pos.col);
+}
 int State::Turn() const{
     return turn;
 }
-
 int State::NumFood() const{
-    return numFood;
+    return food;
 }
-
+int State::NumAction() const{
+    return numAction;
+}
+bool State::GhostScared(int ghostIndex) const{
+    return ghostScared[ghostIndex];
+}
 int State::Rows() const{
     return rows;
 }
-
 int State::Cols() const{
     return cols;
 }
-
-Position State::PacmanPosition() const{
-    return pacmanPos;
+int State::Score() const{
+    return score;
 }
 
-Position State::GhostPosition() const{
-    return ghostPos;
+int State::NumGhost() const{
+    return ghostPos.size();
 }
 
 /*****************************************************************************/
@@ -175,7 +184,7 @@ Position State::GhostPosition() const{
 ostream & operator<<(ostream &os, const State& state){
     for(int i = 0, rows = state.Rows(); i <rows; i++){
 	for(int j = 0, cols = state.Cols(); j<cols; j++){
-	    if(state(i,j).IsWall())
+	    if(state.Wall(i,j))
 		os << "X";
 	    else if (state.PacmanPosition().row == i && state.PacmanPosition().col == j){
 		if (state.GhostPosition().row == i && state.GhostPosition().col ==j)

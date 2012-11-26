@@ -16,6 +16,7 @@ enum Action{
 };
 
 bool IsOppositeAction(Action a, Action b);
+bool InRange(int i, int j, int rows, int cols);
 
 enum Result{
     LOSE, WIN, UNKOWN

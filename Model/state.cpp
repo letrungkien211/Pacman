@@ -40,15 +40,6 @@ const Action ActionList[] ={UP, DOWN, LEFT, RIGHT, STOP};
 State::State(){
 }
 
-// Static Initialization
-void State::Initialize(int rows, int cols, bool wall[]){
-    State::rows = rows;
-    State::cols = cols;
-    State::wall.resize(rows*cols);
-    for(int i = 0, size = rows* cols; i < size; i++)
-	State::wall[i] = wall[i];
-}
-
 // Initialization
 void State::Initialize(int food[]){
     // Food

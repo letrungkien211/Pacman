@@ -15,6 +15,8 @@ enum Action{
     RIGHT ='R'
 };
 
+bool IsOppositeAction(Action a, Action b);
+
 enum Result{
     LOSE, WIN, UNKOWN
 };

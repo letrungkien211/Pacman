@@ -1,8 +1,9 @@
 #include "common.hpp"
 #include <iostream>
 #include <cmath>
-
-#define abs(x) x > 0 ? x : -x
+#include <vector>
+#include <cassert>
+#include <cctype>
 
 using namespace std;
 
@@ -21,16 +22,56 @@ bool InRange(int i, int min, int max){
     return i>= min && i<=max;
 }
 
+Action Char2Action(char c){
+    switch(tolower(c)){
+    case 's':
+	return STOP;
+    case 'u':
+	return UP;
+    case 'l':
+	return LEFT;
+    case 'r':
+	return RIGHT;
+    case 'd':
+	return DOWN;
+    default:
+	break;
+    }
+
+    return STOP;
+}
+
+char Action2Char(Action action){
+    switch(action){
+    case UP:   return 'u';
+    case DOWN: return 'd';
+    case LEFT: return 'l';
+    case RIGHT: return 'r';
+    case STOP: return 's';
+    default:
+	cout << "Unrecognized action" <<endl;
+	break;
+    }
+    return 's';
+}
+
 void Position::Move(Action action){
     switch(action){
-    case UP:   row--; break;
-    case DOWN: row++; break;
-    case LEFT: col--; break;
-    case RIGHT:col++; break;
+    case UP:   
+	row--; 
+	break;
+    case DOWN: 
+	row++; 
+	break;
+    case LEFT: 
+	col--; 
+	break;
+    case RIGHT:
+	col++; 
+	break;
     case STOP:
 	break;
     default:
-	cout << "Unrecognized action" <<endl;
 	break;
     }
 }
@@ -64,18 +105,31 @@ bool Position::IsLegal(Action action, int rows, int cols) const{
     return legal;
 }
 
-bool Position::Equal(Position pos){
+Position::Position(){
+    row = col = 0;
+}
+Position::Position(int row, int col){
+    this->row = row; 
+    this->col = col;
+}
+bool Position::Equal(Position pos) const{
   return row==pos.row && col==pos.col;
 }
 
-bool Position::Equal(int i, int j){
+bool Position::Equal(int i, int j) const{
   return row == i && col == j;
 }
 double Position::Manhattan(const Position& p, const Position & q){
-    return abs(p.row-q.row) + abs(p.col-q.col);
+    return std::abs(p.row-q.row) + std::abs(p.col-q.col);
 }
 
 
+int Position::ToIndex(int cols) const{
+    return row*cols+ col;
+}
+bool Position::operator==(Position &other) const{
+    return row == other.row && col == other.col; 
+}
 
 ostream &operator<<(ostream &os, Action action){
     switch(action){
@@ -99,5 +153,18 @@ ostream &operator<<(ostream &os, Result result){
 	cout <<"operator<<(result): Unrecognized result"<<endl;
 	break;
     }
+    return os;
+}
+
+ostream &operator<<(ostream &os, vector<Action> &action){
+    os <<"(";
+    for(int i=0, size = action.size(); i<size; i++)
+	cout <<action[i] <<", ";
+    os <<")";
+    return os;
+}
+
+ostream &operator<<(ostream &os, Position pos){
+    os<<" ("<<pos.row<<","<<pos.col<<") ";
     return os;
 }

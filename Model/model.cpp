@@ -1,49 +1,65 @@
 #include <iostream>
 #include <cstdio>
-
+#include <cctype>
 #include "minimaxAgent.hpp"
 
 using namespace std;
 
 
-int initFood[] ={1,1,1,1,1,1,1,1,
-		 1,0,0,0,0,0,0,1,
-		 1,1,1,1,1,1,1,1,
-		 1,0,0,0,0,0,0,1,
-		 1,0,0,0,0,0,0,1,
-		 1,0,0,0,0,0,0,1,
-		 1,1,1,1,1,1,1,1,
-		 1,0,0,0,0,0,0,1,
-		 1,1,1,1,1,1,1,1};
+
+int initFood[] ={10,1,1,1,0,1,1,1,1,1,1,1,1,0,1,1,1,1,
+		 1,0,0,1,1,1,0,0,0,0,0,0,1,1,1,0,0,1,
+		 1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,
+		 1,0,1,0,0,1,0,0,0,0,0,0,1,0,0,1,0,1,
+		 1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,
+		 1,0,1,0,0,1,0,0,0,0,0,0,1,0,0,1,0,1,
+		 1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,
+		 1,0,0,1,1,1,0,0,0,0,0,0,1,1,1,0,0,1,
+		 1,1,1,1,0,1,1,1,1,1,1,1,1,0,1,1,1,10};
 		 
-bool initWall[] ={0,0,0,0,0,0,0,0,
-		 0,1,0,1,1,1,1,0,
-		 0,0,0,0,0,0,0,0,
-		 0,1,1,0,0,1,1,0,
-		 0,1,0,0,0,0,1,0,
-		 0,1,1,1,1,1,1,0,
-		 0,0,0,0,0,0,0,0,
-		 0,1,1,1,1,1,1,0,
-		 0,0,0,0,0,0,0,0};
-
-
-
+bool initWall[] ={0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0, // 0
+		  0,1,1,0,1,0,1,1,1,1,1,1,0,1,0,1,1,0,  // 1
+		  0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0, 
+		  0,1,0,1,1,0,1,1,0,0,1,1,0,1,1,0,1,0, 
+		  0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0, // 5
+		  0,1,0,1,1,0,1,1,1,1,1,1,0,1,1,0,1,0, 
+		  0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0, 
+		  0,1,1,0,1,0,1,1,1,1,1,1,0,1,0,1,1,0,  // 1
+		  0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0};
 
 int main(int argc, char **argv){
-  State::Initialize(9,8, initWall);
-  State state(initFood);
-  cout << state <<endl;
-  state.GetNextState(UP);
-  cout << state <<endl;
-  state.GetNextState(UP);
-  cout << state <<endl;
-  state.GetNextState(UP);
-  cout << state <<endl;
-  state.GetNextState(UP);
-  cout << state <<endl;
-  state.GetNextState(UP);
-  cout << state <<endl;
-  return 0;
+    State state(9,18,initWall, initFood);
+    MinimaxAgent minimax;
+    
+    vector<double> coeff(4);
+    coeff[0] = 10;
+    coeff[1] = 0;
+    coeff[2] = 0;
+    coeff[3] = -5;
+    minimax.SetCoeff(coeff);
+
+    minimax.PreCalculateMinDistance(&state);
+
+    int cnt  = 0;
+    while(state.IsFinal() == UNKOWN ){
+    	cout << " Current state: " <<cnt++ <<endl;
+    	cout << state <<endl;
+    	double v;
+    	vector<Action> combinedAction = minimax.ChooseCombinedGhostAction(state, 12,&v);
+
+    	Action pacmanAction;
+    	do{
+    	    string str;
+    	    cin >> str;
+    	    pacmanAction = Char2Action(str[0]);
+    	}
+    	while(!state.IsLegalPacmanAction(pacmanAction));
+    	state.GetNextState(pacmanAction, combinedAction);
+    	cout << "Ghost Move: " << combinedAction<< endl;
+    	cout << "Min value: " << v <<endl;
+    }
+    cout << "Pacman " << state.IsFinal() << endl;
+    return 0;
 }
 
 

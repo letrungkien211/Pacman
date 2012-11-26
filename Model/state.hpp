@@ -11,13 +11,17 @@ class State{
 private:
     // Food matrix
     vector<int> food;
+    // Static wall matrix
+    vector<bool> wall;
     // Turn 
-    int turn;     
+//    int turn;     
     // Number of rows, cols
     int rows;
     int cols;
     // Number of food
     int numFood;    
+    // Score
+    int score;
     // Number of actions taken
     int numAction;
     // Pacman position
@@ -33,10 +37,9 @@ private:
 public:
     // Constructor
     State();
-    State(int rows, int cols. int food[]);
-
+    State(int rows, int cols, bool wall[], int food[]);
     // Initialization
-    void Initialize(int rows, int cols, int food[]); // Initilize
+    void Initialize(int rows, int cols, bool wall[], int food[]); // Initilize
 
     // Get next states
     State GetNextState(Action pacmanAction, const vector<Action> &ghostAction);
@@ -45,7 +48,8 @@ public:
 
     // Get legal actions
     vector<Action > GetLegalGhostAction(int ghostIndex) const;
-    vector<vector<Action> > GetLegalCombinedGhostAction(int ghostIndex = 0) const;
+    vector<vector<Action> > GetLegalCombinedGhostAction(int ghostIndex) const;
+    vector<vector<Action> > GetLegalCombinedGhostAction() const;
     vector<Action > GetLegalPacmanAction() const;
     
     // Check if legal actions
@@ -58,13 +62,18 @@ public:
     int &Food(int i, int j);
     int Food(Position pos) const;
     int &Food(Position pos);
-    int Turn() const;
+    bool Wall(int i, int j) const;
+    bool Wall(Position pos) const;
+    bool Wall(int i) const;
+//    int Turn() const;
     int NumFood() const;
     int NumAction() const;
-    Result IsFinal() const; // Check if the State is ended
+    Result IsFinal() const; 
+    int Rows() const;
+    int Cols() const;
     int Score() const;
     int NumGhost() const;
-    bool GhostScared(int ghostIndex) const;
+    int GhostScared(int ghostIndex) const;
     Position PacmanPosition() const;
     Position GhostPosition(int ghostIndex) const;
 };

@@ -9,9 +9,9 @@ using namespace std;
 
 class MinimaxAgent:public Utility{
 public:
-    double Evaluate(const State &state, int depth);
-    Action ChoosePacmanAction(const State &state, int depth);
-    vector<Action> ChooseCombinedGhostAction(const State &state, int depth);
+    double Evaluate(const State &state, int depth, int player);
+    Action ChoosePacmanAction(const State &state, int depth, double *v =NULL);
+    vector<Action> ChooseCombinedGhostAction(const State &state, int depth, double *v=NULL);
 };
 
 #endif

@@ -43,7 +43,7 @@ int main(int argc, char **argv){
 
     int cnt  = 0;
     while(state.IsFinal() == UNKOWN ){
-    	cout << " Current state: " <<cnt++ <<endl;
+    	cout << "Turn #" <<cnt++ <<endl;
     	cout << state <<endl;
     	double v;
     	vector<Action> combinedAction = minimax.ChooseCombinedGhostAction(state, 9,&v);
@@ -55,9 +55,7 @@ int main(int argc, char **argv){
 	}
 	while(!state.IsLegalPacmanAction(pacmanAction));
     	state.GetNextState(pacmanAction, combinedAction);
-    	cout << "Ghost Move: " << combinedAction<< endl;
-    	cout << "Min value: " << v <<endl;
-	getchar();
+    	cout << "Ghost Minimax Move: " << combinedAction<< endl;
     }
     cout << "Pacman " << state.IsFinal() << endl;
     

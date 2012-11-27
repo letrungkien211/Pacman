@@ -31,14 +31,14 @@ void Utility::PreCalculateMinDistance(State *state){
 	    minDistance[i][j] = 0;
 	}
     }
-    int cols = state->Cols();
+    //int cols = state->Cols();
     for(int i = 0; i <size-1; i++){
 	for(int j = i+1; j < size; j++){
 	    if(state->Wall(i) || state->Wall(j))
 		continue;
 	    minDistance[i][j] = minDistance[j][i] = PreCalculateMinDistance(state, i,j);
-	    printf("(%d,%d) -> (%d, %d) : %d\n", i/cols, i%cols, j/cols, j%cols
-		   ,minDistance[i][j]);
+	    //printf("(%d,%d) -> (%d, %d) : %d\n", i/cols, i%cols, j/cols, j%cols
+	    //,minDistance[i][j]);
 	}
     }
 }
@@ -49,7 +49,7 @@ int Utility::PreCalculateMinDistance(State *state, int start, int goal){
     astar.Type = ASTAR;
     Grid solution = astar(Grid(Position(start/cols, start%cols), "", state), 
 			  Grid(Position(goal/cols, goal%cols), "", state));
-    cout << solution.Path()<<endl;
+    //cout << solution.Path()<<endl;
     return solution.Path().length();
 }
 

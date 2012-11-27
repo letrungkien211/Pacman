@@ -1,10 +1,9 @@
-CC = g++
+CC = g++ -m32
 RM = rm -f
 
 CFLAGS = -Wall -g -O2
-LIBS = -lm -lglut -lGLU -lGL
+#LIBS = -lm -lglut -lGLU -lGL
 INCLUDES = -I/home/letrungkien7/Dropbox/git/8puzzle
-
 
 TARGET = model
 OBJ = state.o common.o minimaxAgent.o utility.o

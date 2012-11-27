@@ -60,6 +60,8 @@ int main(int argc, char **argv){
 	getchar();
     }
     cout << "Pacman " << state.IsFinal() << endl;
+    
+    state.Finalize();
     return 0;
 }
 

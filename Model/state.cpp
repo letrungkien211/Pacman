@@ -1,6 +1,7 @@
 #include "state.hpp"
 #include <cassert>
 #include <cstdio>
+#include <cstdlib>
 using namespace std;
 const Action ActionList[] ={UP, DOWN, LEFT, RIGHT, STOP};
 
@@ -115,7 +116,7 @@ Result State::IsFinal() const{
 	    return LOSE;
     }
 
-    if(numFood == 0)
+    if(!numFood || !NumGhost())
 	return WIN;
     return UNKOWN;
 }

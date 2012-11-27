@@ -62,5 +62,3 @@ int main(int argc, char **argv){
     state.Finalize();
     return 0;
 }
-
-

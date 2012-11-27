@@ -4,8 +4,8 @@ RM = rm -f
 CFLAGS = -Wall -g -O2
 LIBS = -lm -lglut -lGLU -lGL
 
-TARGET = model
-OBJ = game.o cell.o common.o minimaxAgent.o
+TARGET = main
+OBJ = view.o
 
 all: $(TARGET)
 

@@ -1,7 +1,7 @@
 #ifndef VIEW_HPP
 #define VIEW_HPP
 
-#include "../Model/game.hpp"
+#include "../Model/state.hpp"
 
 class WindowSize{
 public:
@@ -23,7 +23,7 @@ private:
     WindowSize winsize;
 public:
     View(const WindowSize &size);
-    void Draw(const Game& game);
+    void Draw(const State& state);
 };
 
 #endif

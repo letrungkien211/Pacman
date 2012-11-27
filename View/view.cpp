@@ -2,6 +2,9 @@
 #include <GL/glut.h>
 #include <cassert>
 
+#define WINDOW_WIDTH 500
+#define WINDOW_HEIGHT 500
+
 View::View(const WindowSize &winsize){
     this->winsize = winsize;
 }
@@ -58,9 +61,9 @@ public:
     }
 };
 
-void View::Draw(const Game&game){
-    int rows = game.Rows();
-    int cols = game.Cols();
+void View::Draw(const State&state){
+    int rows = state.Rows();
+    int cols = state.Cols();
     WindowSize blockSize(winsize.width/cols, winsize.height/rows);
     int blockSpacing = 1;
     
@@ -73,10 +76,10 @@ void View::Draw(const Game&game){
     glVertex3f(0,winsize.height,0);
     glEnd();
 
-    // Draw Game
+    // Draw State
     for(int i = 0; i<rows; i++){
 	for(int j = 0; j< cols; j++){
-	    if(game(i,j).IsWall()){
+	    if(state.Wall(i,j)){
 		Rectangle rect;
 		rect.left = j*(blockSize.width+blockSpacing)-blockSpacing;
 		rect.right = rect.left + blockSize.width;
@@ -84,18 +87,24 @@ void View::Draw(const Game&game){
 		rect.top = rect.bottom + blockSize.height;
 		rect.Draw(Vector3d(1,0,0));
 	    }
-	    else if(game(i,j).IsFood()){
+	    else if(state.Food(i,j)){
 		
 	    }
 	}
     }
 }
 
-
 void Display();
 void HandleKeyPress(unsigned char key, int x, int y);
 void Idle();
 void Update(int arg);
+
+void Display(){}
+void HandleKeyPress(unsigned char key, int x, int y){}
+void Idle(){}
+void Update(int arg){}
+
+void MyInit(){}
 
 
 int main(int argc, char **argv) {

@@ -44,7 +44,8 @@ Action MinimaxAgent::ChoosePacmanAction(const State&state, int depth, double *v)
 	    index = i;
 	}
     }
-    *v = max;
+    if(v) 
+	*v = max;
     return pacmanActions[index];
 }
 
@@ -64,6 +65,7 @@ vector<Action>  MinimaxAgent::ChooseCombinedGhostAction(const State&state, int d
 	    index = i;
 	}
     }
-    *v = min;
+    if(v) 
+	*v = min;
     return combinedGhostActions[index];
 }

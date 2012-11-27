@@ -111,9 +111,9 @@ double Utility::IsFinal(const State &state) const{
     }
 }
 
-double NumGhostKilled(const State &state) const{
+double Utility::NumGhostKilled(const State &state) const{
     double value = 0;
     for(int i = 0; i < state.NumGhost(); i++){
-	value += GhostKilled(i);
+    value += state.GhostKilled(i);
     }
 }

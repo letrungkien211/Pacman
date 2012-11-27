@@ -31,7 +31,7 @@ int main(int argc, char **argv){
     State state(9,18,initWall, initFood);
     MinimaxAgent minimax;
     
-    vector<double> coeff(4);
+    vector<double> coeff(NUMFEATURES);
     coeff[0] = 10;
     coeff[1] = 3;
     coeff[2] = -1;

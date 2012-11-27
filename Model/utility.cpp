@@ -7,7 +7,7 @@
 #include "grid.hpp"
 using namespace std;
 
-int NUMFEATURES = 5;
+
 
 Utility::Utility(){
     coeff.resize(NUMFEATURES);
@@ -108,5 +108,12 @@ double Utility::IsFinal(const State &state) const{
 	return -1;
     default:
 	return 0;
+    }
+}
+
+double NumGhostKilled(const State &state) const{
+    double value = 0;
+    for(int i = 0; i < state.NumGhost(); i++){
+	value += GhostKilled(i);
     }
 }

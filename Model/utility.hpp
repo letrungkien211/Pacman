@@ -8,6 +8,8 @@
 
 using namespace std;
 
+#define NUMFEATURES 5
+
 class Utility{
 private:
     vector<double> coeff;
@@ -26,5 +28,6 @@ public:
     double NumFood(const State &state) const;
     double GhostToGhostDistance(const State &state) const;
     double IsFinal(const State &state) const;
+    double NumGhostKilled(const State &state) const;
 };
 #endif

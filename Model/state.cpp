@@ -2,6 +2,7 @@
 #include <cassert>
 #include <cstdio>
 #include <cstdlib>
+#include <queue>
 using namespace std;
 const Action ActionList[] ={UP, DOWN, LEFT, RIGHT, STOP};
 
@@ -31,9 +32,11 @@ void State::Initialize(int rows, int cols, bool *wall, int *food)
     ghostScared[1] = false;
     
     // Init wall
-    this->wall = new bool[rows*cols];
-    for(int i = 0, size = rows* cols; i < size; i++)
-	this->wall[i] = wall[i];
+    // this->wall = new bool[rows*cols];
+    // for(int i = 0, size = rows* cols; i < size; i++)
+    // 	this->wall[i] = wall[i];
+
+    this->wall = wall;
 
     // Food
     for(int i = 0, size = rows* cols ; i <size; i++){
@@ -54,7 +57,7 @@ void State::Initialize(int rows, int cols, bool *wall, int *food)
 
 // Finalize the state
 void State::Finalize(){
-    delete wall;
+    //delete wall;
 }
 
 // Get next state
@@ -62,15 +65,15 @@ State State::GetNextState(Action pacmanAction, const vector<Action> &ghostAction
     GetNextState(pacmanAction);
     GetNextState(ghostAction);
 
-    for(int i = 0 ; i <NumGhost(); i++){
-	if(ghostScared[i] && !Position::Manhattan(pacmanPos, ghostPos[i])){
-	    getchar();
+    for(int i = NumGhost()-1 ; i >=0; i--){
+	if(GhostKilled(i)){
 	    ghostPos.erase(ghostPos.begin()+i);
 	    ghostScared.erase(ghostScared.begin()+i);
 	    previousGhostAction.erase(previousGhostAction.begin()+i);
 	    cout << "Kill a ghost!" <<endl;
 	}
     }
+
     return *this;
 }
 
@@ -271,6 +274,11 @@ int State::GhostScared(int ghostIndex) const{
     assert(ghostIndex<NumGhost());
     return ghostScared[ghostIndex];
 }
+
+bool State::GhostKilled(int ghostIndex) const{
+    return ghostScared[ghostIndex] && !Position::Manhattan(pacmanPos, ghostPos[ghostIndex]);
+}
+
 int State::Rows() const{
     return rows;
 }

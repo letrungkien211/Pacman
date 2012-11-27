@@ -66,6 +66,7 @@ public:
     int Cols() const;
     int NumGhost() const;
     int GhostScared(int ghostIndex) const;
+    bool GhostKilled(int ghostIndex) const;
     Position PacmanPosition() const;
     Position GhostPosition(int ghostIndex) const;
 };

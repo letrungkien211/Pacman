@@ -1,4 +1,4 @@
-CC = g++
+CC = g++ -m32
 RM = rm -f
 
 CFLAGS = -Wall -g -O2

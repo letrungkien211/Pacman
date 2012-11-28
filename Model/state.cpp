@@ -46,14 +46,14 @@ void State::Initialize(int rows, int cols, bool *wall, int *food)
     }
     // Ghost position
     ghostPos.resize(2);
-    ghostPos[0].row = 0;
-    ghostPos[0].col = 8;
-    ghostPos[1].row = 0;
-    ghostPos[1].col = 9;
+    ghostPos[0].row = 1;
+    ghostPos[0].col = 9;
+    ghostPos[1].row = 1;
+    ghostPos[1].col = 10;
     
     // Pacman postion
-    pacmanPos.row = 8;
-    pacmanPos.col = 8;
+    pacmanPos.row = 9;
+    pacmanPos.col = 9;
 }
 
 // Finalize the state
@@ -196,7 +196,7 @@ bool State::IsLegalPacmanAction(Action pacmanAction) const{
     return false;
 }
 
-// Check if an actions is legal for ghost[i]
+// Check if an acti<ons is legal for ghost[i]
 bool State::IsLegalGhostAction(Action ghostAction, int ghostIndex) const{
     if(IsOppositeAction(ghostAction, previousGhostAction[ghostIndex]) 
        || !ghostPos[ghostIndex].IsLegal(ghostAction, rows, cols)){
@@ -218,16 +218,19 @@ void State::MakeGhostScared(bool scared){
 	for(int i = 0; i < NumGhost(); i++){
 	    ghostScared[i] = true;
 	}
+	timer = 1;
     }
     else{
 	if(timer>SCARETIMOUT){
+	    timer = 0;
+	}
+	else if(timer>0){
+	    timer++;
+	}
+	else {
 	    for(int i = 0; i< NumGhost(); i++){
 		ghostScared[i] = false;
 	    }
-	    timer = 0;
-	}
-	else{
-	    timer++;
 	}
     }
 }
@@ -350,7 +353,7 @@ ostream & operator<<(ostream &os, const State& state){
     return os;
 }
 
-void glRectf(int left,int right, int top, int down){
+void glRectf(double left,double right, double top, double down){
     glBegin(GL_QUADS);
     glVertex2d(left, top);
     glVertex2d(left, down);
@@ -361,48 +364,61 @@ void glRectf(int left,int right, int top, int down){
 
 
 void DrawWall(int i, int j){
-    i = i- 4.5;
+    i = i- 4;
     j = j- 9;
     glColor3d(0,1,0);
-    glRectf(j,j+1,i,i+1);
+//    glRectf(j-0.5,j+0.5,i-0.5,i+0.5);
+    glPointSize(20);
+    glBegin(GL_POINTS);
+    glVertex2d(j,i);
+    glEnd();
 }
 
 void DrawFood(int i, int j){
-    i = i- 4.5;
+    i = i- 4;
     j = j- 9;
     glColor3d(1,0,0);
     glPointSize(5);
     glBegin(GL_POINTS);
-    glVertex2d(j+0.5,i+0.5);
+    glVertex2d(j,i);
     glEnd();
 
 }
 
 void DrawGhost(int i,int j){
-    i = i- 4.5;
+    i = i- 4;
     j = j- 9;
-    
+    glColor3d(1,0,1);
+    glRasterPos3d(j-0.25, i+0.25, 0);
+    glutBitmapCharacter (GLUT_BITMAP_HELVETICA_18, 'G');
+
 }
 
 void DrawScraredGhost(int i,int j){
-    i = i- 4.5;
+    i = i- 4;
     j = j- 9;
+
+    glColor3d(0.3,0,0.5);
+    glRasterPos3d(j-0.25, i-0.25, 0);
+    glutBitmapCharacter (GLUT_BITMAP_HELVETICA_18, 'S');
 
 }
 
 void DrawPacman(int i, int j){
-    i = i- 4.5;
+    i = i- 4;
     j = j- 9;
-
+    glColor3d(1,1,0);
+    glRasterPos3d(j-0.25, i+0.25, 0);
+    glutBitmapCharacter (GLUT_BITMAP_HELVETICA_18, 'P');
 }
 
 void DrawBigFood(int i, int j){
-    i = i- 4.5;
+    i = i- 4;
     j = j- 9;
     glColor3d(0,0,1);
     glPointSize(8);
     glBegin(GL_POINTS);
-    glVertex2d(j+0.5,i+0.5);
+    glVertex2d(j,i);
     glEnd();
 
 }

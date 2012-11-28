@@ -61,6 +61,7 @@ double Utility::Evaluate(const State & state){
     features[2] = NumFood(state);
     features[3] = GhostToGhostDistance(state);
     features[4] = IsFinal(state);
+    features[5] = NumGhostKilled(state);
     double value = 0;
     for(int i = 0, size = features.size(); i<size; i++){
 	value +=features[i]*coeff[i];
@@ -74,8 +75,12 @@ double Utility::PacmanToGhostDistance(const State &state) const{
     for(int i = 0; i <state.NumGhost(); i++){
 	int ghostIndex = state.GhostPosition(i).row*state.Cols() + state.GhostPosition(i).col;
 	double dis = minDistance[pacmanIndex][ghostIndex];
-	value+= state.GhostScared(i) ? -dis: dis;
+	if(state.GhostScared(i))
+	    value-=dis;
+	else
+	    value+=dis;
     }
+    cout << value <<endl;
     return value;
 }
 
@@ -114,6 +119,7 @@ double Utility::IsFinal(const State &state) const{
 double Utility::NumGhostKilled(const State &state) const{
     double value = 0;
     for(int i = 0; i < state.NumGhost(); i++){
-    value += state.GhostKilled(i);
+	value += state.GhostKilled(i);
     }
+    return value;
 }

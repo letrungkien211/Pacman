@@ -8,7 +8,7 @@
 
 using namespace std;
 
-#define NUMFEATURES 5
+#define NUMFEATURES 6
 
 class Utility{
 private:

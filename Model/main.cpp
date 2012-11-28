@@ -2,31 +2,34 @@
 #include <GL/glut.h>
 #include <cassert>
 
-int initFood[] ={10,1,1,1,0,1,1,1,1,1,1,1,1,0,1,1,1,1,
-		 1,0,0,1,1,1,0,0,0,0,0,0,1,1,1,0,0,1,
-		 1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,
-		 1,0,1,0,0,1,0,0,0,0,0,0,1,0,0,1,0,1,
-		 1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,
-		 1,0,1,0,0,1,0,0,0,0,0,0,1,0,0,1,0,1,
-		 1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,
-		 1,0,0,1,1,1,0,0,0,0,0,0,1,1,1,0,0,1,
-		 1,1,1,1,0,1,1,1,1,1,1,1,1,0,1,1,1,10};
+int initFood[] ={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		 0,10,1,1,1,0,1,1,1,1,1,1,1,1,0,1,1,1,1,0,
+		 0,1,0,0,1,1,1,0,0,0,0,0,0,1,1,1,0,0,1,0,
+		 0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,0,
+		 0,1,0,1,0,0,1,0,0,0,0,0,0,1,0,0,1,0,1,0,
+		 0,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,0,
+		 0,1,0,1,0,0,1,0,0,0,0,0,0,1,0,0,1,0,1,0,
+		 0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,0,
+		 0,1,0,0,1,1,1,0,0,0,0,0,0,1,1,1,0,0,1,0,
+		 0,1,1,1,1,0,1,1,1,1,1,1,1,1,0,1,1,1,10,0,
+		 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 		 
-bool initWall[] ={0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0, // 0
-		  0,1,1,0,1,0,1,1,1,1,1,1,0,1,0,1,1,0,  // 1
-		  0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0, 
-		  0,1,0,1,1,0,1,1,0,0,1,1,0,1,1,0,1,0, 
-		  0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0, // 5
-		  0,1,0,1,1,0,1,1,1,1,1,1,0,1,1,0,1,0, 
-		  0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0, 
-		  0,1,1,0,1,0,1,1,1,1,1,1,0,1,0,1,1,0,  // 1
-		  0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0};
+bool initWall[] ={1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+		  1,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,1, // 0
+		  1,0,1,1,0,1,0,1,1,1,1,1,1,0,1,0,1,1,0,1 , // 1
+		  1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1 ,
+		  1,0,1,0,1,1,0,1,1,0,0,1,1,0,1,1,0,1,0,1 ,
+		  1,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,1 ,
+		  1,0,1,0,1,1,0,1,1,1,1,1,1,0,1,1,0,1,0,1 ,
+		  1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1 ,
+		  1,0,1,1,0,1,0,1,1,1,1,1,1,0,1,0,1,1,0,1 ,
+		  1,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,1,
+		  1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
 
 
 // Global variables
 int  winWidth = 500;
 int  winHeight = 250;
-
 State state;
 MinimaxAgent minimax;
 vector<vector<Action> > combinedAction;
@@ -40,13 +43,14 @@ void MyInit();
 void InitGL();
 
 void MyInit(){
-    state.Initialize(9,18,initWall, initFood);
+    state.Initialize(11,20,initWall, initFood);
     vector<double> coeff(NUMFEATURES);
-    coeff[0] = 10;
-    coeff[1] = 3;
+    coeff[0] = 100;
+    coeff[1] = 0;
     coeff[2] = -1;
-    coeff[3] = -1;
-    coeff[4] = 1000;
+    coeff[3] = -2;
+    coeff[4] = INFINITY/2;
+    coeff[5] = 200;
     minimax.SetCoeff(coeff);
     minimax.PreCalculateMinDistance(&state);
     InitGL();
@@ -54,7 +58,8 @@ void MyInit(){
 
 void InitGL(){
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glClearColor(1.0,1.0,0,1);
+    glClearColor(1.0,1.0,1.0,1.0);
+
 }
 
 void Display(){
@@ -62,7 +67,6 @@ void Display(){
     glLoadIdentity();
     // Where to add the game draw
     cout << state <<endl;
-
 
     glPushMatrix();
     int min = std::min(winHeight, winWidth);
@@ -106,7 +110,7 @@ void HandleKeyPress(int key, int x, int y){
 	break;
     }
     if(valid && state.IsLegalPacmanAction(pacmanAction)){
-	vector<Action> combinedAction = minimax.ChooseCombinedGhostAction(state, 9);
+	vector<Action> combinedAction = minimax.ChooseCombinedGhostAction(state, 3);
     	state.GetNextState(pacmanAction, combinedAction);
     	cout << "Ghost Minimax Move: " << combinedAction<< endl;
 	glutPostRedisplay();

@@ -13,14 +13,14 @@ using namespace std;
 class Utility{
 protected:
     vector<double> coeff;
-    vector<vector<int> > minDistance;
+    vector<vector<string> > shortestPath;
 public:
     Utility();
     Utility(const vector<double> &coeff);
     void SetCoeff(const vector<double> &coeff);
 
     void PreCalculateMinDistance(State *state);
-    int PreCalculateMinDistance(State *state, int start, int goal);
+    string PreCalculateMinDistance(State *state, int start, int goal);
     double Evaluate(const State &state);
     // Features
     double PacmanToGhostDistance(const State &state) const;

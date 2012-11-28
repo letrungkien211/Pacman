@@ -24,11 +24,11 @@ void Utility::SetCoeff(const vector<double> &coeff){
 void Utility::PreCalculateMinDistance(State *state){
     int size = state->Rows()*state->Cols();
     vector<bool> marked;
-    minDistance.resize(size);
+    shortestPath.resize(size);
     for(int i = 0; i < size; i++){
-	minDistance[i].resize(size);
+	shortestPath[i].resize(size);
 	for(int j =0; j<size; j++){
-	    minDistance[i][j] = 0;
+	    shortestPath[i][j] = "";
 	}
     }
     //int cols = state->Cols();
@@ -36,21 +36,20 @@ void Utility::PreCalculateMinDistance(State *state){
 	for(int j = i+1; j < size; j++){
 	    if(state->Wall(i) || state->Wall(j))
 		continue;
-	    minDistance[i][j] = minDistance[j][i] = PreCalculateMinDistance(state, i,j);
+	    shortestPath[i][j] = shortestPath[j][i] = PreCalculateMinDistance(state, i,j);
 	    //printf("(%d,%d) -> (%d, %d) : %d\n", i/cols, i%cols, j/cols, j%cols
-	    //,minDistance[i][j]);
+	    //,shortestPath[i][j]);
 	}
     }
 }
 
-int Utility::PreCalculateMinDistance(State *state, int start, int goal){
+string Utility::PreCalculateMinDistance(State *state, int start, int goal){
     int cols = state->Cols();
     Gsearch<Grid, PQ<Grid, Grid::CompareByCost> > astar;
     astar.Type = ASTAR;
     Grid solution = astar(Grid(Position(start/cols, start%cols), "", state), 
 			  Grid(Position(goal/cols, goal%cols), "", state));
-    //cout << solution.Path()<<endl;
-    return solution.Path().length();
+    return solution.Path();
 }
 
 
@@ -75,7 +74,7 @@ double Utility::PacmanToGhostDistance(const State &state) const{
     int pacmanIndex = state.PacmanPosition().row*state.Cols() + state.PacmanPosition().col;
     for(int i = 0; i <state.NumGhost(); i++){
 	int ghostIndex = state.GhostPosition(i).row*state.Cols() + state.GhostPosition(i).col;
-	double dis = minDistance[pacmanIndex][ghostIndex];
+	double dis = shortestPath[pacmanIndex][ghostIndex].length();
 	if(state.GhostScared(i))
 	    value-=dis;
 	else
@@ -99,7 +98,7 @@ double Utility::GhostToGhostDistance(const State &state) const{
     int cols = state.Cols();
     for(int i = 0; i< num-1; i++){
 	for(int j = i+1; j< num; j++){
-	    int distance= minDistance[state.GhostPosition(i).ToIndex(cols)][state.GhostPosition(j).ToIndex(cols)];
+	    int distance= shortestPath[state.GhostPosition(i).ToIndex(cols)][state.GhostPosition(j).ToIndex(cols)].length();
 	    value+=distance+5;
 	} 
     }

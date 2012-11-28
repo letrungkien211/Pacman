@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <queue>
+#include <GL/glut.h>
 using namespace std;
 const Action ActionList[] ={UP, DOWN, LEFT, RIGHT, STOP};
 
@@ -221,7 +222,7 @@ void State::MakeGhostScared(bool scared){
     else{
 	if(timer>SCARETIMOUT){
 	    for(int i = 0; i< NumGhost(); i++){
-		    ghostScared[i] = false;
+		ghostScared[i] = false;
 	    }
 	    timer = 0;
 	}
@@ -347,5 +348,97 @@ ostream & operator<<(ostream &os, const State& state){
     cout << endl;
     
     return os;
+}
+
+void glRectf(int left,int right, int top, int down){
+    glBegin(GL_QUADS);
+    glVertex2d(left, top);
+    glVertex2d(left, down);
+    glVertex2d(right, down);
+    glVertex2d(right, top);
+    glEnd();
+}
+
+
+void DrawWall(int i, int j){
+    i = i- 4.5;
+    j = j- 9;
+    glColor3d(0,1,0);
+    glRectf(j,j+1,i,i+1);
+}
+
+void DrawFood(int i, int j){
+    i = i- 4.5;
+    j = j- 9;
+    glColor3d(1,0,0);
+    glPointSize(5);
+    glBegin(GL_POINTS);
+    glVertex2d(j+0.5,i+0.5);
+    glEnd();
+
+}
+
+void DrawGhost(int i,int j){
+    i = i- 4.5;
+    j = j- 9;
+    
+}
+
+void DrawScraredGhost(int i,int j){
+    i = i- 4.5;
+    j = j- 9;
+
+}
+
+void DrawPacman(int i, int j){
+    i = i- 4.5;
+    j = j- 9;
+
+}
+
+void DrawBigFood(int i, int j){
+    i = i- 4.5;
+    j = j- 9;
+    glColor3d(0,0,1);
+    glPointSize(8);
+    glBegin(GL_POINTS);
+    glVertex2d(j+0.5,i+0.5);
+    glEnd();
+
+}
+
+void GameDraw(const State& state){
+    if(state.IsFinal()==UNKOWN){
+	cout << state <<endl;
+    }
+    else{
+	cout << "Pacman: " << state.IsFinal() <<endl;
+    }
+
+    for(int i = 0, rows = state.Rows(); i <rows; i++){
+	for(int j = 0, cols = state.Cols(); j<cols; j++){
+	    if(state.Wall(i,j))
+		DrawWall(i,j);
+	    else {
+		if(state.PacmanPosition().Equal(i,j)){
+		    DrawPacman(i,j);
+		}
+		int k;
+		for(k = 0; k < state.NumGhost(); k++){
+		    if(state.GhostPosition(k).Equal(i,j)){
+			if(state.GhostScared(k))
+			    DrawScraredGhost(i,j);
+			else
+			    DrawGhost(i,j);
+			break;
+		    }
+		}
+		if(state.Food(i,j)==1)
+		    DrawFood(i,j);
+		else if(state.Food(i,j)==10)
+		    DrawBigFood(i,j);
+	    }
+	}
+    }
 }
 

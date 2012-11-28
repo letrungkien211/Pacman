@@ -72,4 +72,5 @@ public:
 };
 
 ostream & operator<<(ostream &os, const State& state);
+void GameDraw(const State& state);
 #endif

@@ -3,16 +3,16 @@
 #include <cassert>
 
 int initFood[] ={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		 0,10,1,1,1,0,1,1,1,1,1,1,1,1,0,1,1,1,1,0,
-		 0,1,0,0,1,1,1,0,0,0,0,0,0,1,1,1,0,0,1,0,
+		 0,1,1,1,1,0,1,1,1,1,1,1,1,1,0,1,1,1,1,0,
+		 0,1,0,0,1,0,1,0,0,0,0,0,0,1,0,1,0,0,1,0,
 		 0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,0,
 		 0,1,0,1,0,0,1,0,0,0,0,0,0,1,0,0,1,0,1,0,
 		 0,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,0,
 		 0,1,0,1,0,0,1,0,0,0,0,0,0,1,0,0,1,0,1,0,
 		 0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,0,
-		 0,1,0,0,1,1,1,0,0,0,0,0,0,1,1,1,0,0,1,0,
-		 0,1,1,1,1,0,1,1,1,1,1,1,1,1,0,1,1,1,10,0,
-		 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+		 0,1,0,0,1,0,1,0,0,0,0,0,0,1,0,1,0,0,1,0,
+		 0,1,1,1,1,0,1,1,1,1,1,1,1,1,0,1,1,1,1,0,
+		 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 		 
 bool initWall[] ={1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 		  1,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,1, // 0
@@ -38,7 +38,8 @@ Action pacmanAction;
 
 // Functions prototype
 void Display();
-void HandleKeyPress(unsigned char key, int x, int y);
+void HandleKeyPress(unsigned int key, int x, int y);
+void HandleSpecialKeyPress(unsigned char key, int x, int y);
 void MyInit();
 void InitGL();
 
@@ -47,10 +48,11 @@ void MyInit(){
     vector<double> coeff(NUMFEATURES);
     coeff[0] = 100;
     coeff[1] = 0;
-    coeff[2] = -1;
-    coeff[3] = -2;
+    coeff[2] = -10;
+    coeff[3] = -30;
     coeff[4] = INFINITY/2;
     coeff[5] = 200;
+    coeff[6] = 100;
     minimax.SetCoeff(coeff);
     minimax.PreCalculateMinDistance(&state);
     InitGL();
@@ -76,7 +78,7 @@ void Display(){
     glutSwapBuffers();
 }
 
-void resizeGL(int width, int height){
+void Reshape(int width, int height){
     glViewport(0,0,width, height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -87,7 +89,17 @@ void resizeGL(int width, int height){
     winHeight = height;
 }
 
-void HandleKeyPress(int key, int x, int y){
+void HandleKeyPress(unsigned char key, int x, int y){
+    switch(key){
+    case 27:
+	exit(-1);
+	break;
+    default:
+	break;
+    }
+}
+
+void HandleSpecialKeyPress(int key, int x, int y){
     if(state.IsFinal()!=UNKOWN)
 	return;
     bool valid = true; 
@@ -110,7 +122,7 @@ void HandleKeyPress(int key, int x, int y){
 	break;
     }
     if(valid && state.IsLegalPacmanAction(pacmanAction)){
-	vector<Action> combinedAction = minimax.ChooseCombinedGhostAction(state, 3);
+	vector<Action> combinedAction = minimax.ChooseCombinedGhostAction(state, 9);
     	state.GetNextState(pacmanAction, combinedAction);
     	cout << "Ghost Minimax Move: " << combinedAction<< endl;
 	glutPostRedisplay();
@@ -134,12 +146,13 @@ int main(int argc, char **argv) {
     glutInitDisplayMode    ( GLUT_DOUBLE | GLUT_RGB );
     glutInitWindowSize     ( winWidth+100, winHeight+100 );    
     glutInitWindowPosition ( 50, 50 ); 
-    glutCreateWindow       ( "AI's Pacman & Ghost" );
+    glutCreateWindow       ( "Minimax Ghost" );
 
     MyInit ();  // initialization
 
     glutDisplayFunc ( Display );  // display
-    glutSpecialFunc(HandleKeyPress);
-    glutReshapeFunc(resizeGL);
+    glutSpecialFunc(HandleSpecialKeyPress);
+    glutKeyboardFunc(HandleKeyPress);
+    glutReshapeFunc(Reshape);
     glutMainLoop ( );
 }

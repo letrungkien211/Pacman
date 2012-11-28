@@ -43,6 +43,10 @@ void State::Initialize(int rows, int cols, bool *wall, int *food)
     for(int i = 0, size = rows* cols ; i <size; i++){
 	this->food[i] = food[i];
 	numFood += food[i];
+	if(wall[i] && food[i])
+	    cout << "Wrong input: " << i <<endl;
+	assert(!wall[i] || !food[i]);
+	
     }
     // Ghost position
     ghostPos.resize(2);
@@ -218,19 +222,17 @@ void State::MakeGhostScared(bool scared){
 	for(int i = 0; i < NumGhost(); i++){
 	    ghostScared[i] = true;
 	}
-	timer = 1;
+	timer = 0;
     }
     else{
 	if(timer>SCARETIMOUT){
-	    timer = 0;
-	}
-	else if(timer>0){
-	    timer++;
-	}
-	else {
 	    for(int i = 0; i< NumGhost(); i++){
 		ghostScared[i] = false;
 	    }
+	    timer = 0;
+	}
+	else {
+	    timer++;
 	}
     }
 }
@@ -303,6 +305,10 @@ Position State::GhostPosition(int ghostIndex) const{
     return ghostPos[ghostIndex];
 }
 
+Action State::PreviousGhostAction(int ghostIndex) const{
+    return previousGhostAction[ghostIndex];
+}
+
 /*****************************************************************************/
 
 ostream & operator<<(ostream &os, const State& state){
@@ -367,11 +373,11 @@ void DrawWall(int i, int j){
     i = i- 4;
     j = j- 9;
     glColor3d(0,1,0);
-//    glRectf(j-0.5,j+0.5,i-0.5,i+0.5);
-    glPointSize(20);
-    glBegin(GL_POINTS);
-    glVertex2d(j,i);
-    glEnd();
+    glRectf(j-0.5,j+0.5,i-0.5,i+0.5);
+    // glPointSize(20);
+    // glBegin(GL_POINTS);
+    // glVertex2d(j,i);
+    // glEnd();
 }
 
 void DrawFood(int i, int j){
@@ -399,7 +405,7 @@ void DrawScraredGhost(int i,int j){
     j = j- 9;
 
     glColor3d(0.3,0,0.5);
-    glRasterPos3d(j-0.25, i-0.25, 0);
+    glRasterPos2d(j-0.25, i-0.25);
     glutBitmapCharacter (GLUT_BITMAP_HELVETICA_18, 'S');
 
 }
@@ -407,9 +413,8 @@ void DrawScraredGhost(int i,int j){
 void DrawPacman(int i, int j){
     i = i- 4;
     j = j- 9;
-    glColor3d(1,1,0);
-    glRasterPos3d(j-0.25, i+0.25, 0);
-    glutBitmapCharacter (GLUT_BITMAP_HELVETICA_18, 'P');
+    glColor3d(0,0,1);
+    glRectf(j-0.2, j+0.2, i-0.2,i+0.2);
 }
 
 void DrawBigFood(int i, int j){

@@ -69,6 +69,7 @@ public:
     bool GhostKilled(int ghostIndex) const;
     Position PacmanPosition() const;
     Position GhostPosition(int ghostIndex) const;
+    Action PreviousGhostAction(int ghostIndex) const;
 };
 
 ostream & operator<<(ostream &os, const State& state);

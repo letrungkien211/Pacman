@@ -1,11 +1,11 @@
 #ifndef ALPHABETAAGENT_HPP
 #define ALPHABETAAGENT_HPP
 
-class AlphaBetaAgent{
-private:
+#include "minimaxAgent.hpp"
 
+class AlphaBetaAgent:public MinimaxAgent{
 public:
-
+    virtual double Evaluate(const State &state, int depth, int player);
 };
 
 #endif

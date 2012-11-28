@@ -8,10 +8,10 @@
 
 using namespace std;
 
-#define NUMFEATURES 6
+#define NUMFEATURES 7
 
 class Utility{
-private:
+protected:
     vector<double> coeff;
     vector<vector<int> > minDistance;
 public:
@@ -29,5 +29,6 @@ public:
     double GhostToGhostDistance(const State &state) const;
     double IsFinal(const State &state) const;
     double NumGhostKilled(const State &state) const;
+    double GhostDirection(const State&state) const;
 };
 #endif

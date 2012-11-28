@@ -62,6 +62,7 @@ double Utility::Evaluate(const State & state){
     features[3] = GhostToGhostDistance(state);
     features[4] = IsFinal(state);
     features[5] = NumGhostKilled(state);
+    features[6] = GhostDirection(state);
     double value = 0;
     for(int i = 0, size = features.size(); i<size; i++){
 	value +=features[i]*coeff[i];
@@ -80,7 +81,7 @@ double Utility::PacmanToGhostDistance(const State &state) const{
 	else
 	    value+=dis;
     }
-    cout << value <<endl;
+//    cout << value <<endl;
     return value;
 }
 
@@ -99,9 +100,11 @@ double Utility::GhostToGhostDistance(const State &state) const{
     for(int i = 0; i< num-1; i++){
 	for(int j = i+1; j< num; j++){
 	    int distance= minDistance[state.GhostPosition(i).ToIndex(cols)][state.GhostPosition(j).ToIndex(cols)];
-	    value+=distance;
+	    value+=distance+5;
 	} 
     }
+    if(value<=6)
+	value = 1;
     return value;
 }
 
@@ -120,6 +123,19 @@ double Utility::NumGhostKilled(const State &state) const{
     double value = 0;
     for(int i = 0; i < state.NumGhost(); i++){
 	value += state.GhostKilled(i);
+    }
+    return value;
+}
+double Utility::GhostDirection(const State&state) const{
+    double value = 0;
+    int numGhost = state.NumGhost();
+    for(int i = 0; i < numGhost-1; i++){
+	for(int j = i+1; j<numGhost; j++){
+	    if((state.GhostPosition(i).row == state.GhostPosition(j).row ||
+		state.GhostPosition(i).col == state.GhostPosition(j).col) &&
+	       state.PreviousGhostAction(i) == state.PreviousGhostAction(j))
+		value++;
+	}
     }
     return value;
 }

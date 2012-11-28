@@ -1,9 +1,1 @@
-Pacman
-=======
-
-Pacman Project
-Minimax
-AlphaBeta
-Reinforcement Learning
-Neural Network
-Genetic Algorithm
+Only works on Ubuntu 64bit.

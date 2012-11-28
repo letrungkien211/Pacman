@@ -1,13 +1,18 @@
-SUBDIRS = Model
+CC = g++
+RM = rm -f
 
-all: subdirs
+CFLAGS = -Wall -g -O2
+INCLUDES = -I/home/letrungkien7/Dropbox/git/8puzzle
+LIBS = -lm -lglut -lGL -lGLU
 
-subdirs:
-	for dir in $(SUBDIRS); do \
-	$(MAKE) -C $$dir; \
-	done;
+TARGET = main
+OBJ = state.o common.o minimaxAgent.o utility.o
 
+all: $(TARGET)
+
+$(TARGET): % : $(OBJ) %.o
+	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
+.cpp.o:
+	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
 clean:
-	for dir in $(SUBDIRS); do \
-	$(MAKE) clean -C $$dir; \
-	done
+	$(RM) *.o $(TARGET) *~ *#*

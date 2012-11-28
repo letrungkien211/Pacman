@@ -1,1 +1,0 @@
-Only works on Ubuntu 64bit.

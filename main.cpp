@@ -40,19 +40,19 @@ Action pacmanAction;
 void Display();
 void HandleKeyPress(unsigned int key, int x, int y);
 void HandleSpecialKeyPress(unsigned char key, int x, int y);
-void MyInit();
+void MyInit(int argc, char*argv[]);
 void InitGL();
 
-void MyInit(){
+void MyInit(int argc, char*argv[]){
     state.Initialize(11,20,initWall, initFood);
     vector<double> coeff(NUMFEATURES);
-    coeff[0] = 100;
+    coeff[0] = atoi(argv[1]);
     coeff[1] = 0;
-    coeff[2] = -10;
-    coeff[3] = -30;
+    coeff[2] = 0;
+    coeff[3] = atoi(argv[2]);
     coeff[4] = INFINITY/2;
-    coeff[5] = 200;
-    coeff[6] = 100;
+    coeff[5] = 0;
+    coeff[6] = 0;
     minimax.SetCoeff(coeff);
     minimax.PreCalculateMinDistance(&state);
     InitGL();
@@ -148,7 +148,7 @@ int main(int argc, char **argv) {
     glutInitWindowPosition ( 50, 50 ); 
     glutCreateWindow       ( "Minimax Ghost" );
 
-    MyInit ();  // initialization
+    MyInit (argc, argv);  // initialization
 
     glutDisplayFunc ( Display );  // display
     glutSpecialFunc(HandleSpecialKeyPress);

@@ -1,5 +1,4 @@
 #include "utility.hpp"
-
 #include <vector>
 #include <iostream>
 #include <cstdio>
@@ -71,16 +70,29 @@ double Utility::Evaluate(const State & state){
 
 double Utility::PacmanToGhostDistance(const State &state) const{
     double value = 0;
-    int pacmanIndex = state.PacmanPosition().row*state.Cols() + state.PacmanPosition().col;
-    for(int i = 0; i <state.NumGhost(); i++){
-	int ghostIndex = state.GhostPosition(i).row*state.Cols() + state.GhostPosition(i).col;
+    int cols = state.Cols();
+    int numGhost = state.NumGhost();
+    int pacmanIndex = state.PacmanPosition().ToIndex(cols);
+    for(int i = 0; i <numGhost; i++){
+	int ghostIndex = state.GhostPosition(i).ToIndex(cols);
+	string path = shortestPath[pacmanIndex][ghostIndex];
+	int j = 0;
+	for(; j <numGhost; j++){
+	    if(i==j)
+		continue;
+	    if(path.find(
+		   shortestPath[pacmanIndex][state.GhostPosition(j).ToIndex(cols)])!=string::npos)
+		break;
+	}
 	double dis = shortestPath[pacmanIndex][ghostIndex].length();
-	if(state.GhostScared(i))
-	    value-=dis;
-	else
-	    value+=dis;
+	if(j==numGhost){
+	    if(state.GhostScared(i))
+		value-=dis;
+	    else
+		value+= dis;
+	}
     }
-//    cout << value <<endl;
+    cout <<"PAcman to Ghost Distance: " <<value <<endl;
     return value;
 }
 
@@ -99,11 +111,12 @@ double Utility::GhostToGhostDistance(const State &state) const{
     for(int i = 0; i< num-1; i++){
 	for(int j = i+1; j< num; j++){
 	    int distance= shortestPath[state.GhostPosition(i).ToIndex(cols)][state.GhostPosition(j).ToIndex(cols)].length();
-	    value+=distance+5;
+	    if(distance<4){
+		value+=distance;
+		cout <<" VAKUE : " <<value <<endl;
+	    }
 	} 
     }
-    if(value<=6)
-	value = 1;
     return value;
 }
 
@@ -130,10 +143,7 @@ double Utility::GhostDirection(const State&state) const{
     int numGhost = state.NumGhost();
     for(int i = 0; i < numGhost-1; i++){
 	for(int j = i+1; j<numGhost; j++){
-	    if((state.GhostPosition(i).row == state.GhostPosition(j).row ||
-		state.GhostPosition(i).col == state.GhostPosition(j).col) &&
-	       state.PreviousGhostAction(i) == state.PreviousGhostAction(j))
-		value++;
+
 	}
     }
     return value;

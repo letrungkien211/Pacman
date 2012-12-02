@@ -132,11 +132,142 @@ Evaluation function is the one that decides Minimax or Alphabeta pruning algorit
 \end{itemize}
 At first, I used Manhattan distances as features and quickly recognized that they are not suitable for Pacman game because not every grids pair is connected. Therefore, I chose the latter two, which are the real distances between two grids. In order to do this, I used \textbf{A*} algorithm to calculate all the shortest between all possible pairs of grids in advanced. The interesting point is I was able to utilize the same Gsearch class I wrote for 8-15 puzzle in previous report. It emphasizes the reusablity of my code. \\
 Many references suggest that the evaluating result should be a linear combination of features. However, by doing so, we also ignore all dependency among features. That is not a good idea. Finally, I came up with the following evaluation functions: 
-\[\] 
+\[ v = c_1*f_1+c_2*f_2+c_3*f_1*f_2\]
+In which, $f_1$ is the total distance between Pacman and the two ghosts, and $f_2$ is the distance between two ghosts. Very few features here, but it turns out to be very powerful. The effect of this function will be discussed in the next section. \\
+The actual implementation looks like this:
+\begin{lstlisting}
+    if(features[0] <=6  && features[1]==1){
+     	value += 100;
+    }
+    if(features[1] == 0)
+	value += 100;
+    value += coeff[0]*features[0] + coeff[1]*features[1]+coeff[2]*features[0]*features[1];
+\end{lstlisting}
+You can see there are two if clauses here. Because when Pacman is very close to Ghosts, the ghosts do not want to be next to each other. If they do so, they can not attack Pacman from different directions. Moreover, the two ghosts should never overlap each other. Therefore in those cases, I added an quite heavy weight to evaluation function. 
 \section{Experiments}
+\subsection{Execution}
+Please visit \url{https://www.youtube.com/watch?v=9TLatwHJ27E} to see numerous experiments I have done to test the algorithm with graphics user interface. I also ask some of my friends to play Pacman role, and they all lost to the Ghosts. Please give it a try if you have time. \\
+An example of running my application in command line. Press \textbf{'r'} to reset the game.
+\begin{center} ./main algorithm depth $c_1$ $c_2$ $c_3$ \end{center}
+\begin{table}[ht]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+& algorithm & depth & $c_1$ & $c_2$ & $c_3$ \\ \hline
+description & minimax or alphabeta & depth bound&1st coeff & 2nd coeff &3rd coeff \\ \hline
+default & a & 12 & 10 & -5 & 5 \\
+\hline
+\end{tabular}
+\end{table}
+\begin{verbatim}
+@:~/Dropbox/git/Pacman$ make
+g++ -Wall -g -O2 -c -o state.o state.cpp
+g++ -Wall -g -O2 -c -o common.o common.cpp
+g++ -Wall -g -O2 -c -o minimaxAgent.o minimaxAgent.cpp
+g++ -Wall -g -O2 -c -o utility.o utility.cpp
+g++ -Wall -g -O2 -c -o alphabetaAgent.o alphabetaAgent.cpp
+g++ -Wall -g -O2 -c -o main.o main.cpp
+g++ -Wall -g -O2 -o main state.o common.o minimaxAgent.o utility.o alphabetaAgent.o main.o -lglut -lGL -lGLU
+@:~/Dropbox/git/Pacman$ ./main a 12 10 -5 5
+XXXXXXXXXXXXXXXXXXXX
+X----X---GG---X----X
+X-XX-X-XXXXXX-X-XX-X
+X-X--------------X-X
+X-X-XX-XX  XX-XX-X-X
+X------X    X------X
+X-X-XX-XXXXXX-XX-X-X
+X-X--------------X-X
+X-XX-X-XXXXXX-X-XX-X
+X----X---P----X----X
+XXXXXXXXXXXXXXXXXXXX
+Number of food left: 100
+
+Number of Evaluate: 10247
+Minvalue: 250
+Ghost Minimax Move: (L, R, )
+XXXXXXXXXXXXXXXXXXXX
+X----X--G--G--X----X
+X-XX-X-XXXXXX-X-XX-X
+X-X--------------X-X
+X-X-XX-XX  XX-XX-X-X
+X------X    X------X
+X-X-XX-XXXXXX-XX-X-X
+X-X--------------X-X
+X-XX-X-XXXXXX-X-XX-X
+X----X----P---X----X
+XXXXXXXXXXXXXXXXXXXX
+Number of food left: 99
+
+.........................................................
+
+Number of Evaluate: 1817
+Minvalue: 140
+Ghost Minimax Move: (L, L, )
+XXXXXXXXXXXXXXXXXXXX
+X----X--------X----X
+X-XX-X-XXXXXX-X-XX-X
+X-X----G---------X-X
+X-X-XX-XX  XX-XX-X-X
+X------X    X------X
+X-X-XXPXXXXXX-XX-X-X
+X-X---  G     ---X-X
+X-XX-X-XXXXXX X-XX-X
+X----X----    X----X
+XXXXXXXXXXXXXXXXXXXX
+Number of food left: 86
+
+Number of Evaluate: 1499
+Minvalue: 70
+Ghost Minimax Move: (L, L, )
+XXXXXXXXXXXXXXXXXXXX
+X----X--------X----X
+X-XX-X-XXXXXX-X-XX-X
+X-X---G----------X-X
+X-X-XX-XX  XX-XX-X-X
+X-----PX    X------X
+X-X-XX XXXXXX-XX-X-X
+X-X--- G      ---X-X
+X-XX-X-XXXXXX X-XX-X
+X----X----    X----X
+XXXXXXXXXXXXXXXXXXXX
+Number of food left: 85
+
+Number of Evaluate: 2266
+Minvalue: -1e+06
+Ghost Minimax Move: (D, L, )
+Pacman: LOSE
+\end{verbatim}
+
+\subsection{Minimax vs Alphabeta Pruning}
+The following table shows some comparision between Minimax and Alphabeta Pruning interm of number of evaluated nodes. The depth here is 12
+\begin{table}[ht]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+Pacman Move & Ghost Moves & Minimax & Alphabeta Pruning \\ \hline
+r           & l,r         & 5824    & 1936              \\ \hline
+r           & l,r         & 5299    & 1554              \\ \hline
+r           & l,r         & 10514   & 1478              \\ \hline
+r           & d,d         & 22021   & 2182              \\ \hline
+u           & d,d         & 61080   & 1855              \\ \hline
+u           & r,d         & 286179  & 20064             \\ \hline
+r           & r,d         & 49025   & 1119              \\ \hline
+r           & r,d         & 109956  & 3288              \\ \hline
+r           & r,d         & 66916   & 5059              \\ \hline
+u           & r,r         & 66804   & 9269              \\ \hline 
+u           & r,r         & 17848   & 2193              \\ \hline
+l           & r,r         & 13621   & 1660              \\ \hline
+l           & d,u         & 17056   & 1673              \\ 
+\hline
+\end{tabular}
+\end{table}
+
+Clearly Alphabeta pruning is much more efficient than Minimax. 
 
 \section{Discussion}
-
+Firstly, I want to talk about the Evaluation function. As mentioned above, this function is the most important aspect of Minimax and Alphabeta pruning algorithm. In a limited time, I think I considered a very simple version of it. In order to optimize the Evaluation function, we can add more features to it, and try to combine features in more sophisticated way such as Neural Network. I think it is possible to combine Neural Network and Genetic Algorithm to find the optimal evaluation function to this problem. That is maybe the theme for my next report. \\
+Secondly, Alphabeta pruning is much more efficient than Minimax algorithm. In real applications, probably minimax will never be used. The game now is a deterministic one, however, if uncertainty is taken into account, we have an other algorithm called Expectimax. In this case, opponents do not always take their best moves, they sometimes take other moves which produce different outcomes. \\
+This is currently the most interesting report I have done so far. AI ghosts look very cool. I think the current version makes ghosts quite strong opponents for Pacman, still, it has flaws. I will continue developing the project even after submitting this report. My next target will be making a strong AI version of Pacman.
 \begin{thebibliography}{9}
 \bibitem{AIMA}
   \label{itm:AIMA}

@@ -62,13 +62,13 @@ double Utility::Evaluate(const State & state){
 
     if(features[2])
 	return INFINITY*features[2];
-    
-    if(features[0] == 3 && features[1]==1){
-	value += coeff[0]*coeff[0];
+    if(features[0] <6  && features[1]==1){
+     	value += 100;
     }
-    
-    value += coeff[0]*features[0] + coeff[1]*features[1]+coeff[2]*features[0]*features[1]
-	+coeff[3]*features[3];
+    if(features[1] == 0)
+	value += 100;
+    value += coeff[0]*features[0] + coeff[1]*features[1]+coeff[2]*features[0]*features[1];
+
     return value;
 }
 

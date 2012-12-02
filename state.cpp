@@ -354,11 +354,7 @@ ostream & operator<<(ostream &os, const State& state){
 	cout <<endl;
     }
     cout << "Number of food left: " << state.NumFood() <<endl;
-    cout << "GhostScared: ";
-    for(int i = 0; i <state.NumGhost(); i++)
-	cout <<state.GhostScared(i) <<" ";
     cout << endl;
-    
     return os;
 }
 

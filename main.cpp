@@ -79,7 +79,6 @@ void MyInit(int argc, char*argv[]){
     coeff[3] = 0;
     coeff[4] = 0;
     coeff[5] = 0;
-    cout <<"ARGC: " <<argc<<endl;
     minimax->SetCoeff(coeff);
     minimax->PreCalculateMinDistance(&state);
     InitGL();
@@ -93,8 +92,6 @@ void InitGL(){
 void Display(){
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
-    // Where to add the game draw
-    cout << state <<endl;
     glPushMatrix();
     int min = std::min(winHeight, winWidth);
     glScalef(min/15,-min/15,1);

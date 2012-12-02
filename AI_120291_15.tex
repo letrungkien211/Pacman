@@ -52,7 +52,7 @@
 
 %%% End listing
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{document}
 \title{Artificial Intelligence Report 5th Week-15th Problem}
 \author{Le Trung Kien\\ 
@@ -68,11 +68,24 @@
 \item I originally wanted to spend more time on this project, but finally I decided to finish it on time. 
 \item Fully tested on Ubuntu 32/64 bit and Macbook with Opengl library installed.
 \item Opengl library is installed by default on Mac, and it can be installed on Ubuntu by typing the following line in terminal: 
-\begin{center} \$ sudo apt-get install mesa-common-dev \end{center}
+  \begin{center} \$ sudo apt-get install mesa-common-dev \end{center}
+\item Please contact me if you cannot compile the source codes. Thanks
+\item Source codes: 
+
+  \begin{itemize}
+  \item \textbf{state.hpp, state.cpp}: Represent the game state 
+  \item \textbf{alphabetaAgent.hpp, alphabetaAgent.cpp}: Alphabeta agent 
+  \item \textbf{minimaxAgent.hpp, minimaxAgent.cpp}: Minimax agent 
+  \item \textbf{grid.hpp,grid.cpp}: Use to calculate shortest path between two grids
+  \item \textbf{utility.hpp, utility.cpp}: Evaluate states
+  \item \textbf{gsearch.hpp, mystl.hpp}: Template class for A*, DFS, BFS
+  \end{itemize}
+\item In current report, I will not go too much in details about the source codes like I did in previous reports. Hopefully the above short description would be enough to understand to basic structure of my implementation.
 \end{itemize}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
+\newpage
 \section{Pacman}
 
 Pacman is classic game which was very popular in the 1980's. It is also a good benchmark to implement AI's algorithms, especially good for testing adversarial search algorithms. The original game's rules are quite complicated, and due to the time constraint, I will present its simpler version in this report:
@@ -128,7 +141,7 @@ Evaluation function is the one that decides Minimax or Alphabeta pruning algorit
 \item{-} Ghosts to ghosts Manhattan distances: Ghosts should not be too far and too close to each other. If they are separated, they will not be able to combine to kill Pacman. If they are too close, they become one Ghost and which is an advantage for Pacman.
 \item{+} Pacman to ghosts graph distances:
 \item{-} Ghosts to ghosts graph distances \\
-+ means the bigger the better for MAX, while - means the smaller the better for MIN
+  + means the bigger the better for MAX, while - means the smaller the better for MIN
 \end{itemize}
 At first, I used Manhattan distances as features and quickly recognized that they are not suitable for Pacman game because not every grids pair is connected. Therefore, I chose the latter two, which are the real distances between two grids. In order to do this, I used \textbf{A*} algorithm to calculate all the shortest between all possible pairs of grids in advanced. The interesting point is I was able to utilize the same Gsearch class I wrote for 8-15 puzzle in previous report. It emphasizes the reusablity of my code. \\
 Many references suggest that the evaluating result should be a linear combination of features. However, by doing so, we also ignore all dependency among features. That is not a good idea. Finally, I came up with the following evaluation functions: 
@@ -150,14 +163,14 @@ Please visit \url{https://www.youtube.com/watch?v=9TLatwHJ27E} to see numerous e
 An example of running my application in command line. Press \textbf{'r'} to reset the game.
 \begin{center} ./main algorithm depth $c_1$ $c_2$ $c_3$ \end{center}
 \begin{table}[ht]
-\centering
-\begin{tabular}{|c|c|c|c|c|c|}
-\hline
-& algorithm & depth & $c_1$ & $c_2$ & $c_3$ \\ \hline
-description & minimax or alphabeta & depth bound&1st coeff & 2nd coeff &3rd coeff \\ \hline
-default & a & 12 & 10 & -5 & 5 \\
-\hline
-\end{tabular}
+  \centering
+  \begin{tabular}{|c|c|c|c|c|c|}
+    \hline
+    & algorithm & depth & $c_1$ & $c_2$ & $c_3$ \\ \hline
+    description & minimax or alphabeta & depth bound&1st coeff & 2nd coeff &3rd coeff \\ \hline
+    default & a & 12 & 10 & -5 & 5 \\
+    \hline
+  \end{tabular}
 \end{table}
 \begin{verbatim}
 @:~/Dropbox/git/Pacman$ make
@@ -241,25 +254,25 @@ Pacman: LOSE
 \subsection{Minimax vs Alphabeta Pruning}
 The following table shows some comparision between Minimax and Alphabeta Pruning interm of number of evaluated nodes. The depth here is 12
 \begin{table}[ht]
-\centering
-\begin{tabular}{|c|c|c|c|}
-\hline
-Pacman Move & Ghost Moves & Minimax & Alphabeta Pruning \\ \hline
-r           & l,r         & 5824    & 1936              \\ \hline
-r           & l,r         & 5299    & 1554              \\ \hline
-r           & l,r         & 10514   & 1478              \\ \hline
-r           & d,d         & 22021   & 2182              \\ \hline
-u           & d,d         & 61080   & 1855              \\ \hline
-u           & r,d         & 286179  & 20064             \\ \hline
-r           & r,d         & 49025   & 1119              \\ \hline
-r           & r,d         & 109956  & 3288              \\ \hline
-r           & r,d         & 66916   & 5059              \\ \hline
-u           & r,r         & 66804   & 9269              \\ \hline 
-u           & r,r         & 17848   & 2193              \\ \hline
-l           & r,r         & 13621   & 1660              \\ \hline
-l           & d,u         & 17056   & 1673              \\ 
-\hline
-\end{tabular}
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    Pacman Move & Ghost Moves & Minimax & Alphabeta Pruning \\ \hline
+    r           & l,r         & 5824    & 1936              \\ \hline
+    r           & l,r         & 5299    & 1554              \\ \hline
+    r           & l,r         & 10514   & 1478              \\ \hline
+    r           & d,d         & 22021   & 2182              \\ \hline
+    u           & d,d         & 61080   & 1855              \\ \hline
+    u           & r,d         & 286179  & 20064             \\ \hline
+    r           & r,d         & 49025   & 1119              \\ \hline
+    r           & r,d         & 109956  & 3288              \\ \hline
+    r           & r,d         & 66916   & 5059              \\ \hline
+    u           & r,r         & 66804   & 9269              \\ \hline 
+    u           & r,r         & 17848   & 2193              \\ \hline
+    l           & r,r         & 13621   & 1660              \\ \hline
+    l           & d,u         & 17056   & 1673              \\ 
+    \hline
+  \end{tabular}
 \end{table}
 
 Clearly Alphabeta pruning is much more efficient than Minimax. 
@@ -295,4 +308,4 @@ This is currently the most interesting report I have done so far. AI ghosts look
 
 \end{thebibliography}
 \end{document}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 

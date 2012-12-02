@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.11.1)  2 DEC 2012 23:25
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.11.1)  2 DEC 2012 23:41
 entering extended mode
  %&-line parsing enabled.
 **AI_120291_15.tex
@@ -336,75 +336,81 @@ File: omsppl.fd
 )
 LaTeX Font Info:    Font shape `OMS/ppl/m/n' in size <10.95> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 68.
+LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <10.95> not available
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 76.
 
-<field1-start.png, id=39, 463.7325pt x 255.95625pt>
+[1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+<field1-start.png, id=48, 463.7325pt x 255.95625pt>
 File: field1-start.png Graphic file (type png)
  <use field1-start.png>
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 87.
+(Font)              <10.95> on input line 100.
 
-Overfull \hbox (2.73734pt too wide) in paragraph at lines 92--93
+Overfull \hbox (2.73734pt too wide) in paragraph at lines 105--106
 []\OT1/ppl/m/n/10.95 Turn-taking game: Pac-man first, then ghosts. Even though 
 it looks like Pac-man and Ghost simunta-
  []
 
-[1
-
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./field1-start.png (PNG co
-py)>]
-LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <10.95> not available
-(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 97.
 LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 102.
-LaTeX Font Info:    Try loading font information for OML+ppl on input line 106.
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 115.
+[2 <./field1-start.png (PNG copy)>]
+LaTeX Font Info:    Try loading font information for OML+ppl on input line 119.
 
- (/usr/share/texmf-texlive/tex/latex/psnfss/omlppl.fd
+
+(/usr/share/texmf-texlive/tex/latex/psnfss/omlppl.fd
 File: omlppl.fd 
 )
 LaTeX Font Info:    Font shape `OML/ppl/m/n' in size <9> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 106.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 119.
 LaTeX Font Info:    Font shape `OMS/ppl/m/n' in size <9> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 106.
- [2]
-Overfull \hbox (6.96274pt too wide) in paragraph at lines 125--126
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 119.
+
+Overfull \hbox (6.96274pt too wide) in paragraph at lines 138--139
 \OT1/ppl/m/n/10.95 Evaluation func-tion is the one that de-cides Min-i-max or A
 l-pha-beta prun-ing al-go-rithms' ef-fi-ciency. Serveral
  []
 
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 149.
+[3]
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 162.
 
-(/usr/share/texmf-texlive/tex/latex/psnfss/ot1pcr.fd
+ (/usr/share/texmf-texlive/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-) [3]
-Overfull \hbox (212.05127pt too wide) in paragraph at lines 239--239
+)
+Overfull \hbox (212.05127pt too wide) in paragraph at lines 252--252
 []\OT1/pcr/m/n/10.95 g++ -Wall -g -O2 -o main state.o common.o minimaxAgent.o u
 tility.o alphabetaAgent.o main.o -lglut -lGL -lGLU[] 
  []
 
-[4] [5] [6] (./AI_120291_15.aux) ) 
+[4] [5] [6] [7] (./AI_120291_15.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
 Here is how much of TeX's memory you used:
- 6169 strings out of 493848
- 90026 string characters out of 1152823
- 248089 words of memory out of 3000000
+ 6170 strings out of 493848
+ 90032 string characters out of 1152823
+ 249089 words of memory out of 3000000
  9318 multiletter control sequences out of 15000+50000
  18389 words of font info for 49 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 38i,9n,58p,665b,1284s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/share/texmf-texlive/fonts/enc/dvips/bas
-e/8r.enc}</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></
-usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/te
-xmf-texlive/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-texlive/
-fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texmf-texlive/fonts/type1/
-public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfo
-nts/cm/cmr6.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr8.p
-fb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/sh
-are/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texmf-te
-xlive/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texmf-texlive/fonts/type1/
-urw/palatino/uplb8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/palatino/uplr
-8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on AI_120291_15.pdf (6 pages, 173030 bytes).
+ 38i,9n,58p,665b,1771s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-texli
+ve/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/ty
+pe1/public/amsfonts/cm/cmmi6.pfb></usr/share/texmf-texlive/fonts/type1/public/a
+msfonts/cm/cmmi8.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/c
+mmi9.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></u
+sr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texm
+f-texlive/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-texlive/fon
+ts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/pu
+blic/amsfonts/cm/cmsy9.pfb></usr/share/texmf-texlive/fonts/type1/urw/courier/uc
+rr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/palatino/uplb8a.pfb></usr/sh
+are/texmf-texlive/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texmf-texlive
+/fonts/type1/urw/palatino/uplri8a.pfb>
+Output written on AI_120291_15.pdf (7 pages, 174801 bytes).
 PDF statistics:
- 147 PDF objects out of 1000 (max. 8388607)
- 34 named destinations out of 1000 (max. 500000)
+ 153 PDF objects out of 1000 (max. 8388607)
+ 35 named destinations out of 1000 (max. 500000)
  78 words of extra memory for PDF output out of 10000 (max. 10000000)
 

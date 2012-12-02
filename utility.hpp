@@ -14,11 +14,11 @@ class Utility{
 protected:
     vector<double> coeff;
     vector<vector<string> > shortestPath;
+    vector<vector<int> > nearestEscape;
 public:
     Utility();
     Utility(const vector<double> &coeff);
     void SetCoeff(const vector<double> &coeff);
-
     void PreCalculateMinDistance(State *state);
     string PreCalculateMinDistance(State *state, int start, int goal);
     double Evaluate(const State &state);

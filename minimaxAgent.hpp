@@ -8,6 +8,8 @@
 using namespace std;
 
 class MinimaxAgent:public Utility{
+protected:
+    int numIteration;
 public:
     virtual double Evaluate(const State &state, int depth, int player);
     Action ChoosePacmanAction(const State &state, int depth, double *v =NULL);

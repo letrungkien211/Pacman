@@ -70,15 +70,6 @@ State State::GetNextState(Action pacmanAction, const vector<Action> &ghostAction
     GetNextState(pacmanAction);
     GetNextState(ghostAction);
 
-    for(int i = NumGhost()-1 ; i >=0; i--){
-	if(GhostKilled(i)){
-	    ghostPos.erase(ghostPos.begin()+i);
-	    ghostScared.erase(ghostScared.begin()+i);
-	    previousGhostAction.erase(previousGhostAction.begin()+i);
-	    cout << "Kill a ghost!" <<endl;
-	}
-    }
-
     return *this;
 }
 
@@ -98,6 +89,15 @@ State State::GetNextState(Action pacmanAction){
 	MakeGhostScared(false);
 	break;
     }
+    for(int i = NumGhost()-1 ; i >=0; i--){
+	if(GhostKilled(i)){
+	    ghostPos.erase(ghostPos.begin()+i);
+	    ghostScared.erase(ghostScared.begin()+i);
+	    previousGhostAction.erase(previousGhostAction.begin()+i);
+	    cout << "Kill a ghost!" <<endl;
+	}
+    }
+
     return *this;
 }
 
@@ -113,6 +113,9 @@ State State::GetNextState(const vector<Action>& ghostAction){
 	ghostPos[i].Move(ghostAction[i]);
     }
     previousGhostAction = ghostAction;
+
+
+
     return *this;
 }
 

@@ -6,6 +6,7 @@
 using namespace std;
 
 double MinimaxAgent::Evaluate(const State &state, int depth, int player){
+    numIteration++;
     if(depth <= 0 || state.IsFinal()!=UNKOWN){
 	return Utility::Evaluate(state);
     }
@@ -30,15 +31,16 @@ double MinimaxAgent::Evaluate(const State &state, int depth, int player){
     }
 }
 
+
+
 Action MinimaxAgent::ChoosePacmanAction(const State&state, int depth, double *v){
     vector<Action> pacmanActions = state.GetLegalPacmanAction();
-    //  assert(state.Turn() == MAXTURN);
     double max = -INFINITY;
+
     int index = 0;
     for(int i = 0, size = pacmanActions.size(); i < size; i++){
 	State tmp = state;
 	double value = Evaluate(tmp.GetNextState(pacmanActions[i]), depth, MINTURN);
-	//cout << pacmanActions[i] <<" " << value <<endl;
 	if( value>max){
 	    max = value;
 	    index = i;
@@ -52,19 +54,21 @@ Action MinimaxAgent::ChoosePacmanAction(const State&state, int depth, double *v)
 
 vector<Action>  MinimaxAgent::ChooseCombinedGhostAction(const State&state, int depth, double *v){
     if(!state.NumGhost())
-	return vector<Action>(0);;
+	return vector<Action>(0);
     vector<vector<Action> > combinedGhostActions = state.GetLegalCombinedGhostAction();
     double min = INFINITY;
     int index = 0;
+    numIteration = 0;
     for(int i = 0, size = combinedGhostActions.size(); i < size; i++){
 	State tmp = state;
 	double value = Evaluate(tmp.GetNextState(combinedGhostActions[i]), depth, MAXTURN);
-//	cout << combinedGhostActions[i]<< " "<< value <<endl;
 	if( value<min){
 	    min = value;
 	    index = i;
 	}
     }
+    cout <<"Number of Evaluate: "<< numIteration <<endl;
+    cout << "Minvalue: " << min << endl;
     if(v) 
 	*v = min;
     return combinedGhostActions[index];

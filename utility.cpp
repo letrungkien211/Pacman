@@ -4,9 +4,8 @@
 #include <cstdio>
 #include "gsearch.hpp"
 #include "grid.hpp"
+
 using namespace std;
-
-
 
 Utility::Utility(){
     coeff.resize(NUMFEATURES);
@@ -36,8 +35,6 @@ void Utility::PreCalculateMinDistance(State *state){
 	    if(state->Wall(i) || state->Wall(j))
 		continue;
 	    shortestPath[i][j] = shortestPath[j][i] = PreCalculateMinDistance(state, i,j);
-	    //printf("(%d,%d) -> (%d, %d) : %d\n", i/cols, i%cols, j/cols, j%cols
-	    //,shortestPath[i][j]);
 	}
     }
 }
@@ -51,20 +48,27 @@ string Utility::PreCalculateMinDistance(State *state, int start, int goal){
     return solution.Path();
 }
 
-
 double Utility::Evaluate(const State & state){
     vector<double> features(NUMFEATURES);
     features[0] = PacmanToGhostDistance(state);
-    features[1] = PacmanToNearestFood(state);
-    features[2] = NumFood(state);
-    features[3] = GhostToGhostDistance(state);
-    features[4] = IsFinal(state);
-    features[5] = NumGhostKilled(state);
-    features[6] = GhostDirection(state);
+    features[1] = GhostToGhostDistance(state);
+    features[2] = IsFinal(state);
+    features[3] = NumFood(state);
+    // features[3] = PacmanToNearestFood(state);
+
+    // features[5] = NumGhostKilled(state);
+    // features[6] = GhostDirection(state);
     double value = 0;
-    for(int i = 0, size = features.size(); i<size; i++){
-	value +=features[i]*coeff[i];
+
+    if(features[2])
+	return INFINITY*features[2];
+    
+    if(features[0] == 3 && features[1]==1){
+	value += coeff[0]*coeff[0];
     }
+    
+    value += coeff[0]*features[0] + coeff[1]*features[1]+coeff[2]*features[0]*features[1]
+	+coeff[3]*features[3];
     return value;
 }
 
@@ -73,26 +77,17 @@ double Utility::PacmanToGhostDistance(const State &state) const{
     int cols = state.Cols();
     int numGhost = state.NumGhost();
     int pacmanIndex = state.PacmanPosition().ToIndex(cols);
+
     for(int i = 0; i <numGhost; i++){
 	int ghostIndex = state.GhostPosition(i).ToIndex(cols);
 	string path = shortestPath[pacmanIndex][ghostIndex];
-	int j = 0;
-	for(; j <numGhost; j++){
-	    if(i==j)
-		continue;
-	    if(path.find(
-		   shortestPath[pacmanIndex][state.GhostPosition(j).ToIndex(cols)])!=string::npos)
-		break;
-	}
 	double dis = shortestPath[pacmanIndex][ghostIndex].length();
-	if(j==numGhost){
-	    if(state.GhostScared(i))
-		value-=dis;
-	    else
-		value+= dis;
-	}
+	if(state.GhostScared(i))
+	    value-=dis;
+	else
+	    value+=dis;
+
     }
-    cout <<"PAcman to Ghost Distance: " <<value <<endl;
     return value;
 }
 
@@ -113,7 +108,6 @@ double Utility::GhostToGhostDistance(const State &state) const{
 	    int distance= shortestPath[state.GhostPosition(i).ToIndex(cols)][state.GhostPosition(j).ToIndex(cols)].length();
 	    if(distance<4){
 		value+=distance;
-		cout <<" VAKUE : " <<value <<endl;
 	    }
 	} 
     }

@@ -1,0 +1,167 @@
+\documentclass[a4paper, 11pt]{article}
+
+%%% Packages
+\usepackage[margin=50pt, vmargin={50pt, 10pt},includefoot]{geometry}
+\usepackage{palatino}
+
+%%% Listing package
+\usepackage{listings}
+\usepackage{color}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{graphicx}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+\hypersetup{
+  colorlinks = false,
+  pdfborder={0 0 0}
+}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{red}{rgb}{0.8,0,0}
+\definecolor{dkblue}{rgb}{0,0,0.6}
+
+\lstset{ 
+  language=C++,                  % the language of the code
+  basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+  numbers=left,                   % where to put the line-numbers
+  numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+  stepnumber=1,                   % the step between two line-numbers. If it's 1, each line 
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=single,                   % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color 
+  captionpos=b,                   % sets the caption-position to bottom
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        %sets if automatic breaks should only happen at whitespace
+  title=\lstname,                   % show the filename of files included with \lstinputlisting;
+  keywordstyle=\color{blue},         % keyword style
+  keywordstyle=[2]\color{dkgreen},
+  commentstyle=\color{red},       %comment style
+  keywords=[2]{vector, Action, State},
+  stringstyle=\color{mauve},         %string literal style
+  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+  emph={string, Puzzle, Board, multiset},  % emphasized characters
+  emphstyle={\color{dkgreen}}
+}
+
+%%% End listing
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\title{Artificial Intelligence Report 5th Week-15th Problem}
+\author{Le Trung Kien\\ 
+  03-120291, 3rd Year \\
+  Department of Mechano-Informatics \\ 
+  The University of Tokyo \\ \\
+  Professor: Hitoshi Iba
+}
+\maketitle
+
+\section*{Note}
+\begin{itemize}
+\item I originally wanted to spend more time on this project, but finally I decided to finish it on time. 
+\item Fully tested on Ubuntu 32/64 bit and Macbook with Opengl library installed.
+\item Opengl library is installed by default on Mac, and it can be installed on Ubuntu by typing the following line in terminal: 
+\begin{center} \$ sudo apt-get install mesa-common-dev \end{center}
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Pacman}
+
+Pacman is classic game which was very popular in the 1980's. It is also a good benchmark to implement AI's algorithms, especially good for testing adversarial search algorithms. The original game's rules are quite complicated, and due to the time constraint, I will present its simpler version in this report:
+\begin{figure}[hbt]
+  \centering
+  \includegraphics[width=4in]{field1-start}
+  \caption[Close up of \textit{Hemidactylus} sp.]
+  {Start field of Pacman game (G is ghost, Blue dot is Pacman)}
+\end{figure}
+
+\begin{itemize}
+\item Size of the board: $9\times 18$
+\item Thers are two ghosts and one Pacman on the field.
+\item Pacman wins when eating up foods.
+\item Pacman looses when being eated by ghosts.
+\item The ghosts are always in chasing mode.
+\item Turn-taking game: Pacman first, then ghosts. Even though it looks like Pacman and Ghost simuntaneously make their moves, but in my implementation, pacman moves first, then ghosts choose their corresponding actions.
+\end{itemize}
+Normally, the task is to train Pacman to win the game, but I choose the opposition that is to make AI's ghosts. The two tasks have their own difficulty and appealing. 
+\begin{itemize} 
+\item AI's Pacman: Pacman wins only if he can eat all the foods without being eaten by ghosts. Therefore, when accessing a state from Pacman's point of view, we have to consider number of food left, distances from ghosts, distance to the nearest food.
+\item AI's Ghosts: Ghosts, on the other hand, do not care about foods, so their only concern is to chase Pacman. However, ghosts are not alone, so this is a \textbf{collaborative task}, when two or more ghosts have to act together to win their game.
+\end{itemize}
+In short, the most interesting point of making AI's ghosts are their collaborative behaviour toward the same goal, kill Pacman.
+\section{Adversarial Search}
+As the name suggests, adversarial search algorithms are in demand when adversary agents present. An agent cannot control its opponents or even its teammates' actions, that is why when making a move, it has to consider all possible outcomes of its and other agents' combined actions. The next following algorithms endevour to deal with a apecialized kind of games, which are deterministic, turn-taking. 
+\subsection{Minimax}
+In Pacman game, Pacman is the Max player, while ghosts are Min players. The prototype for two main methods of MinimaxAgent class are: 
+\begin{lstlisting}
+virtual double Evaluate(const State &state, int depth, int player);
+vector<Action> ChooseCombinedGhostAction(const State &state, int depth, double *v = NULL);
+\end{lstlisting}
+There is an ChoosePacmanAction method, but because my focus is to make AI's ghosts, so I will not present it here.
+\begin{itemize}
+\item \textbf{Evaluate State}: The state space of Pacman is very big, so we have to access a state even if it is not a terminal one. Basically, this function will define the efficiency of the algorithm. The better it evaluates a state, the stronger the chosen move will be.
+\item \textbf{Choose Ghost Action}: After get all legal ghosts combined moves, those combinations are evaluated and the one that minimize the outcome is chosen. 
+\end{itemize}
+The mimimax algorithm performs a complete depth-first exploration of the game tree. If the maximum depth of the tree is m and there are b legal moves at each point, the the time complexity of the minimax algorithm is $\Theta (b^m)$. This is obviously infeasible for Pacman game, when b can be around 3, and m is very large. That is the reason why we need \textbf{Evaluate} method, instead of \textbf{Utility} method which only access the terminal state. The \textbf{depth} argument is used to limit the search space, that means, whenever the method reaches a terminal state or a state having the depth bound, it return a value.
+\subsection{Alphabeta Pruning}
+Alphabeta pruning is an enhanced version of Minimax algorithm in term of complexity. Therefore, AlphaBetaAgent class inherits almost all methods from MinimaxAgen class, except for the \textbf{Evaluation} method whose prototype is:
+\begin{lstlisting}
+double Evaluate(const State &state, int depth, int player, double alpha, double beta);
+\end{lstlisting}
+\begin{itemize}
+\item Alpha is the highest value  we have found so far at any choice point along the path for MAX.
+\item Beta is the lowest value we have found so far at any choise point along the path for MIN.
+\end{itemize}
+Alphabeta pruning algorithm produces the same results as Minimax does, but its complexity is $\Theta (b^{\frac{m}{2}})$, which is far better.
+\subsection{Evaluation Function}
+Evaluation function is the one that decides Minimax or Alphabeta pruning algorithms' efficiency. Serveral features that I have tested are:
+\begin{itemize}
+\item{+} Pacman to ghosts Manhanttan distances: Ghosts want to minimize this distances
+\item{-} Ghosts to ghosts Manhattan distances: Ghosts should not be too far and too close to each other. If they are separated, they will not be able to combine to kill Pacman. If they are too close, they become one Ghost and which is an advantage for Pacman.
+\item{+} Pacman to ghosts graph distances:
+\item{-} Ghosts to ghosts graph distances \\
++ means the bigger the better for MAX, while - means the smaller the better for MIN
+\end{itemize}
+At first, I used Manhattan distances as features and quickly recognized that they are not suitable for Pacman game because not every grids pair is connected. Therefore, I chose the latter two, which are the real distances between two grids. In order to do this, I used \textbf{A*} algorithm to calculate all the shortest between all possible pairs of grids in advanced. The interesting point is I was able to utilize the same Gsearch class I wrote for 8-15 puzzle in previous report. It emphasizes the reusablity of my code. \\
+Many references suggest that the evaluating result should be a linear combination of features. However, by doing so, we also ignore all dependency among features. That is not a good idea. Finally, I came up with the following evaluation functions: 
+\[\] 
+\section{Experiments}
+
+\section{Discussion}
+
+\begin{thebibliography}{9}
+\bibitem{AIMA}
+  \label{itm:AIMA}
+  Stuart Russell, Peter Norvig
+  \emph{  Aritifical Intelligence A Modern Approach},
+  Prentice Hall
+  3rd Edition,
+  December 2009
+
+\bibitem{SSCPS}
+  \label{itm:SSCPS}
+  George F. Luger
+  \emph{Artificial Intelligence, Structure and Strategies for Complex Problem Solving},
+  Addison Wesley Longman
+  3rd Edition,
+  2009
+  
+\bibitem{Algorithms}
+  \label{itm:algorithm}
+  Robert Sedgewick, Kevein Wayne
+  \emph{ Algorithms}
+  Addison Wesley
+  4th Edition,
+  January, 2012
+
+\end{thebibliography}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

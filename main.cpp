@@ -30,7 +30,7 @@ bool initWall[] ={1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 int  winWidth = 500;
 int  winHeight = 250;
 State state;
-MinimaxAgent* minimax;
+MinimaxAgent* agent;
 vector<vector<Action> > combinedAction;
 Action pacmanAction;
 int depth;
@@ -48,16 +48,16 @@ void MyInit(int argc, char*argv[]){
     vector<double> coeff(NUMFEATURES);
     if(argc > 1){
 	if(argv[1][0]=='m')
-	    minimax = new MinimaxAgent();
+	    agent = new MinimaxAgent();
 	else if(argv[1][0]=='a')
-	    minimax = new AlphaBetaAgent();
+	    agent = new AlphaBetaAgent();
 	else{
 	    cout << "Invalid option!" <<endl;
 	    exit(-1);
 	}
     }
     else{
-	minimax = new AlphaBetaAgent();
+	agent = new AlphaBetaAgent();
     }
     if(argc>2){
 	depth = atoi(argv[2]);
@@ -79,8 +79,8 @@ void MyInit(int argc, char*argv[]){
     coeff[3] = 0;
     coeff[4] = 0;
     coeff[5] = 0;
-    minimax->SetCoeff(coeff);
-    minimax->PreCalculateMinDistance(&state);
+    agent->SetCoeff(coeff);
+    agent->PreCalculateMinDistance(&state);
     InitGL();
 }
 
@@ -141,7 +141,7 @@ void HandleSpecialKeyPress(int key, int x, int y){
     case GLUT_KEY_HOME:
 	pacmanAction = STOP; break;
     case GLUT_KEY_END:
-	pacmanAction = minimax->ChoosePacmanAction(state, depth);
+	pacmanAction = agent->ChoosePacmanAction(state, depth);
 	break;
     default:
 	cout << "Invalid key!" <<endl;
@@ -150,9 +150,9 @@ void HandleSpecialKeyPress(int key, int x, int y){
     }
     if(valid && state.IsLegalPacmanAction(pacmanAction)){
 	state.GetNextState(pacmanAction);
-	vector<Action> combinedAction = minimax->ChooseCombinedGhostAction(state, depth);
+	vector<Action> combinedAction = agent->ChooseCombinedGhostAction(state, depth);
     	state.GetNextState(combinedAction);
-    	cout << "Ghost Minimax Move: " << combinedAction<< endl;
+    	cout << "Ghost Agent Move: " << combinedAction<< endl;
 	glutPostRedisplay();
     }
     else{

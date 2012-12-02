@@ -21,6 +21,9 @@ $(TARGET): % : $(OBJ) %.o
 	$(CC) $(CFLAGS) -c -o $@ $<
 $(REPORT): %: %.tex
 	pdflatex $<
+tar:
+	tar -czvf $(addsuffix .tar.gz, $(REPORT)) *.cpp *.hpp Makefile
+
 
 clean:
 	$(RM) *.o $(TARGET) *~ *#*

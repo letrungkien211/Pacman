@@ -3,7 +3,14 @@
 #include <cstdio>
 #include <cstdlib>
 #include <queue>
+
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#include <OpenGL/OpenGL.h>
+#else
 #include <GL/glut.h>
+#endif
+
 using namespace std;
 const Action ActionList[] ={UP, DOWN, LEFT, RIGHT, STOP};
 

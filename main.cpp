@@ -1,5 +1,11 @@
 #include "alphabetaAgent.hpp"
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#include <OpenGL/OpenGL.h>
+#else
 #include <GL/glut.h>
+#endif
+
 #include <cassert>
 
 int initFood[] ={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

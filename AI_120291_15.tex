@@ -62,7 +62,8 @@
   Professor: Hitoshi Iba
 }
 \maketitle
-
+\tableofcontents
+\newpage
 \section*{Note}
 \begin{itemize}
 \item I originally wanted to spend more time on this project, but finally I decided to finish it on time. 
@@ -70,7 +71,7 @@
 \item Opengl library is installed by default on Mac, and it can be installed on Ubuntu by typing the following line in terminal: 
   \begin{center} \$ sudo apt-get install mesa-common-dev \end{center}
 \item Two execuatable files are included: main32, main64 which are compatible with Ubuntu 32/64 bit respectively
-.
+  .
 \item Source codes: 
 
   \begin{itemize}
@@ -82,6 +83,7 @@
   \item \textbf{gsearch.hpp, mystl.hpp}: Template class for A*, DFS, BFS
   \end{itemize}
 \item In current report, I will not go too much in details about the source codes like I did in previous reports. Hopefully the above short description would be enough to understand to basic structure of my implementation.
+\item Submitted reports: 2,5,6,11,15
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
@@ -99,7 +101,7 @@ Pacman is classic game which was very popular in the 1980's. It is also a good b
 
 \begin{itemize}
 \item Size of the board: $9\times 18$
-\item Thers are two ghosts and one Pacman on the field.
+\item There are two ghosts and one Pacman on the field.
 \item Pacman wins when eating up foods.
 \item Pacman looses when being eated by ghosts.
 \item The ghosts are always in chasing mode.
@@ -111,8 +113,9 @@ Normally, the task is to train Pacman to win the game, but I choose the oppositi
 \item AI's Ghosts: Ghosts, on the other hand, do not care about foods, so their only concern is to chase Pacman. However, ghosts are not alone, so this is a \textbf{collaborative task}, when two or more ghosts have to act together to win their game.
 \end{itemize}
 In short, the most interesting point of making AI's ghosts are their collaborative behaviour toward the same goal, kill Pacman.
+\newpage
 \section{Adversarial Search}
-As the name suggests, adversarial search algorithms are in demand when adversary agents present. An agent cannot control its opponents or even its teammates' actions, that is why when making a move, it has to consider all possible outcomes of its and other agents' combined actions. The next following algorithms endevour to deal with a apecialized kind of games, which are deterministic, turn-taking. 
+As the name suggests, adversarial search algorithms are in demand when adversary agents present. An agent cannot control its opponents or even its teammates' actions, that is why when making a move, it has to consider all possible outcomes of its and other agents' combined actions. The next following algorithms endevour to deal with a apecialized kind of games, which are deterministic, turn-taking.
 \subsection{Minimax}
 In Pacman game, Pacman is the Max player, while ghosts are Min players. The prototype for two main methods of MinimaxAgent class are: 
 \begin{lstlisting}
@@ -148,20 +151,21 @@ At first, I used Manhattan distances as features and quickly recognized that the
 Many references suggest that the evaluating result should be a linear combination of features. However, by doing so, we also ignore all dependency among features. That is not a good idea. Finally, I came up with the following evaluation functions: 
 \[ v = c_1*f_1+c_2*f_2+c_3*f_1*f_2\]
 In which, $f_1$ is the total distance between Pacman and the two ghosts, and $f_2$ is the distance between two ghosts. Very few features here, but it turns out to be very powerful. The effect of this function will be discussed in the next section. \\
-The actual implementation looks like this:
-\begin{lstlisting}
-    if(features[0] <=6  && features[1]==1){
-     	value += 100;
-    }
-    if(features[1] == 0)
-	value += 100;
-    value += coeff[0]*features[0] + coeff[1]*features[1]+coeff[2]*features[0]*features[1];
-\end{lstlisting}
-You can see there are two if clauses here. Because when Pacman is very close to Ghosts, the ghosts do not want to be next to each other. If they do so, they can not attack Pacman from different directions. Moreover, the two ghosts should never overlap each other. Therefore in those cases, I added an quite heavy weight to evaluation function. 
+The actual implementation is:
+\lstset{language=C++, caption={Evaluate method (utility.cpp)}}
+\lstinputlisting[linerange={51-78}]{utility.cpp}
+
+Because when Pacman is very close to Ghosts, the ghosts do not want to be next to each other. If they do so, they can not attack Pacman from different directions. Moreover, the two ghosts should never overlap each other too much. Therefore in those cases, I added an quite heavy weight to evaluation function. And when ghosts are far away from each other, I set it to Zero because at that point, all they should care is to get as close as possible to Pacman. 
+\newpage
 \section{Experiments}
-\subsection{Execution}
-Please visit \url{https://www.youtube.com/watch?v=9TLatwHJ27E} to see numerous experiments I have done to test the algorithm with graphics user interface. I also ask some of my friends to play Pacman role, and they all lost to the Ghosts. Please give it a try if you have time. \\
-An example of running my application in command line. Press \textbf{'r'} to reset the game.
+\subsection{Execution} 
+Please visit 
+\begin{center}\textbf{\url{https://www.youtube.com/watch?v=9TLatwHJ27E}} \end{center}
+to see numerous experiments I have done to test the algorithm with graphics user interface. I also asked some of my friends to play Pacman role, and they all easily lost to the Ghosts. Until now, I and my friends have not won a game against the Ghosts (algorithm = alphabeta pruning, depth = 14, coefficient=10,-5,5). Please give it a try if you have time, and if you win, please send the playing log to me. \\
+Both GUI and CLI interfaces are provided. At any point of the game, if the Min value is $-1e6$ (INFINITY), the ghosts already know that they are going to win.
+An example of running my application in command line. 
+\begin{itemize}
+\item To run the game
 \begin{center} ./main algorithm depth $c_1$ $c_2$ $c_3$ \end{center}
 \begin{table}[ht]
   \centering
@@ -173,6 +177,11 @@ An example of running my application in command line. Press \textbf{'r'} to rese
     \hline
   \end{tabular}
 \end{table}
+\item Press Up, Down, Left, Right arrow keys to move Pacman. Press Home to stop Pacman.
+\item Press \textbf{'r'} to reset the game. 
+\item Press \textbf{Esc} to end the game.
+
+\end{itemize}
 \begin{verbatim}
 @:~/Dropbox/git/Pacman$ make
 g++ -Wall -g -O2 -c -o state.o state.cpp
@@ -195,7 +204,6 @@ X-XX-X-XXXXXX-X-XX-X
 X----X---P----X----X
 XXXXXXXXXXXXXXXXXXXX
 Number of food left: 100
-
 Number of Evaluate: 10247
 Minvalue: 250
 Ghost Minimax Move: (L, R, )
@@ -211,25 +219,7 @@ X-XX-X-XXXXXX-X-XX-X
 X----X----P---X----X
 XXXXXXXXXXXXXXXXXXXX
 Number of food left: 99
-
 .........................................................
-
-Number of Evaluate: 1817
-Minvalue: 140
-Ghost Minimax Move: (L, L, )
-XXXXXXXXXXXXXXXXXXXX
-X----X--------X----X
-X-XX-X-XXXXXX-X-XX-X
-X-X----G---------X-X
-X-X-XX-XX  XX-XX-X-X
-X------X    X------X
-X-X-XXPXXXXXX-XX-X-X
-X-X---  G     ---X-X
-X-XX-X-XXXXXX X-XX-X
-X----X----    X----X
-XXXXXXXXXXXXXXXXXXXX
-Number of food left: 86
-
 Number of Evaluate: 1499
 Minvalue: 70
 Ghost Minimax Move: (L, L, )
@@ -245,7 +235,6 @@ X-XX-X-XXXXXX X-XX-X
 X----X----    X----X
 XXXXXXXXXXXXXXXXXXXX
 Number of food left: 85
-
 Number of Evaluate: 2266
 Minvalue: -1e+06
 Ghost Minimax Move: (D, L, )
@@ -253,10 +242,10 @@ Pacman: LOSE
 \end{verbatim}
 
 \subsection{Minimax vs Alphabeta Pruning}
-The following table shows some comparision between Minimax and Alphabeta Pruning interm of number of evaluated nodes. The depth here is 12
+The following table shows comparision between Minimax and Alphabeta Pruning in term of number of evaluated nodes. The depth is set as 12.
 \begin{table}[ht]
   \centering
-  \begin{tabular}{|c|c|c|c|}
+  \begin{tabular}{|c|c|r|r|}
     \hline
     Pacman Move & Ghost Moves & Minimax & Alphabeta Pruning \\ \hline
     r           & l,r         & 5824    & 1936              \\ \hline
@@ -275,9 +264,13 @@ The following table shows some comparision between Minimax and Alphabeta Pruning
     \hline
   \end{tabular}
 \end{table}
+Clearly Alphabeta pruning is much more efficient than Minimax. Notice that number of evaluated nodes varies a lot due to the different number of legal moves. Alphabeta pruning performance also depends on the order of examined nodes. The sooner the best move is found, the more nodes can be pruned. 
 
-Clearly Alphabeta pruning is much more efficient than Minimax. 
-
+\section{Game State}
+The State class, which represents the Game state take me lots of hours to complete. It was hard to think from how to represent the game state to how to make transition from a state to another. The class declaration is shown in the following Listing.
+\lstset{language=C++, caption={state class (state.hpp)}}
+\lstinputlisting[linerange={10-68}]{state.hpp}
+Please refer to the source code \textbf{state.cpp} for more details about this class. 
 \section{Discussion}
 Firstly, I want to talk about the Evaluation function. As mentioned above, this function is the most important aspect of Minimax and Alphabeta pruning algorithm. In a limited time, I think I considered a very simple version of it. In order to optimize the Evaluation function, we can add more features to it, and try to combine features in more sophisticated way such as Neural Network. I think it is possible to combine Neural Network and Genetic Algorithm to find the optimal evaluation function to this problem. That is maybe the theme for my next report. \\
 Secondly, Alphabeta pruning is much more efficient than Minimax algorithm. In real applications, probably minimax will never be used. The game now is a deterministic one, however, if uncertainty is taken into account, we have an other algorithm called Expectimax. In this case, opponents do not always take their best moves, they sometimes take other moves which produce different outcomes. \\

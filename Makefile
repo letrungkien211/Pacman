@@ -22,7 +22,7 @@ $(TARGET): % : $(OBJ) %.o
 $(REPORT): %: %.tex
 	pdflatex $<
 tar:
-	tar -czvf $(addsuffix .tar.gz, $(REPORT)) *.cpp *.hpp Makefile
+	tar -czvf $(addsuffix .tar.gz, $(REPORT)) *.cpp *.hpp Makefile main32 main64
 
 
 clean:

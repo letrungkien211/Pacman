@@ -104,6 +104,7 @@ Pacman is classic game which was very popular in the 1980's. It is also a good b
 \item There are two ghosts and one Pacman on the field.
 \item Pacman wins when eating up foods.
 \item Pacman looses when being eated by ghosts.
+\item Ghosts cannot reverse directions or stop. 
 \item The ghosts are always in chasing mode.
 \item Turn-taking game: Pacman first, then ghosts. Even though it looks like Pacman and Ghost simuntaneously make their moves, but in my implementation, pacman moves first, then ghosts choose their corresponding actions.
 \end{itemize}
@@ -137,9 +138,9 @@ double Evaluate(const State &state, int depth, int player, double alpha, double 
 \item Alpha is the highest value  we have found so far at any choice point along the path for MAX.
 \item Beta is the lowest value we have found so far at any choise point along the path for MIN.
 \end{itemize}
-Alphabeta pruning algorithm produces the same results as Minimax does, but its complexity is $\Theta (b^{\frac{m}{2}})$, which is far better.
+Alphabeta pruning algorithm produces the same results as Minimax does, but its complexity is $\Theta (b^{\frac{m}{2}})$, which is far better. We will see the difference in practice later in this report.
 \subsection{Evaluation Function}
-Evaluation function is the one that decides Minimax or Alphabeta pruning algorithms' efficiency. Serveral features that I have tested are:
+Evaluation function is the one that decides Minimax or Alphabeta pruning algorithms' performance. Serveral features that I have tested are:
 \begin{itemize}
 \item{+} Pacman to ghosts Manhanttan distances: Ghosts want to minimize this distances
 \item{-} Ghosts to ghosts Manhattan distances: Ghosts should not be too far and too close to each other. If they are separated, they will not be able to combine to kill Pacman. If they are too close, they become one Ghost and which is an advantage for Pacman.

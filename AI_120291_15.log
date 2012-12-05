@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.10.24)  3 DEC 2012 11:55
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.10.24)  5 DEC 2012 15:00
 entering extended mode
  %&-line parsing enabled.
 **AI_120291_15.tex
@@ -352,40 +352,35 @@ LaTeX Font Info:    Font shape `OMS/ppl/m/n' in size <10.95> not available
 [2] <field1-start.png, id=67, 463.7325pt x 255.95625pt>
 File: field1-start.png Graphic file (type png)
  <use field1-start.png>
-Overfull \hbox (2.73734pt too wide) in paragraph at lines 108--109
+Overfull \hbox (2.73734pt too wide) in paragraph at lines 109--110
 []\OT1/ppl/m/n/10.95 Turn-taking game: Pac-man first, then ghosts. Even though 
 it looks like Pac-man and Ghost simunta-
  []
 
 [3 <./field1-start.png (PNG copy)>]
 LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 119.
-LaTeX Font Info:    Try loading font information for OML+ppl on input line 123.
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 120.
+LaTeX Font Info:    Try loading font information for OML+ppl on input line 124.
 
 
 (/usr/share/texmf-texlive/tex/latex/psnfss/omlppl.fd
 File: omlppl.fd 
 )
 LaTeX Font Info:    Font shape `OML/ppl/m/n' in size <9> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 123.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 124.
 LaTeX Font Info:    Font shape `OMS/ppl/m/n' in size <9> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 123.
-
-Overfull \hbox (6.96274pt too wide) in paragraph at lines 142--143
-\OT1/ppl/m/n/10.95 Evaluation func-tion is the one that de-cides Min-i-max or A
-l-pha-beta prun-ing al-go-rithms' ef-fi-ciency. Serveral
- []
-
-[4] (./utility.cpp) [5]
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 163.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 124.
+ [4] (./utility.cpp)
+[5]
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 164.
 
  (/usr/share/texmf-texlive/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
 LaTeX Font Info:    Font shape `OT1/pcr/bx/n' in size <10.95> not available
-(Font)              Font shape `OT1/pcr/b/n' tried instead on input line 163.
+(Font)              Font shape `OT1/pcr/b/n' tried instead on input line 164.
 
-Overfull \hbox (212.05127pt too wide) in paragraph at lines 242--242
+Overfull \hbox (212.05127pt too wide) in paragraph at lines 243--243
 []\OT1/pcr/m/n/10.95 g++ -Wall -g -O2 -o main state.o common.o minimaxAgent.o u
 tility.o alphabetaAgent.o main.o -lglut -lGL -lGLU[] 
  []
@@ -412,7 +407,7 @@ usr/share/texmf-texlive/fonts/type1/urw/courier/ucrb8a.pfb></usr/share/texmf-te
 xlive/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texmf-texlive/fonts/type1/
 urw/palatino/uplb8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/palatino/uplr
 8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on AI_120291_15.pdf (9 pages, 209745 bytes).
+Output written on AI_120291_15.pdf (9 pages, 209826 bytes).
 PDF statistics:
  281 PDF objects out of 1000 (max. 8388607)
  121 named destinations out of 1000 (max. 500000)

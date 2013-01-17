@@ -2,7 +2,8 @@
 #include <limits>
 #include <iostream>
 #include <cassert>
-
+#include <ctime>
+#include <cstdlib>
 using namespace std;
 
 double MinimaxAgent::Evaluate(const State &state, int depth, int player){
@@ -31,8 +32,6 @@ double MinimaxAgent::Evaluate(const State &state, int depth, int player){
     }
 }
 
-
-
 Action MinimaxAgent::ChoosePacmanAction(const State&state, int depth, double *v){
     vector<Action> pacmanActions = state.GetLegalPacmanAction();
     double max = -INFINITY;
@@ -52,14 +51,15 @@ Action MinimaxAgent::ChoosePacmanAction(const State&state, int depth, double *v)
 }
 
 
-vector<Action>  MinimaxAgent::ChooseCombinedGhostAction(const State&state, int depth, double *v){
+vector<Action>  MinimaxAgent::ChooseCombinedGhostAction(const State&state, int depth, double level, double *v){
     if(!state.NumGhost())
 	return vector<Action>(0);
     vector<vector<Action> > combinedGhostActions = state.GetLegalCombinedGhostAction();
     double min = INFINITY;
     int index = 0;
     numIteration = 0;
-    for(int i = 0, size = combinedGhostActions.size(); i < size; i++){
+    int size = combinedGhostActions.size();
+    for(int i = 0; i < size; i++){
 	State tmp = state;
 	double value = Evaluate(tmp.GetNextState(combinedGhostActions[i]), depth, MAXTURN);
 	if( value<min){
@@ -71,5 +71,10 @@ vector<Action>  MinimaxAgent::ChooseCombinedGhostAction(const State&state, int d
     cout << "Minvalue: " << min << endl;
     if(v) 
 	*v = min;
-    return combinedGhostActions[index];
+    
+    if(rand()/(double)RAND_MAX<level)
+	return combinedGhostActions[index];
+    else
+	return combinedGhostActions[rand()%size];
 }
+

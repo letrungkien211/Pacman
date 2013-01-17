@@ -7,40 +7,18 @@
 #endif
 
 #include <cassert>
+#include "map.hpp"
 
-int initFood[] ={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		 0,1,1,1,1,0,1,1,1,1,1,1,1,1,0,1,1,1,1,0,
-		 0,1,0,0,1,0,1,0,0,0,0,0,0,1,0,1,0,0,1,0,
-		 0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,0,
-		 0,1,0,1,0,0,1,0,0,0,0,0,0,1,0,0,1,0,1,0,
-		 0,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,0,
-		 0,1,0,1,0,0,1,0,0,0,0,0,0,1,0,0,1,0,1,0,
-		 0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,0,
-		 0,1,0,0,1,0,1,0,0,0,0,0,0,1,0,1,0,0,1,0,
-		 0,1,1,1,1,0,1,1,1,1,1,1,1,1,0,1,1,1,1,0,
-		 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-		 
-bool initWall[] ={1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-		  1,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,1,
-		  1,0,1,1,0,1,0,1,1,1,1,1,1,0,1,0,1,1,0,1,
-		  1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,
-		  1,0,1,0,1,1,0,1,1,0,0,1,1,0,1,1,0,1,0,1,
-		  1,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,1,
-		  1,0,1,0,1,1,0,1,1,1,1,1,1,0,1,1,0,1,0,1,
-		  1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,
-		  1,0,1,1,0,1,0,1,1,1,1,1,1,0,1,0,1,1,0,1,
-		  1,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,1,
-		  1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
+
 
 // Global variables
-int  winWidth = 500;
-int  winHeight = 250;
+int  winWidth = COLS*50;
+int  winHeight = ROWS*50;
 State state;
 MinimaxAgent* agent;
 vector<vector<Action> > combinedAction;
 Action pacmanAction;
 int depth;
-
 
 // Functions prototype
 void Display();
@@ -50,7 +28,7 @@ void MyInit(int argc, char*argv[]);
 void InitGL();
 
 void MyInit(int argc, char*argv[]){
-    state.Initialize(11,20,initWall, initFood);
+    state.Initialize(ROWS,COLS,initWall, initFood);
     vector<double> coeff(NUMFEATURES);
     if(argc > 1){
 	if(argv[1][0]=='m')
@@ -100,7 +78,7 @@ void Display(){
     glLoadIdentity();
     glPushMatrix();
     int min = std::min(winHeight, winWidth);
-    glScalef(min/15,-min/15,1);
+    glScalef(min/20,-min/20,1);
     GameDraw(state);
     glPopMatrix();
     glutSwapBuffers();
@@ -123,7 +101,7 @@ void HandleKeyPress(unsigned char key, int x, int y){
 	exit(-1);
 	break;
     case 'r':
-	state.Initialize(11,20,initWall, initFood);
+	state.Initialize(ROWS,COLS,initWall, initFood);
 	glutPostRedisplay();
 	break;
     default:
@@ -155,9 +133,16 @@ void HandleSpecialKeyPress(int key, int x, int y){
 	break;
     }
     if(valid && state.IsLegalPacmanAction(pacmanAction)){
+	// Ghost first pacman after
+	// vector<Action> combinedAction = agent->ChooseCombinedGhostAction(state, depth,0.5);
+    	// state.GetNextState(combinedAction);
+	// pacmanAction = agent->ChoosePacmanAction(state, depth);
+	// state.GetNextState(pacmanAction);
+
 	state.GetNextState(pacmanAction);
-	vector<Action> combinedAction = agent->ChooseCombinedGhostAction(state, depth);
+	vector<Action> combinedAction = agent->ChooseCombinedGhostAction(state, depth,1);
     	state.GetNextState(combinedAction);
+	
     	cout << "Ghost Agent Move: " << combinedAction<< endl;
 	glutPostRedisplay();
     }
@@ -167,6 +152,7 @@ void HandleSpecialKeyPress(int key, int x, int y){
 }
 
 int main(int argc, char **argv) {
+    srand(time(NULL));
     glutInit               ( &argc, argv );
     glutInitDisplayMode    ( GLUT_DOUBLE | GLUT_RGB );
     glutInitWindowSize     ( winWidth+100, winHeight+100 );    

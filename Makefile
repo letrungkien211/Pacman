@@ -11,7 +11,7 @@ endif
 
 TARGET = main
 OBJ = state.o common.o minimaxAgent.o utility.o alphabetaAgent.o
-REPORT = AI_120291_15
+REPORT = 120291
 
 all: $(TARGET)
 
@@ -22,8 +22,7 @@ $(TARGET): % : $(OBJ) %.o
 $(REPORT): %: %.tex
 	pdflatex $<
 tar:
-	tar -czvf $(addsuffix .tar.gz, $(REPORT)) *.cpp *.hpp Makefile main32 main64
-
+	tar -czvf $(addsuffix .tar.gz, $(REPORT)) *.cpp *.hpp Makefile
 
 clean:
 	$(RM) *.o $(TARGET) *~ *#*

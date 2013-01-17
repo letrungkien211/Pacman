@@ -392,19 +392,19 @@ void DrawFood(int i, int j){
 
 }
 
-void DrawGhost(int i,int j){
+void DrawGhost(int i,int j, int k){
     i = i- 4;
     j = j- 9;
-    glColor3d(1,0,1);
-    glRasterPos3d(j-0.25, i+0.25, 0);
-    glutBitmapCharacter (GLUT_BITMAP_HELVETICA_18, 'G');
-
+    if(k%2)
+	glColor3d(0,0,1);
+    else
+	glColor3d(0,1,0);
+    glRectf(j-0.3, j+0.3, i-0.3,i+0.3);
 }
 
 void DrawScraredGhost(int i,int j){
     i = i- 4;
     j = j- 9;
-
     glColor3d(0.3,0,0.5);
     glRasterPos2d(j-0.25, i-0.25);
     glutBitmapCharacter (GLUT_BITMAP_HELVETICA_18, 'S');
@@ -414,8 +414,8 @@ void DrawScraredGhost(int i,int j){
 void DrawPacman(int i, int j){
     i = i- 4;
     j = j- 9;
-    glColor3d(0,0,1);
-    glRectf(j-0.2, j+0.2, i-0.2,i+0.2);
+    glColor3d(1,1,0);
+    glRectf(j-0.3, j+0.3, i-0.3,i+0.3);
 }
 
 void DrawBigFood(int i, int j){
@@ -451,7 +451,7 @@ void GameDraw(const State& state){
 			if(state.GhostScared(k))
 			    DrawScraredGhost(i,j);
 			else
-			    DrawGhost(i,j);
+			    DrawGhost(i,j, k);
 			break;
 		    }
 		}

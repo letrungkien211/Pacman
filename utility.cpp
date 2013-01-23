@@ -56,7 +56,7 @@ double Utility::Evaluate(const State & state){
     features[3] = NumFood(state);
     // features[3] = PacmanToNearestFood(state);
 
-    // features[5] = NumGhostKilled(state);
+    features[4] = NumGhostKilled(state);
     // features[6] = GhostDirection(state);
     double value = 0;
     // If terminal state
@@ -73,7 +73,8 @@ double Utility::Evaluate(const State & state){
     // If the two ghosts are overlap
     if(features[1] == 0)
 	value += 100;
-    value += coeff[0]*features[0] + coeff[1]*features[1]+coeff[2]*features[0]*features[1];
+
+    value += coeff[0]*features[0] + coeff[1]*features[1]+coeff[2]*features[0]*features[1]+ features[3]*coeff[3];
     return value;
 }
 

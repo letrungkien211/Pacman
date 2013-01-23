@@ -79,6 +79,7 @@ void Display(){
     glPushMatrix();
     int min = std::min(winHeight, winWidth);
     glScalef(min/20,-min/20,1);
+    glTranslatef(0, -min/200,0);
     GameDraw(state);
     glPopMatrix();
     glutSwapBuffers();
@@ -132,23 +133,30 @@ void HandleSpecialKeyPress(int key, int x, int y){
 	valid = false;
 	break;
     }
-    if(valid && state.IsLegalPacmanAction(pacmanAction)){
-	// Ghost first pacman after
-	// vector<Action> combinedAction = agent->ChooseCombinedGhostAction(state, depth,0.5);
-    	// state.GetNextState(combinedAction);
-	// pacmanAction = agent->ChoosePacmanAction(state, depth);
-	// state.GetNextState(pacmanAction);
 
-	state.GetNextState(pacmanAction);
-	vector<Action> combinedAction = agent->ChooseCombinedGhostAction(state, depth,1);
-    	state.GetNextState(combinedAction);
+#if(0)
+    vector<Action> combinedAction = agent->ChooseCombinedGhostAction(state, 6,0.7);
+    state.GetNextState(combinedAction);
+    state.IncrementNumMove();
+    pacmanAction = agent->ChoosePacmanAction(state, 9);
+    state.GetNextState(pacmanAction);
+#endif
+
+#if (1)
+    if(valid && state.IsLegalPacmanAction(pacmanAction)){
+    state.GetNextState(pacmanAction);
+    vector<Action> combinedAction = agent->ChooseCombinedGhostAction(state, depth,1);
+    state.GetNextState(combinedAction);
+    state.IncrementNumMove();
 	
-    	cout << "Ghost Agent Move: " << combinedAction<< endl;
-	glutPostRedisplay();
+    cout << "Ghost Agent Move: " << combinedAction<< endl;
+
     }
     else{
-	cout << "Ilegal Pacman Move!" <<endl;
+    	cout << "Ilegal Pacman Move!" <<endl;
     }
+#endif
+    glutPostRedisplay();
 }
 
 int main(int argc, char **argv) {

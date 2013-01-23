@@ -1,13 +1,14 @@
 CC = g++
 RM = rm -f
 
-CFLAGS = -Wall -g -O2
+CFLAGS = -Wall -g -O2 -lm
 
 ifeq ($(shell uname),Darwin)
-	LIBS = -framework OpenGL -framework GLUT
+	LIBS += -framework OpenGL -framework GLUT
 else
-	LIBS = -lglut -lGL -lGLU
+	LIBS += -lglut -lGL -lGLU
 endif
+
 
 TARGET = main
 OBJ = state.o common.o minimaxAgent.o utility.o alphabetaAgent.o

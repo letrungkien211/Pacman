@@ -16,7 +16,9 @@ private:
     // Number of rows, cols
     int rows, cols;
     // Number of food
-    int numFood;    
+    int numFood;
+    // Number of move
+    int numMove;
     // Pacman's position
     Position pacmanPos;
     // Ghosts' position
@@ -65,6 +67,8 @@ public:
     Position PacmanPosition() const;
     Position GhostPosition(int ghostIndex) const;
     Action PreviousGhostAction(int ghostIndex) const;
+    void IncrementNumMove();
+    int NumMove() const;
 };
 
 ostream & operator<<(ostream &os, const State& state);

@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <queue>
+#include <cmath>
 
 #ifdef __APPLE__
 #include <GLUT/glut.h>
@@ -11,8 +12,14 @@
 #include <GL/glut.h>
 #endif
 
+#define PI 3.142
+
 using namespace std;
 const Action ActionList[] ={UP, DOWN, LEFT, RIGHT, STOP};
+
+int pacmanInitialPosition[2] = {9,9};
+int ghostsInitialPosition[4] = {5,9,5,10};
+
 
 /*****************************************************************************/
 // Constructor
@@ -31,6 +38,7 @@ void State::Initialize(int rows, int cols, bool *wall, int *food)
     this->rows = rows;
     this->cols = cols;
     this->food.resize(rows*cols);
+    numMove = 0;
     numFood = 0;
     previousGhostAction.resize(2);
     previousGhostAction[0] = STOP;
@@ -57,14 +65,14 @@ void State::Initialize(int rows, int cols, bool *wall, int *food)
     }
     // Ghost position
     ghostPos.resize(2);
-    ghostPos[0].row = 1;
-    ghostPos[0].col = 9;
-    ghostPos[1].row = 1;
-    ghostPos[1].col = 10;
+    ghostPos[0].row = ghostsInitialPosition[0];
+    ghostPos[0].col = ghostsInitialPosition[1];
+    ghostPos[1].row = ghostsInitialPosition[2];
+    ghostPos[1].col = ghostsInitialPosition[3];
     
     // Pacman postion
-    pacmanPos.row = 9;
-    pacmanPos.col = 9;
+    pacmanPos.row = pacmanInitialPosition[0];
+    pacmanPos.col = pacmanInitialPosition[0];
 }
 
 // Get next state
@@ -83,20 +91,28 @@ State State::GetNextState(Action pacmanAction){
     switch(Food(pacmanPos)){
     case 10:
 	MakeGhostScared(true);
+	cout << "10"<<endl;
     case 1:
 	numFood -= Food(pacmanPos);
 	Food(pacmanPos) = 0;
+	cout << "1" <<endl;
 	break;
     default:
 	MakeGhostScared(false);
+	cout << "default" <<endl;
 	break;
     }
     for(int i = NumGhost()-1 ; i >=0; i--){
 	if(GhostKilled(i)){
-	    ghostPos.erase(ghostPos.begin()+i);
-	    ghostScared.erase(ghostScared.begin()+i);
-	    previousGhostAction.erase(previousGhostAction.begin()+i);
+	    ghostPos[i].row = ghostsInitialPosition[0];
+	    ghostPos[i].col = ghostsInitialPosition[1];
+	    ghostScared[i] = true;
+	    previousGhostAction[i] = STOP;
+	    // ghostPos.erase(ghostPos.begin()+i);
+	    // ghostScared.erase(ghostScared.begin()+i);
+	    // previousGhostAction.erase(previousGhostAction.begin()+i);
 	    cout << "Kill a ghost!" <<endl;
+	    
 	}
     }
 
@@ -115,8 +131,6 @@ State State::GetNextState(const vector<Action>& ghostAction){
 	ghostPos[i].Move(ghostAction[i]);
     }
     previousGhostAction = ghostAction;
-
-
 
     return *this;
 }
@@ -227,19 +241,29 @@ void State::MakeGhostScared(bool scared){
 	for(int i = 0; i < NumGhost(); i++){
 	    ghostScared[i] = true;
 	}
-	timer = 0;
+	timer = numMove;
     }
     else{
-	if(timer>SCARETIMOUT){
-	    for(int i = 0; i< NumGhost(); i++){
-		ghostScared[i] = false;
+	if(ghostScared[0]){
+	    if(timer-numMove < SCARETIMEOUT){
+		for(int i = 0; i< NumGhost(); i++){
+		    ghostScared[i] = false;
+		}
+		timer = 0;
 	    }
-	    timer = 0;
-	}
-	else {
-	    timer++;
+	    else {
+		timer++;
+	    }
 	}
     }
+}
+
+void State::IncrementNumMove(){
+    numMove++;
+}
+
+int State::NumMove() const{
+    return numMove;
 }
 
 /*****************************************************************************/
@@ -273,6 +297,9 @@ bool State::Wall(int i, int j) const{
     return wall[i*cols+j];
 }
 bool State::Wall(Position pos) const{
+    if(InRange(pos.row, pos.col, rows, cols)){
+	cout << pos.row << " " << pos.col << " " << rows << " " <<cols<< endl;
+    }
     assert(InRange(pos.row, pos.col, rows, cols));
     assert(wall);
     return Wall(pos.row, pos.col);
@@ -405,9 +432,24 @@ void DrawGhost(int i,int j, int k){
 void DrawScraredGhost(int i,int j){
     i = i- 4;
     j = j- 9;
-    glColor3d(0.3,0,0.5);
-    glRasterPos2d(j-0.25, i-0.25);
-    glutBitmapCharacter (GLUT_BITMAP_HELVETICA_18, 'S');
+    glColor3d(0.7,0.7,0.7);
+    glRectf(j-0.3, j+0.3, i-0.3,i+0.3);
+}
+
+
+void DrawCircle(float a, float b, float radius){
+    float x,y;
+    glBegin(GL_LINES);
+    // x = a+ (float)radius * cos(359 * PI/180.0f);
+    // y = b+ (float)radius * sin(359 * PI/180.0f);
+    for(int j = 0; j < 360; j++)
+    {
+        glVertex2f(a,b);
+        x = a + (float)radius * cos(j * PI/180.0f);
+        y = b + (float)radius * sin(j * PI/180.0f);
+        glVertex2f(x,y);
+    }
+glEnd();
 
 }
 
@@ -415,7 +457,8 @@ void DrawPacman(int i, int j){
     i = i- 4;
     j = j- 9;
     glColor3d(1,1,0);
-    glRectf(j-0.3, j+0.3, i-0.3,i+0.3);
+    //glRectf(j-0.3, j+0.3, i-0.3,i+0.3);
+    DrawCircle(j,i,0.3);
 }
 
 void DrawBigFood(int i, int j){

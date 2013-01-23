@@ -18,6 +18,7 @@ private:
     // Number of food
     int numFood;
     // Number of move
+    int startScared;
     int numMove;
     // Pacman's position
     Position pacmanPos;

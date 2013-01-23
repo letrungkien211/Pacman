@@ -297,9 +297,6 @@ bool State::Wall(int i, int j) const{
     return wall[i*cols+j];
 }
 bool State::Wall(Position pos) const{
-    if(InRange(pos.row, pos.col, rows, cols)){
-	cout << pos.row << " " << pos.col << " " << rows << " " <<cols<< endl;
-    }
     assert(InRange(pos.row, pos.col, rows, cols));
     assert(wall);
     return Wall(pos.row, pos.col);

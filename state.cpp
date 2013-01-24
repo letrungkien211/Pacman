@@ -17,14 +17,15 @@
 using namespace std;
 const Action ActionList[] ={UP, DOWN, LEFT, RIGHT, STOP};
 
-int pacmanInitialPosition[2] = {9,9};
-int ghostsInitialPosition[4] = {5,9,5,10};
+// int pacmanInitialPosition[2] = {9,9};
+// int ghostsInitialPosition[4] = {5,9,5,10};
 
 // int pacmanInitialPosition[2] = {1,4};
 // int ghostsInitialPosition[4] = {1,6,2,1};
 
- // int pacmanInitialPosition[2] = {4,3};
- // int ghostsInitialPosition[4] = {2,3,8,3};
+
+  int pacmanInitialPosition[2] = {4,3};
+  int ghostsInitialPosition[4] = {2,3,8,3};
 
 
 /*****************************************************************************/
@@ -128,7 +129,7 @@ State State::GetNextState(const vector<Action>& ghostAction){
 
     for(int i = 0, size = ghostAction.size(); i<size; i++){
 	if(!IsLegalGhostAction(ghostAction[i], i)){
-	    cout << "Attempted Ilegal Move" << i << " " <<ghostAction[i] <<endl;
+	    //cout << "Attempted Ilegal Move" << i << " " <<ghostAction[i] <<endl;
 	}
 	// assert(IsLegalGhostAction(ghostAction[i], i));
 	ghostPos[i].Move(ghostAction[i]);

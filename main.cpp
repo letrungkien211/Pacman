@@ -12,13 +12,15 @@
 
 
 // Global variables
-int  winWidth = COLS*50;
-int  winHeight = ROWS*50;
+int  winWidth = 500;
+int  winHeight = 500;
 State state;
 MinimaxAgent* agent;
 vector<vector<Action> > combinedAction;
 Action pacmanAction;
 int depth;
+
+string keystroke ="";
 
 // Functions prototype
 void Display();
@@ -73,13 +75,16 @@ void InitGL(){
     glClearColor(1.0,1.0,1.0,1.0);
 }
 
+
+
+
 void Display(){
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
     glPushMatrix();
     int min = std::min(winHeight, winWidth);
-    glScalef(min/20,-min/20,1);
-    glTranslatef(0, -min/200,0);
+    glScalef(min/scale,-min/scale,1);
+    //glTranslatef(min/translate, 0,0);
     GameDraw(state);
     glPopMatrix();
     glutSwapBuffers();
@@ -138,18 +143,20 @@ void HandleSpecialKeyPress(int key, int x, int y){
     vector<Action> combinedAction = agent->ChooseCombinedGhostAction(state, 6,0.7);
     state.GetNextState(combinedAction);
     state.IncrementNumMove();
-    pacmanAction = agent->ChoosePacmanAction(state, 9);
+    pacmanAction = agent->ChoosePacmanAction(state, 12);
     state.GetNextState(pacmanAction);
 #endif
 
 #if (1)
     if(valid && state.IsLegalPacmanAction(pacmanAction)){
-    state.GetNextState(pacmanAction);
-    vector<Action> combinedAction = agent->ChooseCombinedGhostAction(state, depth,1);
-    state.GetNextState(combinedAction);
-    state.IncrementNumMove();
+	keystroke+=Action2Char(pacmanAction);
+	cout << keystroke <<endl;
+	state.GetNextState(pacmanAction);
+	vector<Action> combinedAction = agent->ChooseCombinedGhostAction(state, depth,1);
+	state.GetNextState(combinedAction);
+	state.IncrementNumMove();
 	
-    cout << "Ghost Agent Move: " << combinedAction<< endl;
+	cout << "Ghost Agent Move: " << combinedAction<< endl;
 
     }
     else{
@@ -159,19 +166,38 @@ void HandleSpecialKeyPress(int key, int x, int y){
     glutPostRedisplay();
 }
 
+#define UPDATE_TIME 1000
+
+void Timer(int v){
+    
+    if(state.IsFinal()!=UNKOWN){
+	cout << "UNKOWN" << endl;
+	return;
+    }
+    if(1) return;
+    
+    pacmanAction = agent->ChoosePacmanAction(state, 12);
+    state.GetNextState(pacmanAction);
+    vector<Action> combinedAction = agent->ChooseCombinedGhostAction(state, 6,0.7);
+    state.GetNextState(combinedAction);
+    state.IncrementNumMove();
+    glutPostRedisplay();
+    glutTimerFunc( UPDATE_TIME,Timer , 0);
+}
+
 int main(int argc, char **argv) {
     srand(time(NULL));
     glutInit               ( &argc, argv );
     glutInitDisplayMode    ( GLUT_DOUBLE | GLUT_RGB );
-    glutInitWindowSize     ( winWidth+100, winHeight+100 );    
-    glutInitWindowPosition ( 50, 50 ); 
+    glutInitWindowSize     ( winWidth, winHeight);
+    glutInitWindowPosition ( 100, 100 ); 
     glutCreateWindow       ( "Pacman Game! Minimax+AlphaBetaPrunning" );
-
     MyInit (argc, argv);  // initialization
 
     glutDisplayFunc ( Display );  // display
     glutSpecialFunc(HandleSpecialKeyPress);
     glutKeyboardFunc(HandleKeyPress);
     glutReshapeFunc(Reshape);
+    glutTimerFunc(UPDATE_TIME, Timer, 0);
     glutMainLoop ();
 }

@@ -20,6 +20,12 @@ const Action ActionList[] ={UP, DOWN, LEFT, RIGHT, STOP};
 int pacmanInitialPosition[2] = {9,9};
 int ghostsInitialPosition[4] = {5,9,5,10};
 
+// int pacmanInitialPosition[2] = {1,4};
+// int ghostsInitialPosition[4] = {1,6,2,1};
+
+ // int pacmanInitialPosition[2] = {4,3};
+ // int ghostsInitialPosition[4] = {2,3,8,3};
+
 
 /*****************************************************************************/
 // Constructor
@@ -72,7 +78,7 @@ void State::Initialize(int rows, int cols, bool *wall, int *food)
     
     // Pacman postion
     pacmanPos.row = pacmanInitialPosition[0];
-    pacmanPos.col = pacmanInitialPosition[0];
+    pacmanPos.col = pacmanInitialPosition[1];
 }
 
 // Get next state
@@ -91,15 +97,12 @@ State State::GetNextState(Action pacmanAction){
     switch(Food(pacmanPos)){
     case 10:
 	MakeGhostScared(true);
-	cout << "10"<<endl;
     case 1:
 	numFood -= Food(pacmanPos);
 	Food(pacmanPos) = 0;
-	cout << "1" <<endl;
 	break;
     default:
 	MakeGhostScared(false);
-	cout << "default" <<endl;
 	break;
     }
     for(int i = NumGhost()-1 ; i >=0; i--){
@@ -166,6 +169,19 @@ vector<Action > State::GetLegalGhostAction(int ghostIndex) const{
 	if(IsLegalGhostAction(ActionList[i], ghostIndex))
 	    actions.push_back(ActionList[i]);
     }
+    if(actions.empty()){
+	for(int i = 0; i<4; i++){
+	    if(IsOppositeAction(ActionList[i], previousGhostAction[ghostIndex])
+	       && ghostPos[ghostIndex].IsLegal(ActionList[i], rows, cols)){
+		Position tmp = ghostPos[ghostIndex];
+		tmp.Move(ActionList[i]);
+		if(!Wall(tmp) && !(ghostScared[ghostIndex] && !Position::Manhattan(tmp, pacmanPos))){
+		    actions.push_back(ActionList[i]);
+		}
+	    }
+	}
+    }
+    
     if(actions.empty())
 	actions.push_back(STOP);
     return actions;
@@ -245,14 +261,11 @@ void State::MakeGhostScared(bool scared){
     }
     else{
 	if(ghostScared[0]){
-	    if(timer-numMove < SCARETIMEOUT){
+	    if(numMove - timer > SCARETIMEOUT){
 		for(int i = 0; i< NumGhost(); i++){
 		    ghostScared[i] = false;
 		}
 		timer = 0;
-	    }
-	    else {
-		timer++;
 	    }
 	}
     }
@@ -476,7 +489,7 @@ void GameDraw(const State& state){
     else{
 	cout << "Pacman: " << state.IsFinal() <<endl;
     }
-
+    //glTranslatef(state.Rows()/2, -state.Cols()/2,0);
     for(int i = 0, rows = state.Rows(); i <rows; i++){
 	for(int j = 0, cols = state.Cols(); j<cols; j++){
 	    if(state.Wall(i,j))

@@ -75,9 +75,6 @@ void InitGL(){
     glClearColor(1.0,1.0,1.0,1.0);
 }
 
-
-
-
 void Display(){
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
@@ -139,15 +136,15 @@ void HandleSpecialKeyPress(int key, int x, int y){
 	break;
     }
 
-#if(0)
-    vector<Action> combinedAction = agent->ChooseCombinedGhostAction(state, 6,0.7);
+#if(1)
+    pacmanAction = agent->ChoosePacmanAction(state, 14);
+    state.GetNextState(pacmanAction);
+    vector<Action> combinedAction = agent->ChooseCombinedGhostAction(state, 4,0.8);
     state.GetNextState(combinedAction);
     state.IncrementNumMove();
-    pacmanAction = agent->ChoosePacmanAction(state, 12);
-    state.GetNextState(pacmanAction);
 #endif
 
-#if (1)
+#if (0)
     if(valid && state.IsLegalPacmanAction(pacmanAction)){
 	keystroke+=Action2Char(pacmanAction);
 	cout << keystroke <<endl;
@@ -166,7 +163,7 @@ void HandleSpecialKeyPress(int key, int x, int y){
     glutPostRedisplay();
 }
 
-#define UPDATE_TIME 1000
+#define UPDATE_TIME 100
 
 void Timer(int v){
     
@@ -174,7 +171,7 @@ void Timer(int v){
 	cout << "UNKOWN" << endl;
 	return;
     }
-    if(1) return;
+    if(0) return;
     
     pacmanAction = agent->ChoosePacmanAction(state, 12);
     state.GetNextState(pacmanAction);

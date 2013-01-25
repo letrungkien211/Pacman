@@ -17,15 +17,15 @@
 using namespace std;
 const Action ActionList[] ={UP, DOWN, LEFT, RIGHT, STOP};
 
-// int pacmanInitialPosition[2] = {9,9};
-// int ghostsInitialPosition[4] = {5,9,5,10};
+int pacmanInitialPosition[2] = {9,9};
+int ghostsInitialPosition[4] = {5,9,5,10};
 
 // int pacmanInitialPosition[2] = {1,4};
 // int ghostsInitialPosition[4] = {1,6,2,1};
 
 
-  int pacmanInitialPosition[2] = {4,3};
-  int ghostsInitialPosition[4] = {2,3,8,3};
+  // int pacmanInitialPosition[2] = {4,3};
+  // int ghostsInitialPosition[4] = {2,3,8,3};
 
 
 /*****************************************************************************/

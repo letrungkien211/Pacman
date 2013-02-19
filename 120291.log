@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.2.16)  19 FEB 2013 11:15
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.2.16)  19 FEB 2013 17:49
 entering extended mode
  %&-line parsing enabled.
 **120291.tex
@@ -323,15 +323,25 @@ LaTeX Info: Redefining \pageref on input line 56.
 \openout3 = `120291.out'.
 
 \AtBeginShipoutBox=\box29
+LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <17.28> not available
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 66.
+LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <24.88> not available
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 66.
+LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <20.74> not available
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 66.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 64.
+(Font)              <12> on input line 66.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 64.
+(Font)              <8> on input line 66.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 64.
+(Font)              <6> on input line 66.
+ [1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
 LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <14.4> not available
-(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 64.
- (./120291.toc
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 72.
+
+(./120291.toc
 LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <10.95> not available
 (Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1.
 LaTeX Font Info:    External font `cmex10' loaded for size
@@ -340,62 +350,64 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 \tf@toc=\write4
 \openout4 = `120291.toc'.
 
- [1
-
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] <field1-start.png, id=61, 
-463.7325pt x 255.95625pt>
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.75 \newpage
+              [1] <field1-start.png, id=78, 463.7325pt x 255.95625pt>
 File: field1-start.png Graphic file (type png)
 
 <use field1-start.png>
-LaTeX Font Info:    Try loading font information for OMS+ppl on input line 79.
+LaTeX Font Info:    Try loading font information for OMS+ppl on input line 87.
  (/usr/share/texmf-texlive/tex/latex/psnfss/omsppl.fd
 File: omsppl.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ppl/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 79.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 87.
 
-Overfull \hbox (2.73734pt too wide) in paragraph at lines 85--86
+Overfull \hbox (2.73734pt too wide) in paragraph at lines 95--96
 []\OT1/ppl/m/n/10.95 Turn-taking game: Pac-man first, then ghosts. Even though 
 it looks like Pac-man and Ghost simunta-
  []
 
 [2 <./field1-start.png (PNG copy)>]
 LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 96.
-LaTeX Font Info:    Try loading font information for OML+ppl on input line 100.
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 106.
+LaTeX Font Info:    Try loading font information for OML+ppl on input line 110.
 
 
 (/usr/share/texmf-texlive/tex/latex/psnfss/omlppl.fd
 File: omlppl.fd 
 )
 LaTeX Font Info:    Font shape `OML/ppl/m/n' in size <9> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 100.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 110.
 LaTeX Font Info:    Font shape `OMS/ppl/m/n' in size <9> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 100.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 110.
  [3] (./utility.cpp)
 [4]
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 143.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 154.
 
  (/usr/share/texmf-texlive/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
 LaTeX Font Info:    Font shape `OT1/pcr/bx/n' in size <10.95> not available
-(Font)              Font shape `OT1/pcr/b/n' tried instead on input line 143.
+(Font)              Font shape `OT1/pcr/b/n' tried instead on input line 154.
 
-Overfull \hbox (212.05127pt too wide) in paragraph at lines 222--222
+Overfull \hbox (212.05127pt too wide) in paragraph at lines 233--233
 []\OT1/pcr/m/n/10.95 g++ -Wall -g -O2 -o main state.o common.o minimaxAgent.o u
 tility.o alphabetaAgent.o main.o -lglut -lGL -lGLU[] 
  []
 
-[5] [6] (./state.hpp) [7] [8] (./120291.aux) ) 
+[5] [6] (./state.hpp [7]) [8] (./120291.aux) ) 
 Here is how much of TeX's memory you used:
- 6423 strings out of 493848
- 93520 string characters out of 1152823
- 565089 words of memory out of 3000000
- 9472 multiletter control sequences out of 15000+50000
- 18904 words of font info for 51 fonts, out of 3000000 for 9000
+ 6437 strings out of 493848
+ 93700 string characters out of 1152823
+ 430089 words of memory out of 3000000
+ 9483 multiletter control sequences out of 15000+50000
+ 20587 words of font info for 55 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 38i,9n,58p,659b,1284s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 38i,9n,58p,843b,1672s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/share/texmf-texlive/fonts/e
 nc/dvips/base/8r.enc}</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/c
 mmi10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi6.pfb></
@@ -409,9 +421,9 @@ are/texmf-texlive/fonts/type1/urw/courier/ucrb8a.pfb></usr/share/texmf-texlive/
 fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/pa
 latino/uplb8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/palatino/uplr8a.pfb
 ></usr/share/texmf-texlive/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on 120291.pdf (8 pages, 208343 bytes).
+Output written on 120291.pdf (9 pages, 212361 bytes).
 PDF statistics:
- 278 PDF objects out of 1000 (max. 8388607)
- 121 named destinations out of 1000 (max. 500000)
- 86 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 294 PDF objects out of 1000 (max. 8388607)
+ 123 named destinations out of 1000 (max. 500000)
+ 110 words of extra memory for PDF output out of 10000 (max. 10000000)
 

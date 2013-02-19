@@ -3,11 +3,13 @@
     (LaTeX-add-bibitems
      "AIMA"
      "SSCPS"
-     "Algorithms")
+     "Algorithms"
+     "PRML")
     (LaTeX-add-labels
      "itm:AIMA"
      "itm:SSCPS"
-     "itm:algorithm")
+     "itm:algorithm"
+     "itm:PRML")
     (TeX-run-style-hooks
      "graphicx"
      "setspace"

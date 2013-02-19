@@ -54,13 +54,21 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{document}
-\title{Jishu Pro Report}
-\author{Le Trung Kien\\ 
-  03-120291, 3rd Year \\
-  Department of Mechano-Informatics \\ 
-  The University of Tokyo \\ \\
+\begin{titlepage}
+\title{\bf \Huge Jishu Pro Report\\
+\huge AI's Pacman}
+\author{By:\\ Le Trung Kien\\\\
+03-120291\\
+Department of Mechano-Informatics \\
+The University of Tokyo
 }
 \maketitle
+\thispagestyle{empty}
+\end{titlepage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Table of contents
+\pdfbookmark[1]{Contents}{toc}  %%% additional bookmark for ToC
 \tableofcontents
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
@@ -82,6 +90,8 @@ Pacman is classic game which was very popular in the 1980's. It is also a good b
 \item Pacman looses when being eated by ghosts.
 \item Ghosts cannot reverse directions, or stop.
 \item The ghosts are normally in chasing mode but will turn to scared mode when Pacman eats speacial food known as power pellets.
+\item Scared ghosts will return to normal after a specific number of moves.
+\item After a ghost is eaten, a new ghost is born out of the center of the board.
 \item Turn-taking game: Pacman first, then ghosts. Even though it looks like Pacman and Ghost simuntaneously make their moves, but in my implementation, pacman moves first, then ghosts choose their corresponding actions. This make the implementation simpler.
 \end{itemize}
 Normally, the task is to train Pacman to win the game, but I choose the opposition that is to make AI's ghosts. The two tasks have their own difficulty and appealing. 
@@ -135,9 +145,10 @@ The actual implementation is:
 Because when Pacman is very close to Ghosts, the ghosts do not want to be next to each other. If they do so, they can not attack Pacman from different directions. Moreover, the two ghosts should never overlap each other too much. Therefore in those cases, I added an quite heavy weight to evaluation function. And when ghosts are far away from each other, I set it to Zero because at that point, all they should care is to get as close as possible to Pacman.
 
 \subsection{Neural Network \& Optimization}
+The above method of evaluating state, though, is reasonably good, has its litmitation. It is very hard to find good basic function to fully ultilize relationship among features. In classification task, we have exactly the same problem when using polynominal features to form features's space. Another way to evaluate a state is to use neural network. Because three layer neural network can approximate any function, we can evaluate any state through its features. Additionally, by using genetic algorithm, neural network can be trained to gain the optimal weights for accessing game's states. In order to do this, both backpropagatation neural network and genetic algorithm for mutating neural network were created. Pacman agent and Ghosts' agent compete against each other and theoretically they should both get better over time.
 
-\newpage
 \section{Experiments}
+Performance of this game depends on which algorithm is used and which evaluation's method is utilized. Comparison between minimax and alphabeta pruning with in term of complexity will be ilustrated as following. Numerous experiments are conducted to train the neural work with genetic algorithm. However, the results was not good enough compared with evaluation's function by polynomial combination of features. Therefore, only the latter will be mentioned here. 
 \subsection{Execution} 
 Please visit 
 \begin{center}\textbf{\url{https://www.youtube.com/watch?v=9TLatwHJ27E}} \end{center}
@@ -254,7 +265,8 @@ Please refer to the source code \textbf{state.cpp} for more details about this c
 \section{Discussion}
 Firstly, I want to talk about the Evaluation function. As mentioned above, this function is the most important aspect of Minimax and Alphabeta pruning algorithm. In a limited time, I think I considered a very simple version of it. In order to optimize the Evaluation function, we can add more features to it, and try to combine features in more sophisticated way such as Neural Network. I think it is possible to combine Neural Network and Genetic Algorithm to find the optimal evaluation function to this problem. That is maybe the theme for my next report. \\
 Secondly, Alphabeta pruning is much more efficient than Minimax algorithm. In real applications, probably minimax will never be used. The game now is a deterministic one, however, if uncertainty is taken into account, we have an other algorithm called Expectimax. In this case, opponents do not always take their best moves, they sometimes take other moves which produce different outcomes. \\
-This is currently the most interesting report I have done so far. AI ghosts look very cool. I think the current version makes ghosts quite strong opponents for Pacman, still, it has flaws. I will continue developing the project even after submitting this report. My next target will be making a strong AI version of Pacman.
+Finally, I admit I regret not to make hardware for Jishu Pro, since it was probably the last chance for me to touch hardware. I am seriously interested in Artificial Intelligence and Machine Learning, so I decided to use Pacman as a platform to implement those algorithms I have learned. However, there would have been much more fun if I had made some hardware, such as a Pacman and a ghost fighting against each other. 
+
 \begin{thebibliography}{9}
 \bibitem{AIMA}
   \label{itm:AIMA}
@@ -280,6 +292,14 @@ This is currently the most interesting report I have done so far. AI ghosts look
   4th Edition,
   January, 2012
 
+\bibitem{PRML}
+  \label{itm:PRML}
+  Christopher M. Bishop
+  \emph{Pattern Recognition and Machine Learning},
+  Springer
+  1st Edition,
+  2006
+  
 \end{thebibliography}
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 

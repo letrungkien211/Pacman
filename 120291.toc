@@ -4,7 +4,7 @@
 \contentsline {subsection}{\numberline {2.2}Alphabeta Pruning}{3}{subsection.2.2}
 \contentsline {subsection}{\numberline {2.3}Evaluation Function}{3}{subsection.2.3}
 \contentsline {subsection}{\numberline {2.4}Polynomial Combination}{3}{subsection.2.4}
-\contentsline {subsection}{\numberline {2.5}Neural Network \& Optimization}{4}{subsection.2.5}
+\contentsline {subsection}{\numberline {2.5}Neural Network \& Optimization}{5}{subsection.2.5}
 \contentsline {section}{\numberline {3}Experiments}{5}{section.3}
 \contentsline {subsection}{\numberline {3.1}Execution}{5}{subsection.3.1}
 \contentsline {subsection}{\numberline {3.2}Minimax vs Alphabeta Pruning}{6}{subsection.3.2}

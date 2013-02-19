@@ -136,15 +136,15 @@ void HandleSpecialKeyPress(int key, int x, int y){
 	break;
     }
 
-#if(1)
-    pacmanAction = agent->ChoosePacmanAction(state, 14);
+#if(0)
+    pacmanAction = agent->ChoosePacmanAction(state, 12);
     state.GetNextState(pacmanAction);
     vector<Action> combinedAction = agent->ChooseCombinedGhostAction(state, 4,0.8);
     state.GetNextState(combinedAction);
     state.IncrementNumMove();
 #endif
 
-#if (0)
+#if (1)
     if(valid && state.IsLegalPacmanAction(pacmanAction)){
 	keystroke+=Action2Char(pacmanAction);
 	cout << keystroke <<endl;
@@ -152,7 +152,6 @@ void HandleSpecialKeyPress(int key, int x, int y){
 	vector<Action> combinedAction = agent->ChooseCombinedGhostAction(state, depth,1);
 	state.GetNextState(combinedAction);
 	state.IncrementNumMove();
-	
 	cout << "Ghost Agent Move: " << combinedAction<< endl;
 
     }
@@ -171,7 +170,7 @@ void Timer(int v){
 	cout << "UNKOWN" << endl;
 	return;
     }
-    if(0) return;
+    if(1) return;
     
     pacmanAction = agent->ChoosePacmanAction(state, 12);
     state.GetNextState(pacmanAction);

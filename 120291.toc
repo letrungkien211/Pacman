@@ -1,10 +1,12 @@
-\contentsline {section}{\numberline {1}Pacman}{3}{section.1}
-\contentsline {section}{\numberline {2}Adversarial Search}{4}{section.2}
-\contentsline {subsection}{\numberline {2.1}Minimax}{4}{subsection.2.1}
-\contentsline {subsection}{\numberline {2.2}Alphabeta Pruning}{4}{subsection.2.2}
-\contentsline {subsection}{\numberline {2.3}Evaluation Function}{4}{subsection.2.3}
-\contentsline {section}{\numberline {3}Experiments}{6}{section.3}
-\contentsline {subsection}{\numberline {3.1}Execution}{6}{subsection.3.1}
-\contentsline {subsection}{\numberline {3.2}Minimax vs Alphabeta Pruning}{7}{subsection.3.2}
-\contentsline {section}{\numberline {4}Game State}{8}{section.4}
-\contentsline {section}{\numberline {5}Discussion}{9}{section.5}
+\contentsline {section}{\numberline {1}Pacman}{2}{section.1}
+\contentsline {section}{\numberline {2}Adversarial Search}{3}{section.2}
+\contentsline {subsection}{\numberline {2.1}Minimax}{3}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Alphabeta Pruning}{3}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Evaluation Function}{3}{subsection.2.3}
+\contentsline {subsection}{\numberline {2.4}Polynomial Combination}{3}{subsection.2.4}
+\contentsline {subsection}{\numberline {2.5}Neural Network \& Optimization}{4}{subsection.2.5}
+\contentsline {section}{\numberline {3}Experiments}{5}{section.3}
+\contentsline {subsection}{\numberline {3.1}Execution}{5}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Minimax vs Alphabeta Pruning}{6}{subsection.3.2}
+\contentsline {section}{\numberline {4}Game State}{7}{section.4}
+\contentsline {section}{\numberline {5}Discussion}{8}{section.5}

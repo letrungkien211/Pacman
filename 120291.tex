@@ -54,44 +54,20 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{document}
-\title{Artificial Intelligence Report 5th Week-15th Problem}
+\title{Jishu Pro Report}
 \author{Le Trung Kien\\ 
   03-120291, 3rd Year \\
   Department of Mechano-Informatics \\ 
   The University of Tokyo \\ \\
-  Professor: Hitoshi Iba
 }
 \maketitle
 \tableofcontents
-\newpage
-\section*{Note}
-\begin{itemize}
-\item I originally wanted to spend more time on this project, but finally I decided to finish it on time. 
-\item Fully tested on Ubuntu 32/64 bit and Macbook with Opengl library installed.
-\item Opengl library is installed by default on Mac, and it can be installed on Ubuntu by typing the following line in terminal: 
-  \begin{center} \$ sudo apt-get install mesa-common-dev \end{center}
-\item Two execuatable files are included: main32, main64 which are compatible with Ubuntu 32/64 bit respectively
-  .
-\item Source codes: 
-
-  \begin{itemize}
-  \item \textbf{state.hpp, state.cpp}: Represent the game state 
-  \item \textbf{alphabetaAgent.hpp, alphabetaAgent.cpp}: Alphabeta agent 
-  \item \textbf{minimaxAgent.hpp, minimaxAgent.cpp}: Minimax agent 
-  \item \textbf{grid.hpp,grid.cpp}: Use to calculate shortest path between two grids
-  \item \textbf{utility.hpp, utility.cpp}: Evaluate states
-  \item \textbf{gsearch.hpp, mystl.hpp}: Template class for A*, DFS, BFS
-  \end{itemize}
-\item In current report, I will not go too much in details about the source codes like I did in previous reports. Hopefully the above short description would be enough to understand to basic structure of my implementation.
-\item Submitted reports: 2,5,6,11,15
-\end{itemize}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 \newpage
 \section{Pacman}
 
-Pacman is classic game which was very popular in the 1980's. It is also a good benchmark to implement AI's algorithms, especially good for testing adversarial search algorithms. The original game's rules are quite complicated, and due to the time constraint, I will present its simpler version in this report:
+Pacman is classic game which was very popular in the 1980's. It is also a good benchmark to implement algorithms related to Artificial Intelligence and Machine Learning, especially good for testing adversarial search algorithms. The game I created here is a bit different from the original one due to the complexity of the game. Some notes about the game rules:
 \begin{figure}[hbt]
   \centering
   \includegraphics[width=4in]{field1-start}
@@ -100,13 +76,13 @@ Pacman is classic game which was very popular in the 1980's. It is also a good b
 \end{figure}
 
 \begin{itemize}
-\item Size of the board: $9\times 18$
+\item Size of the board: $9\times 18$ or larger.
 \item There are two ghosts and one Pacman on the field.
 \item Pacman wins when eating up foods.
 \item Pacman looses when being eated by ghosts.
-\item Ghosts cannot reverse directions or stop. 
-\item The ghosts are always in chasing mode.
-\item Turn-taking game: Pacman first, then ghosts. Even though it looks like Pacman and Ghost simuntaneously make their moves, but in my implementation, pacman moves first, then ghosts choose their corresponding actions.
+\item Ghosts cannot reverse directions, or stop.
+\item The ghosts are normally in chasing mode but will turn to scared mode when Pacman eats speacial food known as power pellets.
+\item Turn-taking game: Pacman first, then ghosts. Even though it looks like Pacman and Ghost simuntaneously make their moves, but in my implementation, pacman moves first, then ghosts choose their corresponding actions. This make the implementation simpler.
 \end{itemize}
 Normally, the task is to train Pacman to win the game, but I choose the opposition that is to make AI's ghosts. The two tasks have their own difficulty and appealing. 
 \begin{itemize} 
@@ -140,6 +116,7 @@ double Evaluate(const State &state, int depth, int player, double alpha, double 
 \end{itemize}
 Alphabeta pruning algorithm produces the same results as Minimax does, but its complexity is $\Theta (b^{\frac{m}{2}})$, which is far better. We will see the difference in practice later in this report.
 \subsection{Evaluation Function}
+\subsection{Polynomial Combination}
 Evaluation function is the one that decides Minimax or Alphabeta pruning algorithms' performance. Serveral features that I have tested are:
 \begin{itemize}
 \item{+} Pacman to ghosts Manhanttan distances: Ghosts want to minimize this distances
@@ -155,8 +132,10 @@ In which, $f_1$ is the total distance between Pacman and the two ghosts, and $f_
 The actual implementation is:
 \lstset{language=C++, caption={Evaluate method (utility.cpp)}}
 \lstinputlisting[linerange={51-78}]{utility.cpp}
+Because when Pacman is very close to Ghosts, the ghosts do not want to be next to each other. If they do so, they can not attack Pacman from different directions. Moreover, the two ghosts should never overlap each other too much. Therefore in those cases, I added an quite heavy weight to evaluation function. And when ghosts are far away from each other, I set it to Zero because at that point, all they should care is to get as close as possible to Pacman.
 
-Because when Pacman is very close to Ghosts, the ghosts do not want to be next to each other. If they do so, they can not attack Pacman from different directions. Moreover, the two ghosts should never overlap each other too much. Therefore in those cases, I added an quite heavy weight to evaluation function. And when ghosts are far away from each other, I set it to Zero because at that point, all they should care is to get as close as possible to Pacman. 
+\subsection{Neural Network \& Optimization}
+
 \newpage
 \section{Experiments}
 \subsection{Execution} 

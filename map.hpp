@@ -108,12 +108,12 @@ bool initWall4[] ={1,1,1,1,1,1,1,
 		   1,1,1,1,1,1,1};
 
 
-int* initFood = initFood1;
-bool* initWall = initWall1;
+int* initFood = initFood2;
+bool* initWall = initWall2;
 double scale = 20;
 double translate = 100;
-int ROWS = ROWS1;
-int COLS = COLS1;
+int ROWS = ROWS2;
+int COLS = COLS2;
 
 
 

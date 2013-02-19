@@ -3,6 +3,8 @@
 \BOOKMARK [2][-]{subsection.2.1}{Minimax}{section.2}
 \BOOKMARK [2][-]{subsection.2.2}{Alphabeta Pruning}{section.2}
 \BOOKMARK [2][-]{subsection.2.3}{Evaluation Function}{section.2}
+\BOOKMARK [2][-]{subsection.2.4}{Polynomial Combination}{section.2}
+\BOOKMARK [2][-]{subsection.2.5}{Neural Network \046 Optimization}{section.2}
 \BOOKMARK [1][-]{section.3}{Experiments}{}
 \BOOKMARK [2][-]{subsection.3.1}{Execution}{section.3}
 \BOOKMARK [2][-]{subsection.3.2}{Minimax vs Alphabeta Pruning}{section.3}
